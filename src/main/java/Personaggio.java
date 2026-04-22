@@ -42,4 +42,8 @@ public class Personaggio extends Persona {
     public Abilita[] getAbilitas() {
         return abilitas;
     }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
 }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Startingscreen {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     public void startingScreen() {
         System.out.println("Benvenuto in ...");
@@ -44,14 +44,27 @@ public class Startingscreen {
         scanner.nextLine(); // consume leftover newline
         System.out.print("Inserisci il nome del personaggio: ");
         String nome = scanner.nextLine();
-        Personaggio personaggio = new Personaggio(
-                nome,
-                100,
-                1,
-                new Inventario(new Oggetto[0]),
-                new Classe(),
-                new Abilita[0]
-        );
+        Personaggio personaggio = new Personaggio(nome, 100, 1, new Inventario(new Oggetto[0]), null, null);
         System.out.println("Personaggio creato: " + personaggio.getNome());
+        System.out.println("Scegli la classe del personaggio: ");
+        System.out.println("1 - Guerriero");
+        System.out.println("2 - Arciere");
+        System.out.println("3 - Mago");
+        int classId;
+        while(true){
+            try{
+                classId = scanner.nextInt();
+            }catch(InputMismatchException e){
+                System.out.println("Inserisci un numero valido");
+                scanner.nextLine();
+                continue;
+            }
+            switch(classId){
+                case 1:
+                    personaggio.setClasse();
+
+            }
+        }
+
     }
 }
