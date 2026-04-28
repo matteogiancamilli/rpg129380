@@ -3,14 +3,18 @@ public class Abilita {
     private final String nome;
     private final String descrizione;
     private final int danno; //Se positivo è una cura
+    private final int aumentaVelocita;
     private final int costoMana;
     private final int cooldownMax;
+    private final int ripristinoMana;
     private int cooldownCorrente;
 
-    public Abilita(String nome, String descrizione, int danno, int costoMana, int cooldownMax) {
+    public Abilita(String nome, String descrizione, int danno, int aumentaVelocita, int costoMana, int cooldownMax, int ripristinoMana) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.danno = danno;
+        this.aumentaVelocita = aumentaVelocita;
+        this.ripristinoMana = ripristinoMana;
         this.costoMana = costoMana;
         this.cooldownMax = cooldownMax;
         this.cooldownCorrente = 0;
@@ -41,8 +45,14 @@ public class Abilita {
                 stato;
     }
 
+
+
     public String getNome() {
         return nome;
+    }
+
+    public int getRipristinoMana() {
+        return ripristinoMana;
     }
 
     public String getDescrizione() {
@@ -59,6 +69,10 @@ public class Abilita {
 
     public boolean isCura() {
         return danno < 0;
+    }
+
+    public int getAumentaVelocita() {
+        return aumentaVelocita;
     }
 
     public boolean abilitaPronta() {
