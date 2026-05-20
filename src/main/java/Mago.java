@@ -1,7 +1,8 @@
 public class Mago extends Classe{
+
+
     public Mago() {
-        super("Guerriero", 200, 2, 2, null);
-        this.abilita = abilitaIniziali();
+        super("Mago", 200, 2, 2);
     }
 
     @Override

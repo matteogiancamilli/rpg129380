@@ -1,11 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
 
 public class Guerriero extends Classe{
 
     public Guerriero() {
-        super("Guerriero", 300, 2, 1, null);
-        this.abilita = abilitaIniziali();
+        super("Guerriero", 300, 2, 1);
     }
 
     @Override

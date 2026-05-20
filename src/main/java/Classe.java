@@ -1,10 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Classe {
-
-    public Abilita[] abilita;
-
     /*
     Classi possibili: Guerriero, Arciere, Mago
 
@@ -20,12 +15,12 @@ public abstract class Classe {
     private int velocita;
     private Abilita[] abilitas;
 
-    public Classe(String nome, int vita, int attacco, int velocita, Abilita[] abilitas) {
+    public Classe(String nome, int vita, int attacco, int velocita) {
         this.nome = nome;
         this.vita = vita;
         this.attacco = attacco;
         this.velocita = velocita;
-        this.abilitas = abilitas;
+        this.abilitas = abilitaIniziali();
     }
 
     public abstract Abilita[] abilitaIniziali();

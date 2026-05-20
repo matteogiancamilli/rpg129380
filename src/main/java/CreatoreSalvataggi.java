@@ -1,7 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,11 +29,13 @@ public class CreatoreSalvataggi{
         }
     }
 
-    public Personaggio carica() throws FileNotFoundException {
+    public Personaggio carica() throws IOException {
         if (!esisteSalvataggio()) return null;
         FileReader reader = new FileReader(file);
             Salvataggio data = gson.fromJson(reader, Salvataggio.class);
+            reader.close();
             if (data == null) return null;
+
 
         Classe classe = switch (data.classe) {
             case "Guerriero" -> new Guerriero();

@@ -8,7 +8,7 @@ public class Gioco {
 
     private final Personaggio personaggio;
     private final CreatoreSalvataggi saveManager;
-    private final Scanner scanner = new Scanner(System.in);
+    private final InputReader inputReader = new InputReader();
 
     public Gioco(Personaggio personaggio, CreatoreSalvataggi saveManager) {
         this.personaggio = personaggio;
@@ -35,7 +35,7 @@ public class Gioco {
             personaggio.setLivello(personaggio.getLivello() + 1);
 
             System.out.print("Vuoi continuare al prossimo livello? (s/n): ");
-            String scelta = scanner.nextLine().trim().toLowerCase();
+            String scelta = inputReader.leggiStringa().trim().toLowerCase();
             if (!scelta.equals("s")) {
                 saveManager.salva(personaggio);
                 System.out.println("Partita salvata. A presto!");

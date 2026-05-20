@@ -22,8 +22,8 @@ public class Abilita {
 
 
 
-    @Override
-    public String toString() {
+
+    public String descrizione() {
         String azione;
         if (isCura()) {
             azione = "Cura: " + (-danno);
@@ -31,20 +31,19 @@ public class Abilita {
             azione = "Danno: " + danno;
         }
 
+        return "Nome: " + nome + "\nDescrizione: " + descrizione +
+                "\n" + azione +  " \n" + "Costo: " + costoMana + "\n";
+    }
+
+    public String stato(){
         String stato = "";
-        if (cooldownMax > 0) {
             if (cooldownCorrente == 0) {
                 stato = " [Pronto]";
             } else {
                 stato = " [In ricarica: " + cooldownCorrente + "/" + cooldownMax + "]";
             }
-        }
-
-        return "Nome: " + nome + "\nDescrizione: " + descrizione +
-                "\n" + azione +  " \n" + "Costo: " + costoMana + "\n"+ "Stato: " +
-                stato;
+            return stato;
     }
-
 
 
     public String getNome() {

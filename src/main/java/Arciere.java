@@ -1,8 +1,7 @@
 public class Arciere extends Classe{
 
     public Arciere() {
-        super("Guerriero", 100, 3, 3, null);
-        this.abilita = abilitaIniziali();
+        super("Arciere", 100, 3, 3 );
     }
 
     @Override
