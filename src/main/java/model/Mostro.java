@@ -1,0 +1,32 @@
+package model;
+
+public enum Mostro {
+    GOBLIN(1, 1.5,100, 50, "Goblin", "Appare un piccolo omuncolo dalle fratte... E' un goblin!"),
+    SCAGNOZZO(2, 2, 150, 60, "Scagnozzo", "Da dietro un palazzo, in modo diffidente, ti appare davanti uno scagnozzo di media statura. Non sembra avere buone intenzioni..."),
+    APPRENDISTAMAGO(3 , 2.5, 175, 70, "Mago", "Dalla cima della torre, esce un mago pronto a difendere il suo castello!"),
+    DRAGODELLAFORESTA(4, 2.5, 200, 70, "Drago della Foresta", "Dalla cima della montagna, appare imponente il drago protettore della foresta"),
+    SIGNOREOSCURO(5, 3, 300, 70, "Signore Oscuro", "Ed ecco apparire dalle tenebre colui che hanno tutti temuto... Il Signore Oscuro!");
+
+
+    private final int id;
+    private final String introduzione;
+    private int vita;
+    private int attacco;
+    private String nome;
+    private final double moltiplicatoreMassimo;
+
+
+    Mostro(int id, double moltiplicatoreMassimo, int vita, int attacco, String nome, String introduzione) {
+        this.id = id;
+        this.moltiplicatoreMassimo = moltiplicatoreMassimo;
+        this.vita = vita;
+        this.attacco = attacco;
+        this.nome = nome;
+        this.introduzione = introduzione;
+    }
+
+    public boolean sconfitto() {
+        if(vita <= 0) return true;
+        return false;
+    }
+}
