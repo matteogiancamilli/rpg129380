@@ -3,9 +3,9 @@ package model;
 import java.util.function.Supplier;
 
 public enum TipoClasse {
-    GUERRIERO("model.Guerriero", "Alta Vita / Moderato Attacco / Bassa Velocità", Guerriero::new),
-    ARCIERE  ("model.Arciere",   "Bassa Vita / Alto Attacco / Alta Velocità",     Arciere::new),
-    MAGO     ("model.Mago",      "Media Vita / Medio Attacco / Media Velocità",   Mago::new);
+    GUERRIERO("Guerriero", "Alta Vita / Moderato Attacco / Bassa Velocità", Guerriero::new),
+    ARCIERE  ("Arciere",   "Bassa Vita / Alto Attacco / Alta Velocità",     Arciere::new),
+    MAGO     ("Mago",      "Media Vita / Medio Attacco / Media Velocità",   Mago::new);
 
     private final String nome;
     private final String descrizione;
@@ -34,4 +34,6 @@ public enum TipoClasse {
         }
         throw new IllegalArgumentException("model.Classe non valida: " + nome);
     }
+
+
 }
