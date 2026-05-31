@@ -38,6 +38,10 @@ public class ControllerNuovaPartita {
                 (obs, oldV, newV) -> {
                     if (newV != null) descrizioneClasse.setText(newV.getDescrizione());
                 });
+        // Set a default selected item to ensure it's visible
+        if (!selezionaClasse.getItems().isEmpty()) {
+            selezionaClasse.getSelectionModel().selectFirst();
+        }
     }
 
     private void aggiornaDescrizione(String nomeClasse) {
