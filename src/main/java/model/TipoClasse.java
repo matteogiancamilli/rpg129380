@@ -3,18 +3,22 @@ package model;
 import java.util.function.Supplier;
 
 public enum TipoClasse {
-    GUERRIERO("Guerriero", "Alta Vita / Moderato Attacco / Bassa Velocità", Guerriero::new),
-    ARCIERE  ("Arciere",   "Bassa Vita / Alto Attacco / Alta Velocità",     Arciere::new),
-    MAGO     ("Mago",      "Media Vita / Medio Attacco / Media Velocità",   Mago::new);
+    GUERRIERO("Guerriero", "Alta Vita / Moderato Attacco / Bassa Velocità", Guerriero::new, 400 ,1, 20),
+    ARCIERE  ("Arciere",   "Bassa Vita / Alto Attacco / Alta Velocità",     Arciere::new, 200, 3, 20 ),
+    MAGO     ("Mago",      "Media Vita / Medio Attacco / Media Velocità",   Mago::new, 300, 2, 20);
 
     private final String nome;
     private final String descrizione;
+    private int vita, velocita, mana;
     private final Supplier<Classe> factory;
 
-    TipoClasse(String nome, String descrizione, Supplier<Classe> factory) {
+    TipoClasse(String nome, String descrizione, Supplier<Classe> factory, int vita, int velocita, int mana) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.factory = factory;
+        this.vita = vita;
+        this.velocita = velocita;
+        this.mana = mana;
     }
 
     public String getNome()        { return nome; }

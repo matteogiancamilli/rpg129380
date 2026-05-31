@@ -21,9 +21,29 @@
 
 /* Stile per la ChoiceBox */
 /* Forza l'opacità del menu a tendina (popup) */
+/* Stile per la ChoiceBox */
+.choice-box {
+    -fx-background-color: #0f3460;
+    -fx-border-color: #e94560;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+}
+
+/* Testo selezionato mostrato nella ChoiceBox chiusa */
+.choice-box .label {
+    -fx-text-fill: white;
+}
+
+/* Freccia del menu a tendina ben visibile */
+.choice-box .open-button .arrow {
+    -fx-background-color: white;
+}
+
+/* Forza l'opacità del menu a tendina (popup) */
 .choice-box .context-menu {
-    -fx-background-color: #0f3460; /* Stesso colore del bottone */
     -fx-opacity: 1.0;            /* Rimuove la trasparenza */
+    -fx-background-color: #0f3460;
 }
 
 /* Stile per le singole celle della lista */
@@ -34,12 +54,27 @@
 .choice-box .menu-item:hover {
     -fx-background-color: #e94560;
 }
-.choice-box {
-    -fx-text-fill: black;
-}
-.choice-box .label {
-    -fx-text-fill: black;
-}
-.choice-box .context-menu .menu-item .label {
+
+/* Stile base per tutti i bottoni del gioco */
+.button {
+    -fx-background-color: #0f3460;
     -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-border-color: #e94560;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+    -fx-background-radius: 5; /* Angoli leggermente arrotondati */
+}
+
+/* Effetto al passaggio del mouse (Hover) */
+.button:hover {
+    -fx-background-color: #e94560;
+    -fx-text-fill: white;
+}
+
+/* Se vuoi che uno dei due bottoni risalti di più, puoi creare una classe specifica */
+.button-accent {
+    -fx-background-color: #e94560; /* Colore base diverso */
+    -fx-border-color: white;
 }

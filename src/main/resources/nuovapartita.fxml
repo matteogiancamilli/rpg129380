@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@nuovapartita.css" fx:controller="model.ControllerNuovaPartita" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@nuovapartita.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.ControllerNuovaPartita">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -15,11 +15,13 @@
     <RowConstraints maxHeight="154.8437042236328" minHeight="0.0" prefHeight="99.46809387207031" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ChoiceBox fx:id="selezionaClasse" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <Label text="Seleziona Classe" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <TextField fx:id="nomePersonaggio" prefHeight="26.0" prefWidth="263.0" GridPane.rowIndex="1" />
+      <ChoiceBox fx:id="selezionaClasse" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Label text="Seleziona Classe" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <TextField fx:id="nomePersonaggio" prefHeight="26.0" prefWidth="263.0" GridPane.columnIndex="1" />
       <Label text="Inserisci Nome Personaggio" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <Label text="Specifiche di classe" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <TextArea fx:id="descrizioneClasse" prefHeight="61.0" prefWidth="169.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="Specifiche di classe" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <TextArea fx:id="descrizioneClasse" prefHeight="61.0" prefWidth="169.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button fx:id="iniziaPartita" alignment="CENTER" mnemonicParsing="false" onAction="#iniziaPartita" text="Inizia Partita" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <TextArea fx:id="errorDisplay" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
    </children>
 </GridPane>

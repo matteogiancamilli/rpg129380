@@ -1,0 +1,27 @@
+/* Stile per la TextArea della storia */
+.text-area {
+    -fx-background-color: #0f3460;
+}
+
+.text-area .content {
+    -fx-background-color: #1a1a2e; /* Sfondo interno della storia */
+    -fx-text-fill: white;          /* Testo bianco */
+    -fx-font-size: 16px;
+}
+
+/* Rimuove il bordo predefinito della TextArea */
+.text-area .viewport {
+    -fx-background-color: #1a1a2e;
+}
+
+/* Stile coerente per i bottoni in basso */
+.button {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+    -fx-border-color: #e94560;
+    -fx-border-width: 2px;
+}
+
+.button:hover {
+    -fx-background-color: #e94560;
+}

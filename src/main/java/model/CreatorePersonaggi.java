@@ -29,7 +29,7 @@ public class CreatorePersonaggi {
             }
         }
         personaggio.setClasse(scelta.crea());
-        System.out.println("model.Personaggio creato: " + personaggio.getNome());
+        System.out.println("Personaggio creato: " + personaggio.getNome());
         storia.intro();
         return personaggio;
     }
