@@ -57,7 +57,7 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
 
     public void salva(Personaggio p) {
         // Assuming 1 for livelloGioco as it's not part of Personaggio
-        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), 1, p.getVita(), p.getLivello());
+        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), p.getLivello());
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
             System.out.println("La partita è stata salvata in: " + FILE_PATH);
@@ -78,7 +78,7 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
             Abilita[] abilitas = classe.abilitaIniziali();
 
             // Use loaded vitaPersonaggio and livelloPersonaggio
-            return new Personaggio(data.nomePersonaggio, data.vitaPersonaggio, data.livelloPersonaggio,
+            return new Personaggio(data.nomePersonaggio, tipoClasse.getVita(), data.livelloPersonaggio,
                     data.inventario, tipoClasse, abilitas
             );
         }

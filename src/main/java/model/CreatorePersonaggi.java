@@ -14,9 +14,6 @@ public class CreatorePersonaggi {
             System.out.print("Il nome non può essere vuoto. Riprova: ");
             nome = inputReader.leggiStringa().trim();
         }
-
-        Personaggio personaggio = new Personaggio(nome, 100, 1, new Inventario(new Oggetto[0]), null, null);
-
         TipoClasse scelta = null;
         while (scelta == null) {
             try {
@@ -26,7 +23,7 @@ public class CreatorePersonaggi {
                 System.out.println("Scelta non valida. Riprova.");
             }
         }
-        personaggio.setClasse(scelta);
+        Personaggio personaggio = new Personaggio(nome, scelta.getVita(), 1, new Inventario(new Oggetto[0]), scelta, scelta.abilitaIniziali());
         System.out.println("Personaggio creato: " + personaggio.getNome());
         return personaggio;
     }
