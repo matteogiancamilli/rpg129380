@@ -1,12 +1,14 @@
-package model;
+package model.Classi;
+
+import model.Abilita;
 
 public abstract class Classe {
     /*
-    Classi possibili: model.Guerriero, model.Arciere, model.Mago
+    Classi possibili: model.Classi.Guerriero, model.Classi.Arciere, model.Classi.Mago
 
-    model.Guerriero = + Vita, /Attacco, -Velocita - 1
-    model.Arciere = - Vita, +Attacco, +Velocita - 2
-    model.Mago = /Vita, /Attacco, /Velocita - 3
+    model.Classi.Guerriero = + Vita, /Attacco, -Velocita - 1
+    model.Classi.Arciere = - Vita, +Attacco, +Velocita - 2
+    model.Classi.Mago = /Vita, /Attacco, /Velocita - 3
 
      */
 
@@ -28,7 +30,7 @@ public abstract class Classe {
 
     @Override
     public String toString() {
-        return "model.Classe: " + nome + "/ Vita: " + vita + " / + Attacco: " + attacco + " / Velocità: " + velocita;
+        return "model.Classi.Classe: " + nome + "/ Vita: " + vita + " / + Attacco: " + attacco + " / Velocità: " + velocita;
     }
 
     public String getNome() {
@@ -39,23 +41,7 @@ public abstract class Classe {
         return vita;
     }
 
-    public int getAttacco() {
-        return attacco;
-    }
-
     public int getVelocita() {
         return velocita;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.*;
+import model.Classi.Classe;
 
 import java.io.IOException;
 
@@ -28,6 +29,8 @@ public class ControllerNuovaPartita {
     @FXML
     private TextArea errorDisplay;
 
+    private Livello livello;
+
     @FXML
     public void initialize() {
         selezionaClasse.getItems().addAll(TipoClasse.values());
@@ -39,7 +42,6 @@ public class ControllerNuovaPartita {
                 (obs, oldV, newV) -> {
                     if (newV != null) descrizioneClasse.setText(newV.getDescrizione());
                 });
-        // Set a default selected item to ensure it's visible
         if (!selezionaClasse.getItems().isEmpty()) {
             selezionaClasse.getSelectionModel().selectFirst();
         }
@@ -68,11 +70,18 @@ public class ControllerNuovaPartita {
         Classe classe = tipo.crea();
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), 1, new Inventario(null), classe, classe.abilitaIniziali());
         new CreatoreSalvataggi().nuovo(p);
-        cambiaScena(actionEvent, "/dialogscreen.fxml");
+        cambiaScena(actionEvent, "/dialogscreen.fxml", p); // Pass the newly created character
     }
 
-    private void cambiaScena(javafx.event.ActionEvent event, String fxml) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+    private void cambiaScena(javafx.event.ActionEvent event, String fxml, Personaggio personaggio) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+
+        ControllerDialogScreen dialogController = loader.getController();
+        if (dialogController != null) {
+            dialogController.initData(personaggio);
+        }
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -88,7 +97,5 @@ public class ControllerNuovaPartita {
                 errorDisplay.setText("Seleziona una classe");
 
         }
-
-
     }
 }

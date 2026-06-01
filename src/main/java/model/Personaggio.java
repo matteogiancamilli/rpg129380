@@ -1,9 +1,12 @@
 package model;
 
+import model.Classi.Classe;
+
 public class Personaggio extends Persona {
 
     private int vita;
     private int livello;
+    private int attacco; // Added attacco field
     private Inventario inventario;
     private Classe classe;
     private Abilita[] abilitas;
@@ -47,5 +50,17 @@ public class Personaggio extends Persona {
 
     public void setClasse(Classe classe) {
         this.classe = classe;
+    }
+
+    // New method to get the character's attack
+    public int getAttacco() {
+        return attacco;
+    }
+
+    // New method to increase the character's level
+    public void aumentaLivello() {
+        this.livello++;
+        System.out.println(getNome() + " è salito al livello " + this.livello + "!");
+        // You might want to add more logic here, like increasing stats, learning new abilities, etc.
     }
 }

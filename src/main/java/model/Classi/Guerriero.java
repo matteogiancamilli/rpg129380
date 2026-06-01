@@ -1,9 +1,11 @@
-package model;
+package model.Classi;
 
-public class Guerriero extends Classe{
+import model.Abilita;
+
+public class Guerriero extends Classe {
 
     public Guerriero() {
-        super("model.Guerriero", 300, 2, 1);
+        super("model.Classi.Guerriero", 300, 2, 1);
     }
 
     @Override

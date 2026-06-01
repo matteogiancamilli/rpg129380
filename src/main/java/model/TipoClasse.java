@@ -1,5 +1,10 @@
 package model;
 
+import model.Classi.Arciere;
+import model.Classi.Classe;
+import model.Classi.Guerriero;
+import model.Classi.Mago;
+
 import java.util.function.Supplier;
 
 public enum TipoClasse {
@@ -36,7 +41,7 @@ public enum TipoClasse {
         for (TipoClasse t : values()) {
             if (t.nome.equalsIgnoreCase(nome)) return t;
         }
-        throw new IllegalArgumentException("model.Classe non valida: " + nome);
+        throw new IllegalArgumentException("model.Classi.Classe non valida: " + nome);
     }
 
 

@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Classi.Classe;
 
 
 import java.io.FileReader;
@@ -29,7 +30,7 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
     }
 
     public void salva(Personaggio p) {
-        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse().getNome(), p.getVita(), p.getLivello());
+        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse().getNome(), p.getInventario(), p.getLivello());
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
             System.out.println("La partita è stata salvata in: " + FILE_PATH);
@@ -45,11 +46,14 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
             reader.close();
             if (data == null) return null;
 
-        Classe classe = TipoClasse.daNome(data.classe).crea();
+        String fullClassName = data.classe;
+        String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+
+        Classe classe = TipoClasse.daNome(simpleClassName).crea();
 
         Abilita[] abilitas = classe.abilitaIniziali();
 
-            return new Personaggio(data.nomePersonaggio, data.vita, data.livelloGioco,
+            return new Personaggio(data.nomePersonaggio, classe.getVita(), data.livelloGioco,
                     new Inventario(new Oggetto[0]), classe, abilitas
             );
     }

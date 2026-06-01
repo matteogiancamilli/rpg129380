@@ -4,15 +4,15 @@ public class Salvataggio {
 
     public String nomePersonaggio;
     public String classe;
-    public int vita;
     public int livelloGioco;
+    public Inventario inventario;
 
     public Salvataggio() {}
 
-    public Salvataggio(String nomePersonaggio, String classe, int vita, int livelloGioco) {
+    public Salvataggio(String nomePersonaggio, String classe, Inventario inventario, int livelloGioco) {
             this.nomePersonaggio = nomePersonaggio;
             this.classe = classe;
-            this.vita = vita;
+            this.inventario = inventario;
             this.livelloGioco = livelloGioco;
     }
 
@@ -24,11 +24,9 @@ public class Salvataggio {
         return classe;
     }
 
-    public int getVita() {
-        return vita;
-    }
-
     public int getLivelloGioco() {
         return livelloGioco;
     }
+
+    public Inventario getInventario(){ return inventario;}
 }

@@ -1,6 +1,97 @@
 {
-  "nomePersonaggio": "hhhhhhh",
-  "classe": "model.Arciere",
-  "vita": 100,
-  "livelloGioco": 1
+  "vita": 300,
+  "livello": 1,
+  "attacco": 0,
+  "inventario": {},
+  "classe": {
+    "nome": "model.Guerriero",
+    "vita": 300,
+    "attacco": 2,
+    "velocita": 1,
+    "abilitas": [
+      {
+        "nome": "Fendente",
+        "descrizione": "Il guerriero esegue un fendente con la sua spada",
+        "danno": 20,
+        "aumentaVelocita": 0,
+        "costoMana": 10,
+        "cooldownMax": 0,
+        "ripristinoMana": 0,
+        "cooldownCorrente": 0
+      },
+      {
+        "nome": "Liberazione",
+        "descrizione": "Il guerriero si libera di peso, aumentando la sua velocità e ripristinando il mana",
+        "danno": 0,
+        "aumentaVelocita": 20,
+        "costoMana": 20,
+        "cooldownMax": 1,
+        "ripristinoMana": 20,
+        "cooldownCorrente": 0
+      },
+      {
+        "nome": "Rinforzo",
+        "descrizione": "Il guerriero ripristina parzialmente la sua vita",
+        "danno": -20,
+        "aumentaVelocita": 0,
+        "costoMana": 20,
+        "cooldownMax": 2,
+        "ripristinoMana": 0,
+        "cooldownCorrente": 0
+      },
+      {
+        "nome": "Superspada",
+        "descrizione": "Il guerriero sferra un potentissimo fendente",
+        "danno": 40,
+        "aumentaVelocita": 0,
+        "costoMana": 40,
+        "cooldownMax": 3,
+        "ripristinoMana": 0,
+        "cooldownCorrente": 0
+      }
+    ]
+  },
+  "abilitas": [
+    {
+      "nome": "Fendente",
+      "descrizione": "Il guerriero esegue un fendente con la sua spada",
+      "danno": 20,
+      "aumentaVelocita": 0,
+      "costoMana": 10,
+      "cooldownMax": 0,
+      "ripristinoMana": 0,
+      "cooldownCorrente": 0
+    },
+    {
+      "nome": "Liberazione",
+      "descrizione": "Il guerriero si libera di peso, aumentando la sua velocità e ripristinando il mana",
+      "danno": 0,
+      "aumentaVelocita": 20,
+      "costoMana": 20,
+      "cooldownMax": 1,
+      "ripristinoMana": 20,
+      "cooldownCorrente": 0
+    },
+    {
+      "nome": "Rinforzo",
+      "descrizione": "Il guerriero ripristina parzialmente la sua vita",
+      "danno": -20,
+      "aumentaVelocita": 0,
+      "costoMana": 20,
+      "cooldownMax": 2,
+      "ripristinoMana": 0,
+      "cooldownCorrente": 0
+    },
+    {
+      "nome": "Superspada",
+      "descrizione": "Il guerriero sferra un potentissimo fendente",
+      "danno": 40,
+      "aumentaVelocita": 0,
+      "costoMana": 40,
+      "cooldownMax": 3,
+      "ripristinoMana": 0,
+      "cooldownCorrente": 0
+    }
+  ],
+  "nome": "wedasdas"
 }

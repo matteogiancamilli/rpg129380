@@ -19,7 +19,7 @@
    <children>
       <Label prefHeight="17.0" prefWidth="454.0" text="Benvenuto in Magic Strike!" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
       <Button fx:id="bottoneNuovaPartita" onAction="#setBottoneNuovaPartita" text="Nuova Partita" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button fx:id="bottoneContinuaPartita"  text="Continua Partita" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Button fx:id="bottoneContinuaPartita" onAction="#continuaPartita" text="Continua Partita" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       <Button fx:id="bottoneEsci" onAction="#esci" text="Esci" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
       <Button fx:id="bottoneCrediti" onAction="#crediti" text="Crediti" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
    </children>

@@ -1,9 +1,11 @@
-package model;
+package model.Classi;
 
-public class Arciere extends Classe{
+import model.Abilita;
+
+public class Arciere extends Classe {
 
     public Arciere() {
-        super("model.Arciere", 100, 3, 3 );
+        super("model.Classi.Arciere", 100, 3, 3 );
     }
 
     @Override

@@ -1,12 +1,14 @@
 /* Stile per la TextArea della storia */
 .text-area {
     -fx-background-color: #0f3460;
+    -fx-text-fill: white !important; /* Forza il colore del testo a bianco */
+    -fx-font-size: 16px !important; /* Forza la dimensione del font */
 }
 
 .text-area .content {
     -fx-background-color: #1a1a2e; /* Sfondo interno della storia */
-    -fx-text-fill: white;          /* Testo bianco */
-    -fx-font-size: 16px;
+    -fx-highlight-text-fill: white !important; /* Colore del testo evidenziato */
+    -fx-caret-color: white !important; /* Colore del cursore */
 }
 
 /* Rimuove il bordo predefinito della TextArea */
@@ -24,4 +26,9 @@
 
 .button:hover {
     -fx-background-color: #e94560;
+}
+
+/* Stile per il GridPane */
+.grid-pane {
+    -fx-background-color: #1a1a2e; /* Dark purple background for the entire dialog */
 }
