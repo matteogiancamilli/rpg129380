@@ -8,10 +8,10 @@ public class Personaggio extends Persona {
     private int livello;
     private int attacco; // Added attacco field
     private Inventario inventario;
-    private Classe classe;
+    private TipoClasse classe;
     private Abilita[] abilitas;
 
-    public Personaggio(String nome, int vita, int livello, Inventario inventario, Classe classe, Abilita[] abilitas) {
+    public Personaggio(String nome, int vita, int livello, Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
         super(nome);
         this.vita = vita;
         this.livello = livello;
@@ -40,7 +40,7 @@ public class Personaggio extends Persona {
         return inventario;
     }
 
-    public Classe getClasse() {
+    public TipoClasse getClasse() {
         return classe;
     }
 
@@ -48,11 +48,10 @@ public class Personaggio extends Persona {
         return abilitas;
     }
 
-    public void setClasse(Classe classe) {
+    public void setClasse(TipoClasse classe) {
         this.classe = classe;
     }
 
-    // New method to get the character's attack
     public int getAttacco() {
         return attacco;
     }

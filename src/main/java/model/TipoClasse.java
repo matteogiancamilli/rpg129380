@@ -41,8 +41,15 @@ public enum TipoClasse {
         for (TipoClasse t : values()) {
             if (t.nome.equalsIgnoreCase(nome)) return t;
         }
-        throw new IllegalArgumentException("model.Classi.Classe non valida: " + nome);
+        throw new IllegalArgumentException("Classe non valida: " + nome);
     }
 
 
+    public int getVita() {
+        return vita;
+    }
+
+    public Abilita[] abilitaIniziali() {
+        return crea().abilitaIniziali();
+    }
 }

@@ -1,61 +1,14 @@
 {
-  "vita": 300,
-  "livello": 1,
+  "vita": 0,
+  "livello": 0,
   "attacco": 0,
   "inventario": {},
-  "classe": {
-    "nome": "model.Guerriero",
-    "vita": 300,
-    "attacco": 2,
-    "velocita": 1,
-    "abilitas": [
-      {
-        "nome": "Fendente",
-        "descrizione": "Il guerriero esegue un fendente con la sua spada",
-        "danno": 20,
-        "aumentaVelocita": 0,
-        "costoMana": 10,
-        "cooldownMax": 0,
-        "ripristinoMana": 0,
-        "cooldownCorrente": 0
-      },
-      {
-        "nome": "Liberazione",
-        "descrizione": "Il guerriero si libera di peso, aumentando la sua velocità e ripristinando il mana",
-        "danno": 0,
-        "aumentaVelocita": 20,
-        "costoMana": 20,
-        "cooldownMax": 1,
-        "ripristinoMana": 20,
-        "cooldownCorrente": 0
-      },
-      {
-        "nome": "Rinforzo",
-        "descrizione": "Il guerriero ripristina parzialmente la sua vita",
-        "danno": -20,
-        "aumentaVelocita": 0,
-        "costoMana": 20,
-        "cooldownMax": 2,
-        "ripristinoMana": 0,
-        "cooldownCorrente": 0
-      },
-      {
-        "nome": "Superspada",
-        "descrizione": "Il guerriero sferra un potentissimo fendente",
-        "danno": 40,
-        "aumentaVelocita": 0,
-        "costoMana": 40,
-        "cooldownMax": 3,
-        "ripristinoMana": 0,
-        "cooldownCorrente": 0
-      }
-    ]
-  },
+  "classe": "ARCIERE",
   "abilitas": [
     {
-      "nome": "Fendente",
-      "descrizione": "Il guerriero esegue un fendente con la sua spada",
-      "danno": 20,
+      "nome": "Scoccata",
+      "descrizione": "L\u0027arciere lancia una precisa freccia",
+      "danno": 30,
       "aumentaVelocita": 0,
       "costoMana": 10,
       "cooldownMax": 0,
@@ -63,35 +16,34 @@
       "cooldownCorrente": 0
     },
     {
-      "nome": "Liberazione",
-      "descrizione": "Il guerriero si libera di peso, aumentando la sua velocità e ripristinando il mana",
+      "nome": "Silenzio",
+      "descrizione": "L\u0027arciere si nasconde, ripristinano il suo mana",
       "danno": 0,
       "aumentaVelocita": 20,
       "costoMana": 20,
       "cooldownMax": 1,
-      "ripristinoMana": 20,
+      "ripristinoMana": 30,
       "cooldownCorrente": 0
     },
     {
-      "nome": "Rinforzo",
-      "descrizione": "Il guerriero ripristina parzialmente la sua vita",
-      "danno": -20,
+      "nome": "Cura Veloce",
+      "descrizione": "L\u0027arciere recupera un po\u0027 di vita",
+      "danno": -10,
       "aumentaVelocita": 0,
-      "costoMana": 20,
+      "costoMana": 10,
+      "cooldownMax": 1,
+      "ripristinoMana": 0,
+      "cooldownCorrente": 0
+    },
+    {
+      "nome": "Megafreccia",
+      "descrizione": "L\u0027arciere lancia una megafreccia ad alto danno",
+      "danno": 60,
+      "aumentaVelocita": 0,
+      "costoMana": 60,
       "cooldownMax": 2,
       "ripristinoMana": 0,
       "cooldownCorrente": 0
-    },
-    {
-      "nome": "Superspada",
-      "descrizione": "Il guerriero sferra un potentissimo fendente",
-      "danno": 40,
-      "aumentaVelocita": 0,
-      "costoMana": 40,
-      "cooldownMax": 3,
-      "ripristinoMana": 0,
-      "cooldownCorrente": 0
     }
-  ],
-  "nome": "wedasdas"
+  ]
 }

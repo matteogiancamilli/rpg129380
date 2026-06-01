@@ -2,8 +2,10 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import model.Classi.Classe;
-
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,8 +17,32 @@ import java.nio.file.Paths;
 public class CreatoreSalvataggi implements GestoreSalvataggi {
 
     private static final String FILE_PATH = "savegame.json";
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson;
 
+    public CreatoreSalvataggi() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(TipoClasse.class, new TypeAdapter<TipoClasse>() {
+            @Override
+            public void write(JsonWriter out, TipoClasse value) throws IOException {
+                if (value == null) {
+                    out.nullValue();
+                    return;
+                }
+                out.value(value.getNome()); // Serialize TipoClasse as its name string
+            }
+
+            @Override
+            public TipoClasse read(JsonReader in) throws IOException {
+                if (in.peek() == com.google.gson.stream.JsonToken.NULL) {
+                    in.nextNull();
+                    return null;
+                }
+                String className = in.nextString(); // Read the name string
+                return TipoClasse.daNome(className); // Convert string back to TipoClasse enum
+            }
+        });
+        this.gson = gsonBuilder.create();
+    }
 
     public boolean esisteSalvataggio() {
         return Files.exists(Paths.get(FILE_PATH));
@@ -30,7 +56,8 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
     }
 
     public void salva(Personaggio p) {
-        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse().getNome(), p.getInventario(), p.getLivello());
+        // Assuming 1 for livelloGioco as it's not part of Personaggio
+        Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), 1, p.getVita(), p.getLivello());
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
             System.out.println("La partita è stata salvata in: " + FILE_PATH);
@@ -41,30 +68,29 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
 
     public Personaggio carica() throws IOException {
         if (!esisteSalvataggio()) return null;
-        FileReader reader = new FileReader(FILE_PATH);
+        try (FileReader reader = new FileReader(FILE_PATH)) {
             Salvataggio data = gson.fromJson(reader, Salvataggio.class);
-            reader.close();
             if (data == null) return null;
 
-        String fullClassName = data.classe;
-        String simpleClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+            TipoClasse tipoClasse = data.classe; // This is now correctly deserialized as TipoClasse enum
+            Classe classe = tipoClasse.crea(); // Create the actual Classe object from the enum
 
-        Classe classe = TipoClasse.daNome(simpleClassName).crea();
+            Abilita[] abilitas = classe.abilitaIniziali();
 
-        Abilita[] abilitas = classe.abilitaIniziali();
-
-            return new Personaggio(data.nomePersonaggio, classe.getVita(), data.livelloGioco,
-                    new Inventario(new Oggetto[0]), classe, abilitas
+            // Use loaded vitaPersonaggio and livelloPersonaggio
+            return new Personaggio(data.nomePersonaggio, data.vitaPersonaggio, data.livelloPersonaggio,
+                    data.inventario, tipoClasse, abilitas
             );
+        }
     }
 
     public void resetSalvataggio() throws IOException {
-            Path path = Paths.get(FILE_PATH);
-            if (Files.exists(path)) {
-                Files.delete(path);
-                System.out.println("model.Salvataggio precedente eliminato");
-            }else{
-                System.out.println("Nessun salvataggio precedente");
-            }
+        Path path = Paths.get(FILE_PATH);
+        if (Files.exists(path)) {
+            Files.delete(path);
+            System.out.println("Salvataggio precedente eliminato");
+        } else {
+            System.out.println("Nessun salvataggio precedente");
+        }
     }
 }

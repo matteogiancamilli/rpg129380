@@ -26,7 +26,7 @@ public class CreatorePersonaggi {
                 System.out.println("Scelta non valida. Riprova.");
             }
         }
-        personaggio.setClasse(scelta.crea());
+        personaggio.setClasse(scelta);
         System.out.println("Personaggio creato: " + personaggio.getNome());
         return personaggio;
     }

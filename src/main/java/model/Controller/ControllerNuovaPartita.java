@@ -66,8 +66,7 @@ public class ControllerNuovaPartita {
             errorDisplay(2);
             return;
         }
-        TipoClasse tipo = selezionaClasse.getValue();
-        Classe classe = tipo.crea();
+        TipoClasse classe = selezionaClasse.getValue();
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), 1, new Inventario(null), classe, classe.abilitaIniziali());
         new CreatoreSalvataggi().nuovo(p);
         cambiaScena(actionEvent, "/dialogscreen.fxml", p); // Pass the newly created character
