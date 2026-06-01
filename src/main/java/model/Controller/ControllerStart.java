@@ -80,7 +80,7 @@ public class ControllerStart {
     private void crediti() {
         Stage finestraCrediti = new Stage();
 
-        Label label = new Label("Sviluppato da: Matteo Giancamilli \nUniversità degli Studi di Camerino \n Corso di Informatica L-31 \nMatricola: 129280\nVersione: 1.0");
+        Label label = new Label("Sviluppato da: Matteo Giancamilli \nUniversità degli Studi di Camerino \nCorso di Informatica L-31 \nMatricola: 129380\nVersione: 1.0");
         StackPane layout = new StackPane(label);
 
         Scene scena = new Scene(layout, 300, 200);
