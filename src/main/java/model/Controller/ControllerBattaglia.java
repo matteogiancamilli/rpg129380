@@ -45,7 +45,7 @@ public class ControllerBattaglia {
         hpLabelGiocatore = new Label(testoHP(p.getVita(), p.getVitaMax()));
         VBox boxGiocatore = creaBoxPersonaggio(
                 p.getNome(),
-                "/images.images/classi/" + p.getClasse().getNome().toLowerCase() + ".png",
+                "/images/images/classi/" + p.getClasse().getNome().toLowerCase() + ".png",
                 hpBarGiocatore, hpLabelGiocatore
         );
 
@@ -53,7 +53,7 @@ public class ControllerBattaglia {
         hpLabelMostro = new Label(testoHP(m.getVitaCorrente(), m.getTipo().getVitaMassima()));
         VBox boxMostro = creaBoxPersonaggio(
                 m.getTipo().getNome(),
-                "/images.images/mostri/" + m.getTipo().name().toLowerCase() + ".png",
+                "/images/images/mostri/" + m.getTipo().name().toLowerCase() + ".png",
                 hpBarMostro, hpLabelMostro
         );
 
@@ -92,7 +92,7 @@ public class ControllerBattaglia {
         // Tab Abilità
         VBox abilitaContent = new VBox(6, manaLabel, descrizioneAbilita, abilitaBox);
         abilitaContent.setPadding(new Insets(8));
-        Tab tabAbilita = new Tab("⚔ Abilità", abilitaContent);
+        Tab tabAbilita = new Tab("Abilità", abilitaContent);
 
         // Tab Oggetti
         labelOggetto = new Label(" ");
@@ -106,7 +106,7 @@ public class ControllerBattaglia {
 
         VBox oggettiContent = new VBox(6, oggettiPane, labelOggetto);
         oggettiContent.setPadding(new Insets(4));
-        Tab tabOggetti = new Tab("🎒 Oggetti", oggettiContent);
+        Tab tabOggetti = new Tab("Oggetti", oggettiContent);
 
         tabPane.getTabs().addAll(tabAbilita, tabOggetti);
 
@@ -143,7 +143,7 @@ public class ControllerBattaglia {
             btn.setStyle(stileBotoneOggetto(o));
 
             // Tooltip con descrizione al passaggio del mouse
-            btn.setOnMouseEntered(e -> labelOggetto.setText("📦 " + o.getNomeVisuale() + ": " + o.getDescrizione()));
+            btn.setOnMouseEntered(e -> labelOggetto.setText(o.getNomeVisuale() + ": " + o.getDescrizione()));
             btn.setOnMouseExited(e  -> labelOggetto.setText(" "));
 
             // Click → popup di conferma

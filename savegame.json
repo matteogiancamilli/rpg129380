@@ -1,12 +1,13 @@
 {
-  "nomePersonaggio": "ErDistruttore",
+  "nomePersonaggio": "Er Distruttore",
   "classe": "Guerriero",
   "livelloPersonaggio": 3,
   "inventario": {
     "inventario": [
-      "SCUDODELPALADINO"
+      "SPADADELLAROCCIA",
+      "POZIONEDELDRAGO"
     ]
   },
   "vitaMax": 484,
-  "manaMax": 80
+  "manaMax": 90
 }

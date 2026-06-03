@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 public enum Mostro {
     GOBLIN           (1, 1.5, 120,  20, "Goblin",            "Appare un piccolo omuncolo dalle fratte... È un goblin!"),
     SCAGNOZZO        (2, 2.0, 200,  28, "Scagnozzo",         "Da dietro un palazzo, in modo diffidente, ti appare davanti uno scagnozzo di media statura. Non sembra avere buone intenzioni..."),
@@ -15,6 +17,7 @@ public enum Mostro {
     private final String nome;
     private final double moltiplicatoreMassimo;
 
+    private static final Random RNG = new Random();
 
     Mostro(int id, double moltiplicatoreMassimo, int vita, int attacco, String nome, String introduzione){
         this.id = id;
@@ -23,6 +26,11 @@ public enum Mostro {
         this.attacco = attacco;
         this.nome = nome;
         this.introduzione = introduzione;
+    }
+
+    public int getAttaccoEffettivo() {
+        double mult = 1.0 + RNG.nextDouble() * (moltiplicatoreMassimo - 1.0);
+        return (int)(attacco * mult);
     }
 
     public int getVitaMassima(){

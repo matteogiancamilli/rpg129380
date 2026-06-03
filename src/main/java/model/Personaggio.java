@@ -11,49 +11,53 @@ public class Personaggio extends Persona {
     private TipoClasse classe;
     private Abilita[] abilitas;
 
-    private int bonusAttacco  = 0;
-    private int bonusDifesa   = 0;
+    // Bonus temporanei applicati dagli oggetti (durano 1 solo turno)
+    private int bonusAttaccoPerc  = 0;   // % di aumento danni (es. 30 = +30%)
+    private int bonusDifesaPerc   = 0;   // % di riduzione danni subiti (es. 50 = -50%)
 
-    public Personaggio(String nome, int vita,int manaMax, int livello, Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
+    public Personaggio(String nome, int vitaMax, int manaMax, int livello,
+                       Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
         super(nome);
-        this.vitaMax  = vita;
-        this.vita     = vita;
-        this.manaMax  = classe.getMana();
-        this.mana     = manaMax;
-        this.livello  = livello;
+        this.vitaMax    = vitaMax;
+        this.vita       = vitaMax;
+        // FIX BUG 1: usa il manaMax passato come parametro, non quello della classe
+        this.manaMax    = manaMax;
+        this.mana       = manaMax;
+        this.livello    = livello;
         this.inventario = inventario;
-        this.classe   = classe;
-        this.abilitas = abilitas;
+        this.classe     = classe;
+        this.abilitas   = abilitas;
     }
 
-    public int getVita()    {
-        return vita;
-    }
-    public int getVitaMax() {
-        return vitaMax;
-    }
-
-    public void setVita(int vita) {
-        this.vita = vita;
-    }
+    // ── Vita ──────────────────────────────────────────────
+    public int  getVita()    { return vita; }
+    public int  getVitaMax() { return vitaMax; }
+    public void setVita(int vita) { this.vita = vita; }
 
     public void subisciDanno(int danno) {
-        this.vita = Math.max(0, this.vita - danno);
+        // Applica riduzione % da difesa oggetto (solo se attivo)
+        int dannoEffettivo = danno;
+        if (bonusDifesaPerc > 0) {
+            dannoEffettivo = (int)(danno * (1.0 - bonusDifesaPerc / 100.0));
+            dannoEffettivo = Math.max(0, dannoEffettivo);
+        }
+        this.vita = Math.max(0, this.vita - dannoEffettivo);
     }
 
     public void cura(int quantita) {
         this.vita = Math.min(vitaMax, this.vita + quantita);
     }
 
-    public boolean isSconfitto() {
-        return vita <= 0;
+    public boolean isSconfitto() { return vita <= 0; }
+
+    public void aumentaVitaMax(int quantita) {
+        this.vitaMax += quantita;
+        this.vita = Math.min(this.vita + quantita, this.vitaMax);
     }
 
-    public int getMana()    {
-        return mana; }
-
-    public int getManaMax() {
-        return manaMax; }
+    // ── Mana ──────────────────────────────────────────────
+    public int  getMana()    { return mana; }
+    public int  getManaMax() { return manaMax; }
 
     public boolean usaMana(int costo) {
         if (mana < costo) return false;
@@ -65,57 +69,52 @@ public class Personaggio extends Persona {
         mana = Math.min(manaMax, mana + quantita);
     }
 
-    public int getLivello() {
-        return livello;
-    }
-    public void setLivello(int livello) {
-        this.livello = livello;
-    }
-
-    public void aumentaLivello() {
-        this.livello++;
-        this.vitaMax  = (int)(vitaMax  * 1.1);
-        this.manaMax  += 5;
-        this.vita     = vitaMax;
-        this.mana     = manaMax;
-        System.out.println(getNome() + " è salito al livello " + this.livello + "!");
-    }
-
-    public void aumentaVitaMax(int quantita) {
-        this.vitaMax += quantita;
-        this.vita = Math.min(this.vita + quantita, this.vitaMax);
-    }
-
-    public Inventario  getInventario() {
-        return inventario;
-    }
-    public TipoClasse  getClasse(){
-        return classe;
-    }
-    public Abilita[]   getAbilitas(){
-        return abilitas;
-    }
-    public void setClasse(TipoClasse classe){
-        this.classe = classe;
-    }
-
-    public int getBonusAttacco(){
-        return bonusAttacco;
-    }
-    public int getBonusDifesa(){
-        return bonusDifesa;
-    }
-
-    public void aumentaAttacco(int quantita){
-        this.bonusAttacco += quantita;
-    }
-    public void aumentaDifesa(int quantita){
-        this.bonusDifesa  += quantita;
-    }
-
     public void aumentaManaMax(int quantita) {
         this.manaMax += quantita;
         this.mana = Math.min(this.mana + quantita, this.manaMax);
-
     }
+
+    // ── Attacco potenziato dagli oggetti ──────────────────
+    /**
+     * Applica il bonus percentuale di attacco (se attivo) al danno base
+     * e restituisce il danno effettivo da infliggere.
+     */
+    public int calcolaDannoEffettivo(int dannoBase) {
+        if (bonusAttaccoPerc > 0) {
+            return (int)(dannoBase * (1.0 + bonusAttaccoPerc / 100.0));
+        }
+        return dannoBase;
+    }
+
+    // ── Bonus oggetti (durata 1 turno) ────────────────────
+    public int  getBonusAttaccoPerc() { return bonusAttaccoPerc; }
+    public int  getBonusDifesaPerc()  { return bonusDifesaPerc;  }
+
+    public void aggiungiBonusAttacco(int percento) { this.bonusAttaccoPerc += percento; }
+    public void aggiungiBonusDifesa(int percento)  { this.bonusDifesaPerc  += percento; }
+
+    /** Resetta i bonus temporanei a fine turno. */
+    public void resettaBonus() {
+        this.bonusAttaccoPerc = 0;
+        this.bonusDifesaPerc  = 0;
+    }
+
+    // ── Livello ───────────────────────────────────────────
+    public int  getLivello()            { return livello; }
+    public void setLivello(int livello) { this.livello = livello; }
+
+    public void aumentaLivello() {
+        this.livello++;
+        this.vitaMax = (int)(vitaMax * 1.1);
+        this.manaMax += 5;
+        this.vita    = vitaMax;
+        this.mana    = manaMax;
+        System.out.println(getNome() + " è salito al livello " + this.livello + "!");
+    }
+
+    // ── Accessori ─────────────────────────────────────────
+    public Inventario getInventario() { return inventario; }
+    public TipoClasse getClasse()     { return classe; }
+    public Abilita[]  getAbilitas()   { return abilitas; }
+    public void setClasse(TipoClasse classe) { this.classe = classe; }
 }
