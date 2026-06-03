@@ -1,4 +1,5 @@
 package model.Controller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -49,28 +50,25 @@ public class ControllerStart {
     private void setBottoneNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/nuovapartita.fxml"));
         Parent root = loader.load();
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        stageLoader(root, actionEvent);
     }
 
     @FXML
     private void continuaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
         Personaggio personaggio = gestoreSalvataggi.carica();
         if (personaggio == null) {
-            System.out.println("Salvataggio corrotto o non trovato. Inizia una nuova partita.");
             bottoneContinuaPartita.setDisable(true);
             return;
         }
-        System.out.println("Partita caricata correttamente!");
-        System.out.println("DEBUG: Livello personaggio dopo caricamento in ControllerStart: " + personaggio.getLivello());
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
         Parent root = loader.load();
         ControllerDialogScreen controllerDialogScreen = loader.getController();
         controllerDialogScreen.initData(personaggio);
+        stageLoader(root, actionEvent);
 
+    }
+
+    private void stageLoader(Parent root, ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
@@ -79,7 +77,6 @@ public class ControllerStart {
     @FXML
     private void crediti() {
         Stage finestraCrediti = new Stage();
-
         Label label = new Label("Sviluppato da: Matteo Giancamilli \nUniversità degli Studi di Camerino \nCorso di Informatica L-31 \nMatricola: 129380\nVersione: 1.0");
         StackPane layout = new StackPane(label);
 

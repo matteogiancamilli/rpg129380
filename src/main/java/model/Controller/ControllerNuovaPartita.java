@@ -28,14 +28,14 @@ public class ControllerNuovaPartita {
     @FXML
     private TextArea errorDisplay;
 
-    private Livello livello;
-
     @FXML
     public void initialize() {
         selezionaClasse.getItems().addAll(TipoClasse.values());
         selezionaClasse.setConverter(new StringConverter<TipoClasse>() {
-            public String toString(TipoClasse t) { return t.getNome(); }
-            public TipoClasse fromString(String s) { return null; }
+            public String toString(TipoClasse t) {
+                return t.getNome(); }
+            public TipoClasse fromString(String s) {
+                return null; }
         });
         selezionaClasse.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldV, newV) -> {
@@ -43,15 +43,6 @@ public class ControllerNuovaPartita {
                 });
         if (!selezionaClasse.getItems().isEmpty()) {
             selezionaClasse.getSelectionModel().selectFirst();
-        }
-    }
-
-    private void aggiornaDescrizione(String nomeClasse) {
-        for (TipoClasse c : TipoClasse.values()) {
-            if (c.getNome().equals(nomeClasse)) {
-                descrizioneClasse.setText(c.getDescrizione());
-                break;
-            }
         }
     }
 
@@ -68,7 +59,7 @@ public class ControllerNuovaPartita {
         TipoClasse classe = selezionaClasse.getValue();
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
         new CreatoreSalvataggi().nuovo(p);
-        cambiaScena(actionEvent, "/javafx/dialogscreen.fxml", p); // Pass the newly created character
+        cambiaScena(actionEvent, "/javafx/dialogscreen.fxml", p);
     }
 
     private void cambiaScena(javafx.event.ActionEvent event, String fxml, Personaggio personaggio) throws IOException {

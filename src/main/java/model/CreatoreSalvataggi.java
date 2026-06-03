@@ -19,16 +19,16 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
     private static final String FILE_PATH = "savegame.json";
     private final Gson gson;
 
-    public CreatoreSalvataggi() {
+    public CreatoreSalvataggi(){
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-        gsonBuilder.registerTypeAdapter(TipoClasse.class, new TypeAdapter<TipoClasse>() {
+        gsonBuilder.registerTypeAdapter(TipoClasse.class, new TypeAdapter<TipoClasse>(){
             @Override
             public void write(JsonWriter out, TipoClasse value) throws IOException {
-                if (value == null) {
+                if (value == null){
                     out.nullValue();
                     return;
                 }
-                out.value(value.getNome()); // Serialize TipoClasse as its name string
+                out.value(value.getNome());
             }
 
             @Override
@@ -37,14 +37,14 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
                     in.nextNull();
                     return null;
                 }
-                String className = in.nextString(); // Read the name string
-                return TipoClasse.daNome(className); // Convert string back to TipoClasse enum
+                String className = in.nextString();
+                return TipoClasse.daNome(className);
             }
         });
         this.gson = gsonBuilder.create();
     }
 
-    public boolean esisteSalvataggio() {
+    public boolean esisteSalvataggio(){
         return Files.exists(Paths.get(FILE_PATH));
     }
 
@@ -55,12 +55,10 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
         salva(personaggio);
     }
 
-    public void salva(Personaggio p) {
-        // Assuming 1 for livelloGioco as it's not part of Personaggio
+    public void salva(Personaggio p){
         Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), p.getLivello(), p.getVitaMax(), p.getManaMax());
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
-            System.out.println("La partita è stata salvata in: " + FILE_PATH);
         } catch (IOException e) {
             System.out.println("Errore durante il salvataggio: " + e.getMessage());
         }
@@ -72,16 +70,14 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
             Salvataggio data = gson.fromJson(reader, Salvataggio.class);
             if (data == null) return null;
 
-            TipoClasse tipoClasse = data.classe; // This is now correctly deserialized as TipoClasse enum
-            Classe classe = tipoClasse.crea(); // Create the actual Classe object from the enum
+            TipoClasse tipoClasse = data.classe;
+            Classe classe = tipoClasse.crea();
 
             Abilita[] abilitas = classe.abilitaIniziali();
 
-            // Use loaded vitaPersonaggio and livelloPersonaggio
             int vitaMax = data.vitaMax > 0 ? data.vitaMax : tipoClasse.getVita();
             int manaMax = data.manaMax > 0 ? data.manaMax : tipoClasse.getMana();
-            return new Personaggio(data.nomePersonaggio, vitaMax, manaMax, data.livelloPersonaggio,
-                    data.inventario, tipoClasse, abilitas);
+            return new Personaggio(data.nomePersonaggio, vitaMax, manaMax, data.livelloPersonaggio, data.inventario, tipoClasse, abilitas);
         }
     }
 
@@ -89,9 +85,6 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
         Path path = Paths.get(FILE_PATH);
         if (Files.exists(path)) {
             Files.delete(path);
-            System.out.println("Salvataggio precedente eliminato");
-        } else {
-            System.out.println("Nessun salvataggio precedente");
         }
     }
 }

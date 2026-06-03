@@ -11,8 +11,6 @@ import javafx.scene.image.ImageView;
 import model.Livello;
 import model.CreatoreSalvataggi;
 
-import javafx.scene.image.ImageView;
-
 public class ControllerBattaglia {
 
     // ── Dati ──────────────────────────────────────────────
@@ -29,14 +27,14 @@ public class ControllerBattaglia {
     private Label descrizioneAbilita;
 
     // ── Configurazione (chiamata prima di costruireUI) ────
-    public void setGestore(GestoreCombattimento gestore) {
+    public void setGestore(GestoreCombattimento gestore){
         this.gestore = gestore;
     }
 
     // ── Punto di ingresso: restituisce la scena già montata ─
     public javafx.scene.Scene costruisciScena() {
         Personaggio p = gestore.getPersonaggio();
-        Mostro      m = gestore.getMostro();
+        Nemico m = gestore.getMostro();
 
         // ── Arena (centro) ────────────────────────────────
         hpBarGiocatore   = new ProgressBar(1.0);
@@ -49,10 +47,10 @@ public class ControllerBattaglia {
         );
 
         hpBarMostro   = new ProgressBar(1.0);
-        hpLabelMostro = new Label(testoHP(m.getVita(), m.getVitaMassima()));
+        hpLabelMostro = new Label(testoHP(m.getVitaCorrente(), m.getTipo().getVitaMassima()));
         VBox boxMostro = creaBoxPersonaggio(
-                m.getNome(),
-                "/images.images/mostri/" + m.name().toLowerCase() + ".png",
+                m.getTipo().getNome(),
+                "/images.images/mostri/" + m.getTipo().name().toLowerCase() + ".png",
                 hpBarMostro,
                 hpLabelMostro
         );
@@ -62,7 +60,7 @@ public class ControllerBattaglia {
         arena.setPadding(new Insets(20));
 
         // ── Log di battaglia ──────────────────────────────
-        battleLog = new Label(m.getIntroduzione());
+        battleLog = new Label(m.getTipo().getIntroduzione());
         battleLog.setWrapText(true);
         battleLog.setStyle("-fx-font-size:13px; -fx-text-fill:#8b0000; -fx-font-weight:bold;");
         battleLog.setPadding(new Insets(8));
@@ -116,7 +114,7 @@ public class ControllerBattaglia {
                     battleLog.setText("" + abilita.getNome() + " è ancora in ricarica " +
                             abilita.getCooldownCorrente() + " turni).");
             case MOSTRO_SCONFITTO -> {
-                battleLog.setText("Hai sconfitto " + gestore.getMostro().getNome() + "! Livello aumentato!");
+                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() + "! Livello aumentato!");
                 disabilitaAzioni();
 
                 // Dopo 2 secondi apre la prossima schermata storia
@@ -151,7 +149,7 @@ public class ControllerBattaglia {
                 pausa.play();
             }
             case PERSONAGGIO_SCONFITTO -> {
-                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getNome() + "... Ricarico il salvataggio!");
+                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getTipo().getNome() + "... Ricarico il salvataggio!");
                 disabilitaAzioni();
 
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
@@ -183,7 +181,7 @@ public class ControllerBattaglia {
                 pausa.play();
             }
             case MANA_ESAURITO -> {
-                battleLog.setText("⚠️ Non hai più mana né abilità disponibili... Sei spacciato!");
+                battleLog.setText("⚠Non hai più mana né abilità disponibili... Sei spacciato!");
                 disabilitaAzioni();
 
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
@@ -215,10 +213,44 @@ public class ControllerBattaglia {
         }
     }
 
+    private void cambiScena() {
+        disabilitaAzioni();
+
+        javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
+                javafx.util.Duration.seconds(5)
+        );
+        pausa.setOnFinished(e -> {
+            try {
+                Personaggio pCaricato = new CreatoreSalvataggi().carica();
+                if (pCaricato == null) {
+                    battleLog.setText("Nessun salvataggio trovato.");
+                    return;
+                }
+
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/javafx/dialogscreen.fxml")
+                );
+                javafx.scene.Parent root = loader.load();
+                ControllerDialogScreen controller = loader.getController();
+                controller.initData(pCaricato);
+
+                Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
+                stageCorrente.setScene(new javafx.scene.Scene(root));
+                stageCorrente.show();
+            } catch (java.io.IOException ex) {
+                ex.printStackTrace();
+                battleLog.setText("Errore nel caricare il salvataggio.");
+            }
+        });
+        pausa.play();
+
+    }
+
+
     // ── Aggiorna barre HP e testo bottoni ─────────────────
     private void aggiornaUI() {
         Personaggio p = gestore.getPersonaggio();
-        Mostro      m = gestore.getMostro();
+        Nemico m = gestore.getMostro();
 
         // HP giocatore
         double percP = (double) p.getVita() / p.getVitaMax();
@@ -227,10 +259,10 @@ public class ControllerBattaglia {
         hpLabelGiocatore.setText(testoHP(p.getVita(), p.getVitaMax()));
 
         // HP mostro
-        double percM = (double) m.getVita() / m.getVitaMassima();
+        double percM = (double) m.getVitaCorrente() / m.getTipo().getVitaMassima();
         hpBarMostro.setProgress(Math.max(0, percM));
         hpBarMostro.setStyle(coloreHP(percM));
-        hpLabelMostro.setText(testoHP(Math.max(0, m.getVita()), m.getVitaMassima()));
+        hpLabelMostro.setText(testoHP(Math.max(0, m.getVitaCorrente()), m.getTipo().getVitaMassima()));
 
         // Testo cooldown sui bottoni
         Abilita[] abilitas = p.getAbilitas();

@@ -12,12 +12,6 @@ public class ControllerDialogScreen {
     @FXML
     private TextArea textArea;
 
-    @FXML
-    private Button salvaEsci;
-
-    @FXML
-    private Button continua;
-
     private Personaggio currentPersonaggio;
 
 
@@ -44,7 +38,6 @@ public class ControllerDialogScreen {
 
     @FXML
     private void handleContinua(ActionEvent event){
-        // Salva il progresso attuale prima di entrare in battaglia
         new CreatoreSalvataggi().salva(currentPersonaggio);
 
         Missione missione = new Missione(currentPersonaggio.getLivello() - 1, currentPersonaggio);
@@ -65,7 +58,7 @@ public class ControllerDialogScreen {
     private void handleSaveAndExit(ActionEvent event) {
         if (currentPersonaggio != null) {
             CreatoreSalvataggi gestore = new CreatoreSalvataggi();
-            gestore.salva(currentPersonaggio);  // ✅ usa il gestore corretto
+            gestore.salva(currentPersonaggio);
         }
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();

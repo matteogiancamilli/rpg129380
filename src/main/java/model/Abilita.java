@@ -11,7 +11,7 @@ public class Abilita {
     private final int ripristinoMana;
     private int cooldownCorrente;
 
-    public Abilita(String nome, String descrizione, int danno, int aumentaVelocita, int costoMana, int cooldownMax, int ripristinoMana) {
+    public Abilita(String nome, String descrizione, int danno, int aumentaVelocita, int costoMana, int cooldownMax, int ripristinoMana){
         this.nome = nome;
         this.descrizione = descrizione;
         this.danno = danno;
@@ -23,9 +23,7 @@ public class Abilita {
     }
 
 
-
-
-    public String descrizione() {
+    public String descrizione(){
         String azione;
         if (isCura()) {
             azione = "Cura: " + (-danno);
@@ -43,53 +41,52 @@ public class Abilita {
                 stato = " [Pronto]";
             } else {
                 stato = " [In ricarica: " + cooldownCorrente + "/" + cooldownMax + "]";
-
             }
             return stato;
     }
 
 
-    public String getNome() {
+    public String getNome(){
         return nome;
     }
 
-    public int getRipristinoMana() {
+    public int getRipristinoMana(){
         return ripristinoMana;
     }
 
-    public String getDescrizione() {
+    public String getDescrizione(){
         return descrizione;
     }
 
-    public int getDanno() {
+    public int getDanno(){
         return danno;
     }
 
-    public int getCostoMana() {
+    public int getCostoMana(){
         return costoMana;
     }
 
-    public boolean isCura() {
+    public boolean isCura(){
         return danno < 0;
     }
 
-    public int getAumentaVelocita() {
+    public int getAumentaVelocita(){
         return aumentaVelocita;
     }
 
-    public boolean abilitaPronta() {
+    public boolean abilitaPronta(){
         return cooldownCorrente == 0;
     }
 
-    public int getCooldownCorrente() {
+    public int getCooldownCorrente(){
         return cooldownCorrente;
     }
 
-    public void attivaAbilita() {
+    public void attivaAbilita(){
         this.cooldownCorrente = cooldownMax;
     }
 
-    public void tickCooldown() {
+    public void tickCooldown(){
         if (cooldownCorrente > 0) cooldownCorrente--;
     }
 }

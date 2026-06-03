@@ -4,15 +4,15 @@ public class Inventario {
 
     private Oggetto[] inventario;
 
-    public Inventario(Oggetto[] inventario) {
+    public Inventario(Oggetto[] inventario){
         this.inventario = inventario;
     }
 
-    public Oggetto[] getInventario() {
+    public Oggetto[] getInventario(){
         return inventario;
     }
 
-    public void setInventario(Oggetto[] inventario) {
+    public void setInventario(Oggetto[] inventario){
         this.inventario = inventario;
     }
 

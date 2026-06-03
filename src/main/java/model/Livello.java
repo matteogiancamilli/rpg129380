@@ -38,17 +38,16 @@ public enum Livello {
     private final int id;
     private final String introduzione;
 
-    Livello(int id, String introduzione) {
+    Livello(int id, String introduzione){
         this.id = id;
         this.introduzione = introduzione;
     }
-
 
     public String getIntroduzione(){
         return introduzione;
     }
 
-    public int getId() {
+    public int getId(){
         return id;
     }
 }

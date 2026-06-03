@@ -10,52 +10,34 @@ public enum Mostro {
 
     private final int id;
     private final String introduzione;
-    private int vitaCorrente; // Current health during combat
-    private final int vitaMassima; // Max health for resetting
+    private final int vitaMassima;
     private final int attacco;
     private final String nome;
     private final double moltiplicatoreMassimo;
 
 
-    Mostro(int id, double moltiplicatoreMassimo, int vita, int attacco, String nome, String introduzione) {
+    Mostro(int id, double moltiplicatoreMassimo, int vita, int attacco, String nome, String introduzione){
         this.id = id;
         this.moltiplicatoreMassimo = moltiplicatoreMassimo;
         this.vitaMassima = vita;
-        this.vitaCorrente = vita; // Initialize current health
         this.attacco = attacco;
         this.nome = nome;
         this.introduzione = introduzione;
     }
 
-    public int getVita() {
-        return vitaCorrente;
-    }
-
-    public int getVitaMassima() {
+    public int getVitaMassima(){
         return vitaMassima;
     }
 
-    public int getAttacco() {
+    public int getAttacco(){
         return attacco;
     }
 
-    public String getNome() {
+    public String getNome(){
         return nome;
     }
 
-    public String getIntroduzione() {
+    public String getIntroduzione(){
         return introduzione;
-    }
-
-    public void subisciDanno(int danno) {
-        this.vitaCorrente -= danno;
-    }
-
-    public boolean sconfitto() {
-        return vitaCorrente <= 0;
-    }
-
-    public void resetMostro() {
-        this.vitaCorrente = this.vitaMassima;
     }
 }
