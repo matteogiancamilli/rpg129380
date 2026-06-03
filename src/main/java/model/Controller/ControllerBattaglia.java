@@ -1,166 +1,172 @@
 package model.Controller;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import model.Abilita;
+import model.GestoreCombattimento;
+import model.Mostro;
+import model.Personaggio;
 
-public class ControllerBattaglia extends Application {
+public class ControllerBattaglia {
 
-    @Override
-    public void start(Stage primaryStage) {
+    // ── Dati ──────────────────────────────────────────────
+    private GestoreCombattimento gestore;
 
-        // ==========================================
-        // 1. ZONA COMBATTIMENTO (ARENA)
-        // ==========================================
+    // ── Riferimenti UI aggiornabili ───────────────────────
+    private Label       battleLog;
+    private ProgressBar hpBarGiocatore;
+    private Label       hpLabelGiocatore;
+    private ProgressBar hpBarMostro;
+    private Label       hpLabelMostro;
+    private VBox        abilitaBox;   // contenitore bottoni abilità
 
-        // Personaggio (Sinistra)
-        VBox playerBox = createCharacterBox("Eroe", "file:player.png", 1.0, "100/100 HP");
-
-        // Nemico (Destra)
-        VBox enemyBox = createCharacterBox("Goblin Oscuro", "file:enemy.png", 0.75, "75/100 HP");
-
-        HBox arena = new HBox(100); // 100 pixel di spazio tra i due
-        arena.setAlignment(Pos.CENTER);
-        arena.setPadding(new Insets(20));
-        arena.getChildren().addAll(playerBox, enemyBox);
-
-        // ==========================================
-        // 2. LOG DI BATTAGLIA
-        // ==========================================
-
-        Label battleLog = new Label("Un Goblin Oscuro ti sbarra la strada! Scegli la tua mossa.");
-        battleLog.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #b22222;");
-        battleLog.setPadding(new Insets(10));
-
-        // ==========================================
-        // 3. INTERFACCIA ABILITÀ E INVENTARIO
-        // ==========================================
-
-        TabPane tabPane = new TabPane();
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); // Impedisce di chiudere le tab
-
-        // --- TAB ABILITÀ ---
-        Tab abilitiesTab = new Tab("Abilità");
-        HBox abilitiesLayout = new HBox(20);
-        abilitiesLayout.setPadding(new Insets(10));
-
-        ListView<String> abilitiesList = new ListView<>();
-        abilitiesList.getItems().addAll("Fendente Magico", "Palla di Fuoco", "Cura Leggera");
-        abilitiesList.setPrefSize(200, 150);
-
-        Label abilityDesc = new Label("Seleziona un'abilità per vederne i dettagli.");
-        abilityDesc.setWrapText(true);
-        abilityDesc.setPrefWidth(300);
-
-        // Listener per cambiare la descrizione quando si seleziona un'abilità
-        abilitiesList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                switch (newSelection) {
-                    case "Fendente Magico": abilityDesc.setText("Infligge danni fisici e magici al nemico. Costo: 10 MP."); break;
-                    case "Palla di Fuoco": abilityDesc.setText("Lancia una sfera infuocata. Alta probabilità di scottare. Costo: 25 MP."); break;
-                    case "Cura Leggera": abilityDesc.setText("Ripristina 30 HP al lanciatore. Costo: 15 MP."); break;
-                }
-            }
-        });
-        abilitiesLayout.getChildren().addAll(abilitiesList, abilityDesc);
-        abilitiesTab.setContent(abilitiesLayout);
-
-        // --- TAB INVENTARIO ---
-        Tab inventoryTab = new Tab("Inventario");
-        HBox inventoryLayout = new HBox(20);
-        inventoryLayout.setPadding(new Insets(10));
-
-        ListView<String> inventoryList = new ListView<>();
-        inventoryList.getItems().addAll("Pozione Minore", "Elisir del Mana", "Bomba Fumogena");
-        inventoryList.setPrefSize(200, 150);
-
-        VBox itemActionBox = new VBox(10);
-        Label itemDesc = new Label("Seleziona un oggetto.");
-        itemDesc.setWrapText(true);
-        itemDesc.setPrefWidth(300);
-
-        Button useButton = new Button("Usa Oggetto");
-        useButton.setDisable(true); // Disabilitato finché non si seleziona qualcosa
-
-        // Listener per l'inventario
-        inventoryList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                useButton.setDisable(false);
-                switch (newSelection) {
-                    case "Pozione Minore": itemDesc.setText("Cura 50 HP."); break;
-                    case "Elisir del Mana": itemDesc.setText("Ripristina 40 MP."); break;
-                    case "Bomba Fumogena": itemDesc.setText("Permette di fuggire dalla battaglia."); break;
-                }
-            }
-        });
-
-        // Azione del tasto "Usa"
-        useButton.setOnAction(e -> {
-            String selected = inventoryList.getSelectionModel().getSelectedItem();
-            battleLog.setText("Hai usato: " + selected + "!");
-        });
-
-        itemActionBox.getChildren().addAll(itemDesc, useButton);
-        inventoryLayout.getChildren().addAll(inventoryList, itemActionBox);
-        inventoryTab.setContent(inventoryLayout);
-
-        // Aggiungo le tab al TabPane
-        tabPane.getTabs().addAll(abilitiesTab, inventoryTab);
-
-        // ==========================================
-        // 4. ASSEMBLAGGIO FINALE (BorderPane)
-        // ==========================================
-
-        VBox bottomSection = new VBox(10); // Contiene log e controlli
-        bottomSection.getChildren().addAll(battleLog, tabPane);
-
-        BorderPane root = new BorderPane();
-        root.setCenter(arena);
-        root.setBottom(bottomSection);
-
-        Scene scene = new Scene(root, 700, 500);
-        primaryStage.setTitle("Magic Strike - Battaglia");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    // ── Configurazione (chiamata prima di costruireUI) ────
+    public void setGestore(GestoreCombattimento gestore) {
+        this.gestore = gestore;
     }
 
-    // Metodo helper per creare rapidamente i box dei personaggi
-    private VBox createCharacterBox(String name, String imagePath, double healthProgress, String hpText) {
-        Label nameLabel = new Label(name);
-        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+    // ── Punto di ingresso: restituisce la scena già montata ─
+    public javafx.scene.Scene costruisciScena() {
+        Personaggio p = gestore.getPersonaggio();
+        Mostro      m = gestore.getMostro();
 
-        // Se l'immagine non viene trovata, mostrerà uno spazio vuoto senza crashare
-        ImageView imageView = new ImageView();
-        try {
-            Image img = new Image(imagePath);
-            imageView.setImage(img);
-        } catch (Exception e) {
-            System.out.println("Immagine non trovata: " + imagePath);
+        // ── Arena (centro) ────────────────────────────────
+        hpBarGiocatore   = new ProgressBar(1.0);
+        hpLabelGiocatore = new Label(testoHP(p.getVita(), p.getVitaMax()));
+        VBox boxGiocatore = creaBoxPersonaggio(p.getNome(), hpBarGiocatore, hpLabelGiocatore);
+
+        hpBarMostro   = new ProgressBar(1.0);
+        hpLabelMostro = new Label(testoHP(m.getVita(), m.getVitaMassima()));
+        VBox boxMostro = creaBoxPersonaggio(m.getNome(), hpBarMostro, hpLabelMostro);
+
+        HBox arena = new HBox(120, boxGiocatore, boxMostro);
+        arena.setAlignment(Pos.CENTER);
+        arena.setPadding(new Insets(20));
+
+        // ── Log di battaglia ──────────────────────────────
+        battleLog = new Label(m.getIntroduzione());
+        battleLog.setWrapText(true);
+        battleLog.setStyle("-fx-font-size:13px; -fx-text-fill:#8b0000; -fx-font-weight:bold;");
+        battleLog.setPadding(new Insets(8));
+
+        // ── Bottoni abilità ───────────────────────────────
+        abilitaBox = new VBox(6);
+        abilitaBox.setPadding(new Insets(8));
+        for (Abilita a : p.getAbilitas()) {
+            Button btn = new Button(testoBottone(a));
+            btn.setPrefWidth(220);
+            btn.setOnAction(e -> gestisciAzione(a));
+            abilitaBox.getChildren().add(btn);
         }
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
-        imageView.setPreserveRatio(true);
 
-        ProgressBar hpBar = new ProgressBar(healthProgress);
+        // ── Sezione inferiore ─────────────────────────────
+        Label manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
+        manaLabel.setStyle("-fx-font-size:12px;");
+
+        VBox bottom = new VBox(6, battleLog, manaLabel, abilitaBox);
+        bottom.setPadding(new Insets(10));
+
+        // ── Layout radice ─────────────────────────────────
+        BorderPane root = new BorderPane();
+        root.setCenter(arena);
+        root.setBottom(bottom);
+
+        return new javafx.scene.Scene(root, 700, 520);
+    }
+
+    // ── Logica di un turno ────────────────────────────────
+    private void gestisciAzione(Abilita abilita) {
+        GestoreCombattimento.RisultatoTurno risultato = gestore.eseguiTurno(abilita);
+
+        aggiornaUI();
+
+        switch (risultato) {
+            case OK ->
+                    battleLog.setText("Hai usato " + abilita.getNome() +
+                            "! Il mostro ti attacca...");
+            case MANA_INSUFFICIENTE ->
+                    battleLog.setText("Mana insufficiente per " + abilita.getNome() + "!");
+            case ABILITA_IN_COOLDOWN ->
+                    battleLog.setText("" + abilita.getNome() + " è ancora in ricarica " +
+                            abilita.getCooldownCorrente() + " turni).");
+            case MOSTRO_SCONFITTO -> {
+                battleLog.setText("Hai sconfitto " + gestore.getMostro().getNome() + "! Livello aumentato!");
+                disabilitaAzioni();
+            }
+            case PERSONAGGIO_SCONFITTO -> {
+                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getNome() + "...");
+                disabilitaAzioni();
+            }
+        }
+    }
+
+    // ── Aggiorna barre HP e testo bottoni ─────────────────
+    private void aggiornaUI() {
+        Personaggio p = gestore.getPersonaggio();
+        Mostro      m = gestore.getMostro();
+
+        // HP giocatore
+        double percP = (double) p.getVita() / p.getVitaMax();
+        hpBarGiocatore.setProgress(percP);
+        hpBarGiocatore.setStyle(coloreHP(percP));
+        hpLabelGiocatore.setText(testoHP(p.getVita(), p.getVitaMax()));
+
+        // HP mostro
+        double percM = (double) m.getVita() / m.getVitaMassima();
+        hpBarMostro.setProgress(Math.max(0, percM));
+        hpBarMostro.setStyle(coloreHP(percM));
+        hpLabelMostro.setText(testoHP(Math.max(0, m.getVita()), m.getVitaMassima()));
+
+        // Testo cooldown sui bottoni
+        Abilita[] abilitas = p.getAbilitas();
+        for (int i = 0; i < abilitaBox.getChildren().size(); i++) {
+            if (abilitaBox.getChildren().get(i) instanceof Button btn) {
+                btn.setText(testoBottone(abilitas[i]));
+                btn.setDisable(!abilitas[i].abilitaPronta() ||
+                        p.getMana() < abilitas[i].getCostoMana());
+            }
+        }
+    }
+
+    // ── Disabilita tutti i bottoni a fine battaglia ────────
+    private void disabilitaAzioni() {
+        for (var node : abilitaBox.getChildren()) {
+            if (node instanceof Button btn) {
+                btn.setDisable(true);
+            }
+        }
+    }
+
+    // ── Helper: crea il box di un combattente ─────────────
+    private VBox creaBoxPersonaggio(String nome, ProgressBar hpBar, Label hpLabel) {
+        Label nomeLabel = new Label(nome);
+        nomeLabel.setStyle("-fx-font-weight:bold; -fx-font-size:15px;");
+
         hpBar.setPrefWidth(150);
-        hpBar.setStyle("-fx-accent: green;"); // Colore della barra della vita
+        hpBar.setStyle("-fx-accent: green;");
 
-        Label hpLabel = new Label(hpText);
-
-        VBox box = new VBox(5);
+        VBox box = new VBox(5, nomeLabel, hpBar, hpLabel);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(nameLabel, imageView, hpBar, hpLabel);
-
         return box;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    // ── Helper: testo "HP attuale / massimo" ──────────────
+    private String testoHP(int attuale, int massimo) {
+        return attuale + " / " + massimo + " HP";
+    }
+
+    // ── Helper: testo bottone con stato cooldown ──────────
+    private String testoBottone(Abilita a) {
+        return a.getNome() + "  (MP:" + a.getCostoMana() + ")" + a.stato();
+    }
+
+    // ── Helper: colore barra HP in base alla percentuale ──
+    private String coloreHP(double perc) {
+        if (perc > 0.5) return "-fx-accent: green;";
+        if (perc > 0.25) return "-fx-accent: orange;";
+        return "-fx-accent: red;";
     }
 }

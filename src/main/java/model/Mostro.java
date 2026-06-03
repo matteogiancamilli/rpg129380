@@ -31,6 +31,10 @@ public enum Mostro {
         return vitaCorrente;
     }
 
+    public int getVitaMassima() {
+        return vitaMassima;
+    }
+
     public int getAttacco() {
         return attacco;
     }

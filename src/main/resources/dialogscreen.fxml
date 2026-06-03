@@ -15,7 +15,7 @@
   </rowConstraints>
    <children>
       <Button fx:id="salvaEsci" mnemonicParsing="false" onAction="#handleSaveAndExit" text="Salva ed Esci" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button mnemonicParsing="false" text="Continua" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Button fx:id="continua" onAction="#handleContinua" mnemonicParsing="false" text="Continua" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity" wrapText="true" />
    </children>
 </GridPane>

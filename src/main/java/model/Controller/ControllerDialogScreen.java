@@ -5,9 +5,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import model.CreatoreSalvataggi;
-import model.Personaggio;
-import model.Livello;
+import model.*;
 
 public class ControllerDialogScreen {
 
@@ -17,7 +15,11 @@ public class ControllerDialogScreen {
     @FXML
     private Button salvaEsci;
 
+    @FXML
+    private Button continua;
+
     private Personaggio currentPersonaggio;
+
 
     @FXML
     public void initialize() {
@@ -38,6 +40,17 @@ public class ControllerDialogScreen {
                 setStoria(storiaLivello);
             }
         }
+    }
+
+    @FXML
+    private void handleContinua(ActionEvent event){
+        Missione missione = new Missione(currentPersonaggio.getLivello() - 1, currentPersonaggio);
+        GestoreCombattimento gestore = new GestoreCombattimento(currentPersonaggio, missione.getMostro());
+        ControllerBattaglia cb = new ControllerBattaglia();
+        cb.setGestore(gestore);
+        Stage battleStage = new Stage();
+        battleStage.setScene(cb.costruisciScena());
+        battleStage.show();
     }
 
     @FXML
