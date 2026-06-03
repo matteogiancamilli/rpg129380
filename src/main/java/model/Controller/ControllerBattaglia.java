@@ -22,28 +22,31 @@ public class ControllerBattaglia {
     private Label       hpLabelGiocatore;
     private ProgressBar hpBarMostro;
     private Label       hpLabelMostro;
-    private VBox        abilitaBox;   // contenitore bottoni abilità
-    private Label manaLabel;
-    private Label descrizioneAbilita;
+    private VBox        abilitaBox;
+    private Label       manaLabel;
+    private Label       descrizioneAbilita;
 
-    // ── Configurazione (chiamata prima di costruireUI) ────
-    public void setGestore(GestoreCombattimento gestore){
+    // ── Sezione oggetti ───────────────────────────────────
+    private FlowPane    oggettiPane;   // griglia oggetti nell'inventario
+    private Label       labelOggetto;  // tooltip testuale in basso
+
+    // ── Configurazione ────────────────────────────────────
+    public void setGestore(GestoreCombattimento gestore) {
         this.gestore = gestore;
     }
 
-    // ── Punto di ingresso: restituisce la scena già montata ─
+    // ── Costruzione scena ─────────────────────────────────
     public javafx.scene.Scene costruisciScena() {
         Personaggio p = gestore.getPersonaggio();
-        Nemico m = gestore.getMostro();
+        Nemico      m = gestore.getMostro();
 
-        // ── Arena (centro) ────────────────────────────────
+        // ── Arena ─────────────────────────────────────────
         hpBarGiocatore   = new ProgressBar(1.0);
         hpLabelGiocatore = new Label(testoHP(p.getVita(), p.getVitaMax()));
         VBox boxGiocatore = creaBoxPersonaggio(
                 p.getNome(),
                 "/images.images/classi/" + p.getClasse().getNome().toLowerCase() + ".png",
-                hpBarGiocatore,
-                hpLabelGiocatore
+                hpBarGiocatore, hpLabelGiocatore
         );
 
         hpBarMostro   = new ProgressBar(1.0);
@@ -51,43 +54,64 @@ public class ControllerBattaglia {
         VBox boxMostro = creaBoxPersonaggio(
                 m.getTipo().getNome(),
                 "/images.images/mostri/" + m.getTipo().name().toLowerCase() + ".png",
-                hpBarMostro,
-                hpLabelMostro
+                hpBarMostro, hpLabelMostro
         );
 
         HBox arena = new HBox(120, boxGiocatore, boxMostro);
         arena.setAlignment(Pos.CENTER);
         arena.setPadding(new Insets(20));
 
-        // ── Log di battaglia ──────────────────────────────
+        // ── Log ───────────────────────────────────────────
         battleLog = new Label(m.getTipo().getIntroduzione());
         battleLog.setWrapText(true);
         battleLog.setStyle("-fx-font-size:13px; -fx-text-fill:#8b0000; -fx-font-weight:bold;");
         battleLog.setPadding(new Insets(8));
 
-        // ── Bottoni abilità ───────────────────────────────
+        // ── Abilità ───────────────────────────────────────
         abilitaBox = new VBox(6);
         abilitaBox.setPadding(new Insets(8));
         for (Abilita a : p.getAbilitas()) {
             Button btn = new Button(testoBottone(a));
             btn.setPrefWidth(220);
             btn.setOnAction(e -> gestisciAzione(a));
-
-            // Mostra descrizione al passaggio del cursore
             btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
-            btn.setOnMouseExited(e -> descrizioneAbilita.setText(" "));
-
+            btn.setOnMouseExited(e  -> descrizioneAbilita.setText(" "));
             abilitaBox.getChildren().add(btn);
         }
 
-        // ── Sezione inferiore ─────────────────────────────
         manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
+        manaLabel.setStyle("-fx-font-size:12px;");
         descrizioneAbilita = new Label(" ");
         descrizioneAbilita.setWrapText(true);
         descrizioneAbilita.setStyle("-fx-font-size:11px; -fx-text-fill:#444;");
 
-        VBox bottom = new VBox(6, battleLog, manaLabel, descrizioneAbilita, abilitaBox);
-        manaLabel.setStyle("-fx-font-size:12px;");
+        // ── Tab Panel (Abilità | Oggetti) ─────────────────
+        TabPane tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+        // Tab Abilità
+        VBox abilitaContent = new VBox(6, manaLabel, descrizioneAbilita, abilitaBox);
+        abilitaContent.setPadding(new Insets(8));
+        Tab tabAbilita = new Tab("⚔ Abilità", abilitaContent);
+
+        // Tab Oggetti
+        labelOggetto = new Label(" ");
+        labelOggetto.setWrapText(true);
+        labelOggetto.setStyle("-fx-font-size:11px; -fx-text-fill:#444; -fx-padding:4;");
+
+        oggettiPane = new FlowPane(8, 8);
+        oggettiPane.setPadding(new Insets(8));
+        oggettiPane.setPrefWrapLength(380);
+        aggiornaOggettiPane();
+
+        VBox oggettiContent = new VBox(6, oggettiPane, labelOggetto);
+        oggettiContent.setPadding(new Insets(4));
+        Tab tabOggetti = new Tab("🎒 Oggetti", oggettiContent);
+
+        tabPane.getTabs().addAll(tabAbilita, tabOggetti);
+
+        // ── Sezione inferiore ─────────────────────────────
+        VBox bottom = new VBox(6, battleLog, tabPane);
         bottom.setPadding(new Insets(10));
 
         // ── Layout radice ─────────────────────────────────
@@ -95,10 +119,77 @@ public class ControllerBattaglia {
         root.setCenter(arena);
         root.setBottom(bottom);
 
-        return new javafx.scene.Scene(root, 700, 520);
+        return new javafx.scene.Scene(root, 700, 560);
     }
 
-    // ── Logica di un turno ────────────────────────────────
+    // ── Aggiorna la FlowPane degli oggetti ────────────────
+    private void aggiornaOggettiPane() {
+        oggettiPane.getChildren().clear();
+        Personaggio p = gestore.getPersonaggio();
+
+        java.util.List<Oggetto> lista = p.getInventario().getOggetti();
+
+        if (lista.isEmpty()) {
+            Label vuoto = new Label("Inventario vuoto");
+            vuoto.setStyle("-fx-text-fill:#888; -fx-font-style:italic;");
+            oggettiPane.getChildren().add(vuoto);
+            return;
+        }
+
+        for (Oggetto o : lista) {
+            Button btn = new Button(o.getNomeVisuale());
+            btn.setPrefWidth(170);
+            btn.setWrapText(true);
+            btn.setStyle(stileBotoneOggetto(o));
+
+            // Tooltip con descrizione al passaggio del mouse
+            btn.setOnMouseEntered(e -> labelOggetto.setText("📦 " + o.getNomeVisuale() + ": " + o.getDescrizione()));
+            btn.setOnMouseExited(e  -> labelOggetto.setText(" "));
+
+            // Click → popup di conferma
+            btn.setOnAction(e -> mostraPopupConferma(o));
+
+            oggettiPane.getChildren().add(btn);
+        }
+    }
+
+    // ── Colore del bottone in base al tipo oggetto ────────
+    private String stileBotoneOggetto(Oggetto o) {
+        return switch (o.getTipo()) {
+            case 1 -> "-fx-background-color:#2e7d32; -fx-text-fill:white;";  // verde  – cura
+            case 2 -> "-fx-background-color:#b71c1c; -fx-text-fill:white;";  // rosso  – danno
+            case 3 -> "-fx-background-color:#e65100; -fx-text-fill:white;";  // arancio – attacco
+            case 4 -> "-fx-background-color:#1565c0; -fx-text-fill:white;";  // blu    – difesa
+            case 5 -> "-fx-background-color:#6a1b9a; -fx-text-fill:white;";  // viola  – raro
+            default -> "";
+        };
+    }
+
+    // ── Popup di conferma uso oggetto ─────────────────────
+    private void mostraPopupConferma(Oggetto oggetto) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Usa oggetto");
+        alert.setHeaderText("Vuoi usare " + oggetto.getNomeVisuale() + "?");
+        alert.setContentText("Effetto: " + oggetto.getDescrizione() +
+                "\n\nL'oggetto verrà rimosso dall'inventario.\nIl turno rimarrà al tuo personaggio.");
+
+        ButtonType btnUsa    = new ButtonType("Usa");
+        ButtonType btnAnnulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(btnUsa, btnAnnulla);
+
+        alert.showAndWait().ifPresent(risposta -> {
+            if (risposta == btnUsa) {
+                boolean usato = gestore.eseguiUsoOggetto(oggetto);
+                if (usato) {
+                    battleLog.setText("Hai usato " + oggetto.getNomeVisuale() + "! " + oggetto.getDescrizione());
+                    aggiornaUI();
+                    aggiornaOggettiPane();
+                }
+            }
+        });
+    }
+
+    // ── Logica di un turno normale ────────────────────────
     private void gestisciAzione(Abilita abilita) {
         GestoreCombattimento.RisultatoTurno risultato = gestore.eseguiTurno(abilita);
 
@@ -106,165 +197,109 @@ public class ControllerBattaglia {
 
         switch (risultato) {
             case OK ->
-                    battleLog.setText("Hai usato " + abilita.getNome() +
-                            "! Il mostro ti attacca...");
+                    battleLog.setText("Hai usato " + abilita.getNome() + "! Il mostro ti attacca...");
             case MANA_INSUFFICIENTE ->
                     battleLog.setText("Mana insufficiente per " + abilita.getNome() + "!");
             case ABILITA_IN_COOLDOWN ->
-                    battleLog.setText("" + abilita.getNome() + " è ancora in ricarica " +
+                    battleLog.setText(abilita.getNome() + " è ancora in ricarica (" +
                             abilita.getCooldownCorrente() + " turni).");
             case MOSTRO_SCONFITTO -> {
-                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() + "! Livello aumentato!");
+                // ── Drop oggetto casuale ───────────────────
+                Oggetto drop = Inventario.dropCasuale();
+                gestore.getPersonaggio().getInventario().aggiungi(drop);
+                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() +
+                        "! Livello aumentato!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
                 disabilitaAzioni();
 
-                // Dopo 2 secondi apre la prossima schermata storia
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(2)
-                );
-                pausa.setOnFinished(e -> {
-                    Personaggio p = gestore.getPersonaggio();
-                    int prossimoLivello = p.getLivello();
-
-                    // Se ci sono ancora livelli, mostra la storia del prossimo mostro
-                    if (prossimoLivello <= Livello.values().length) {
-                        try {
-                            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                                    getClass().getResource("/javafx/dialogscreen.fxml")
-                            );
-                            javafx.scene.Parent root = loader.load();
-                            ControllerDialogScreen controller = loader.getController();
-                            controller.initData(p);
-
-                            Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
-                            stageCorrente.setScene(new javafx.scene.Scene(root));
-                            stageCorrente.show();
-                        } catch (java.io.IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        // Gioco completato
-                        battleLog.setText("Hai completato il gioco! Sei il campione!");
-                    }
-                });
+                        javafx.util.Duration.seconds(2));
+                pausa.setOnFinished(e -> navigaASchermataSuccessiva());
                 pausa.play();
             }
             case PERSONAGGIO_SCONFITTO -> {
-                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getTipo().getNome() + "... Ricarico il salvataggio!");
+                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getTipo().getNome() +
+                        "... Ricarico il salvataggio!");
                 disabilitaAzioni();
 
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(5)
-                );
-                pausa.setOnFinished(e -> {
-                    try {
-                        Personaggio pCaricato = new CreatoreSalvataggi().carica();
-                        if (pCaricato == null) {
-                            battleLog.setText("Nessun salvataggio trovato.");
-                            return;
-                        }
-
-                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                                getClass().getResource("/javafx/dialogscreen.fxml")
-                        );
-                        javafx.scene.Parent root = loader.load();
-                        ControllerDialogScreen controller = loader.getController();
-                        controller.initData(pCaricato);
-
-                        Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
-                        stageCorrente.setScene(new javafx.scene.Scene(root));
-                        stageCorrente.show();
-                    } catch (java.io.IOException ex) {
-                        ex.printStackTrace();
-                        battleLog.setText("Errore nel caricare il salvataggio.");
-                    }
-                });
+                        javafx.util.Duration.seconds(5));
+                pausa.setOnFinished(e -> caricaSalvataggioENaviga());
                 pausa.play();
             }
             case MANA_ESAURITO -> {
-                battleLog.setText("⚠Non hai più mana né abilità disponibili... Sei spacciato!");
+                battleLog.setText("⚠ Non hai più mana né abilità disponibili... Sei spacciato!");
                 disabilitaAzioni();
 
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(2)
-                );
-                pausa.setOnFinished(e -> {
-                    try {
-                        Personaggio pCaricato = new CreatoreSalvataggi().carica();
-                        if (pCaricato == null) {
-                            battleLog.setText("Nessun salvataggio trovato.");
-                            return;
-                        }
-                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                                getClass().getResource("/dialogscreen.fxml")
-                        );
-                        javafx.scene.Parent root = loader.load();
-                        ControllerDialogScreen controller = loader.getController();
-                        controller.initData(pCaricato);
-
-                        Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
-                        stageCorrente.setScene(new javafx.scene.Scene(root));
-                        stageCorrente.show();
-                    } catch (java.io.IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
+                        javafx.util.Duration.seconds(2));
+                pausa.setOnFinished(e -> caricaSalvataggioENaviga());
                 pausa.play();
             }
         }
     }
 
-    private void cambiScena() {
-        disabilitaAzioni();
+    // ── Naviga alla schermata dialogo successiva ──────────
+    private void navigaASchermataSuccessiva() {
+        Personaggio p = gestore.getPersonaggio();
+        int prossimoLivello = p.getLivello();
 
-        javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                javafx.util.Duration.seconds(5)
-        );
-        pausa.setOnFinished(e -> {
+        if (prossimoLivello <= Livello.values().length) {
             try {
-                Personaggio pCaricato = new CreatoreSalvataggi().carica();
-                if (pCaricato == null) {
-                    battleLog.setText("Nessun salvataggio trovato.");
-                    return;
-                }
-
                 javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                        getClass().getResource("/javafx/dialogscreen.fxml")
-                );
+                        getClass().getResource("/javafx/dialogscreen.fxml"));
                 javafx.scene.Parent root = loader.load();
                 ControllerDialogScreen controller = loader.getController();
-                controller.initData(pCaricato);
+                controller.initData(p);
 
-                Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
-                stageCorrente.setScene(new javafx.scene.Scene(root));
-                stageCorrente.show();
+                Stage stage = (Stage) battleLog.getScene().getWindow();
+                stage.setScene(new javafx.scene.Scene(root));
+                stage.show();
             } catch (java.io.IOException ex) {
                 ex.printStackTrace();
-                battleLog.setText("Errore nel caricare il salvataggio.");
             }
-        });
-        pausa.play();
-
+        } else {
+            battleLog.setText("Hai completato il gioco! Sei il campione!");
+        }
     }
 
+    // ── Ricarica salvataggio e torna al dialogo ───────────
+    private void caricaSalvataggioENaviga() {
+        try {
+            Personaggio pCaricato = new CreatoreSalvataggi().carica();
+            if (pCaricato == null) {
+                battleLog.setText("Nessun salvataggio trovato.");
+                return;
+            }
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                    getClass().getResource("/javafx/dialogscreen.fxml"));
+            javafx.scene.Parent root = loader.load();
+            ControllerDialogScreen controller = loader.getController();
+            controller.initData(pCaricato);
 
-    // ── Aggiorna barre HP e testo bottoni ─────────────────
+            Stage stage = (Stage) battleLog.getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.show();
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+            battleLog.setText("Errore nel caricare il salvataggio.");
+        }
+    }
+
+    // ── Aggiorna barre HP, mana, bottoni abilità ──────────
     private void aggiornaUI() {
         Personaggio p = gestore.getPersonaggio();
-        Nemico m = gestore.getMostro();
+        Nemico      m = gestore.getMostro();
 
-        // HP giocatore
         double percP = (double) p.getVita() / p.getVitaMax();
         hpBarGiocatore.setProgress(percP);
         hpBarGiocatore.setStyle(coloreHP(percP));
         hpLabelGiocatore.setText(testoHP(p.getVita(), p.getVitaMax()));
 
-        // HP mostro
         double percM = (double) m.getVitaCorrente() / m.getTipo().getVitaMassima();
         hpBarMostro.setProgress(Math.max(0, percM));
         hpBarMostro.setStyle(coloreHP(percM));
         hpLabelMostro.setText(testoHP(Math.max(0, m.getVitaCorrente()), m.getTipo().getVitaMassima()));
 
-        // Testo cooldown sui bottoni
         Abilita[] abilitas = p.getAbilitas();
         for (int i = 0; i < abilitaBox.getChildren().size(); i++) {
             if (abilitaBox.getChildren().get(i) instanceof Button btn) {
@@ -276,17 +311,16 @@ public class ControllerBattaglia {
         manaLabel.setText("Mana: " + p.getMana() + "/" + p.getManaMax());
     }
 
-    // ── Disabilita tutti i bottoni a fine battaglia ────────
+    // ── Disabilita tutti i bottoni abilità ─────────────────
     private void disabilitaAzioni() {
         for (var node : abilitaBox.getChildren()) {
-            if (node instanceof Button btn) {
-                btn.setDisable(true);
-            }
+            if (node instanceof Button btn) btn.setDisable(true);
         }
     }
 
-    // ── Helper: crea il box di un combattente ─────────────
-    private VBox creaBoxPersonaggio(String nome, String pathImmagine, ProgressBar hpBar, Label hpLabel) {
+    // ── Helper: box combattente ───────────────────────────
+    private VBox creaBoxPersonaggio(String nome, String pathImmagine,
+                                    ProgressBar hpBar, Label hpLabel) {
         Label nomeLabel = new Label(nome);
         nomeLabel.setStyle("-fx-font-weight:bold; -fx-font-size:15px;");
 
@@ -295,8 +329,6 @@ public class ControllerBattaglia {
             var stream = getClass().getResourceAsStream(pathImmagine);
             if (stream != null) {
                 imageView.setImage(new Image(stream));
-            } else {
-                System.out.println("Stream null per: " + pathImmagine);
             }
         } catch (Exception e) {
             System.out.println("Errore immagine: " + pathImmagine + " - " + e.getMessage());
@@ -313,18 +345,15 @@ public class ControllerBattaglia {
         return box;
     }
 
-
-    // ── Helper: testo "HP attuale / massimo" ──────────────
+    // ── Helper testi ──────────────────────────────────────
     private String testoHP(int attuale, int massimo) {
         return attuale + " / " + massimo + " HP";
     }
 
-    // ── Helper: testo bottone con stato cooldown ──────────
     private String testoBottone(Abilita a) {
         return a.getNome() + "  (MP:" + a.getCostoMana() + ")" + a.stato();
     }
 
-    // ── Helper: colore barra HP in base alla percentuale ──
     private String coloreHP(double perc) {
         if (perc > 0.5) return "-fx-accent: green;";
         if (perc > 0.25) return "-fx-accent: orange;";

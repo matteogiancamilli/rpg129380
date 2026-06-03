@@ -1,8 +1,12 @@
 {
-  "nomePersonaggio": "dadadaad",
+  "nomePersonaggio": "ErDistruttore",
   "classe": "Guerriero",
-  "livelloPersonaggio": 2,
-  "inventario": {},
-  "vitaMax": 440,
+  "livelloPersonaggio": 3,
+  "inventario": {
+    "inventario": [
+      "SCUDODELPALADINO"
+    ]
+  },
+  "vitaMax": 484,
   "manaMax": 80
 }

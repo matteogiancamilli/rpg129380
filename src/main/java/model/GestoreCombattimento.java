@@ -72,6 +72,27 @@ public class GestoreCombattimento {
         return RisultatoTurno.OK;
     }
 
+    public boolean eseguiUsoOggetto(Oggetto oggetto) {
+        switch (oggetto) {
+            case POZIONESALVAVITA -> personaggio.cura(50);
+            case POZIONEDELDRAGO  -> mostro.subisciDanno(30);
+            case SCUDODELPALADINO -> personaggio.aumentaDifesa(30);
+            case SPADADELLAROCCIA -> personaggio.aumentaAttacco(30);
+            case GIGAPOZIONE -> {
+                personaggio.aumentaVitaMax(30);
+                personaggio.aumentaManaMax(30);
+                personaggio.cura(personaggio.getVitaMax());
+                personaggio.ripristinaMana(personaggio.getManaMax());
+            }
+            case SFERARIVELATRICE -> {
+                personaggio.aumentaAttacco(50);
+                personaggio.subisciDanno(20);
+            }
+        }
+        // Rimuove dall'inventario
+        return personaggio.getInventario().rimuovi(oggetto);
+    }
+
     public Personaggio getPersonaggio(){
         return personaggio;
     }

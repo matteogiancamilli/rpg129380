@@ -28,4 +28,27 @@ public enum Oggetto {
         this.descrizione = descrizione;
         this.tipo = tipo;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public String getNomeVisuale() {
+        return switch (this) {
+            case POZIONESALVAVITA -> "Pozione Salva Vita";
+            case POZIONEDELDRAGO  -> "Pozione del Drago";
+            case SCUDODELPALADINO -> "Scudo del Paladino";
+            case SPADADELLAROCCIA -> "Spada della Roccia";
+            case GIGAPOZIONE      -> "Giga Pozione";
+            case SFERARIVELATRICE -> "Sfera Rivelatrice";
+        };
+    }
 }

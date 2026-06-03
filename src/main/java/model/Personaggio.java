@@ -11,6 +11,9 @@ public class Personaggio extends Persona {
     private TipoClasse classe;
     private Abilita[] abilitas;
 
+    private int bonusAttacco  = 0;
+    private int bonusDifesa   = 0;
+
     public Personaggio(String nome, int vita,int manaMax, int livello, Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
         super(nome);
         this.vitaMax  = vita;
@@ -23,10 +26,16 @@ public class Personaggio extends Persona {
         this.abilitas = abilitas;
     }
 
-    public int getVita()    { return vita; }
-    public int getVitaMax() { return vitaMax; }
+    public int getVita()    {
+        return vita;
+    }
+    public int getVitaMax() {
+        return vitaMax;
+    }
 
-    public void setVita(int vita) { this.vita = vita; }
+    public void setVita(int vita) {
+        this.vita = vita;
+    }
 
     public void subisciDanno(int danno) {
         this.vita = Math.max(0, this.vita - danno);
@@ -40,8 +49,11 @@ public class Personaggio extends Persona {
         return vita <= 0;
     }
 
-    public int getMana()    { return mana; }
-    public int getManaMax() { return manaMax; }
+    public int getMana()    {
+        return mana; }
+
+    public int getManaMax() {
+        return manaMax; }
 
     public boolean usaMana(int costo) {
         if (mana < costo) return false;
@@ -53,8 +65,12 @@ public class Personaggio extends Persona {
         mana = Math.min(manaMax, mana + quantita);
     }
 
-    public int getLivello() { return livello; }
-    public void setLivello(int livello) { this.livello = livello; }
+    public int getLivello() {
+        return livello;
+    }
+    public void setLivello(int livello) {
+        this.livello = livello;
+    }
 
     public void aumentaLivello() {
         this.livello++;
@@ -65,9 +81,41 @@ public class Personaggio extends Persona {
         System.out.println(getNome() + " è salito al livello " + this.livello + "!");
     }
 
-    public Inventario  getInventario() { return inventario; }
-    public TipoClasse  getClasse()     { return classe; }
-    public Abilita[]   getAbilitas()   { return abilitas; }
+    public void aumentaVitaMax(int quantita) {
+        this.vitaMax += quantita;
+        this.vita = Math.min(this.vita + quantita, this.vitaMax);
+    }
 
-    public void setClasse(TipoClasse classe) { this.classe = classe; }
+    public Inventario  getInventario() {
+        return inventario;
+    }
+    public TipoClasse  getClasse(){
+        return classe;
+    }
+    public Abilita[]   getAbilitas(){
+        return abilitas;
+    }
+    public void setClasse(TipoClasse classe){
+        this.classe = classe;
+    }
+
+    public int getBonusAttacco(){
+        return bonusAttacco;
+    }
+    public int getBonusDifesa(){
+        return bonusDifesa;
+    }
+
+    public void aumentaAttacco(int quantita){
+        this.bonusAttacco += quantita;
+    }
+    public void aumentaDifesa(int quantita){
+        this.bonusDifesa  += quantita;
+    }
+
+    public void aumentaManaMax(int quantita) {
+        this.manaMax += quantita;
+        this.mana = Math.min(this.mana + quantita, this.manaMax);
+
+    }
 }
