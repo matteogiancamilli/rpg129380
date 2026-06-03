@@ -113,3 +113,14 @@ public class GestoreCombattimento {
     public Personaggio getPersonaggio() { return personaggio; }
     public Nemico      getMostro()      { return mostro; }
 }
+
+
+//TODO
+/*
+Impostare descrizioni classi
+Finire GUI combattimento CSS
+Migliorare descrizioni oggetti (Mettere le percentuali)
+Controllare SOLID e Code Smells
+Rimuovere Commenti e Beautify
+Fare Wiki e README
+ */
