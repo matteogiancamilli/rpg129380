@@ -5,10 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import model.Abilita;
-import model.GestoreCombattimento;
-import model.Mostro;
-import model.Personaggio;
+import model.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import model.Livello;
+import model.CreatoreSalvataggi;
+
+import javafx.scene.image.ImageView;
 
 public class ControllerBattaglia {
 
@@ -22,6 +25,8 @@ public class ControllerBattaglia {
     private ProgressBar hpBarMostro;
     private Label       hpLabelMostro;
     private VBox        abilitaBox;   // contenitore bottoni abilità
+    private Label manaLabel;
+    private Label descrizioneAbilita;
 
     // ── Configurazione (chiamata prima di costruireUI) ────
     public void setGestore(GestoreCombattimento gestore) {
@@ -36,11 +41,21 @@ public class ControllerBattaglia {
         // ── Arena (centro) ────────────────────────────────
         hpBarGiocatore   = new ProgressBar(1.0);
         hpLabelGiocatore = new Label(testoHP(p.getVita(), p.getVitaMax()));
-        VBox boxGiocatore = creaBoxPersonaggio(p.getNome(), hpBarGiocatore, hpLabelGiocatore);
+        VBox boxGiocatore = creaBoxPersonaggio(
+                p.getNome(),
+                "/images.images/classi/" + p.getClasse().getNome().toLowerCase() + ".png",
+                hpBarGiocatore,
+                hpLabelGiocatore
+        );
 
         hpBarMostro   = new ProgressBar(1.0);
         hpLabelMostro = new Label(testoHP(m.getVita(), m.getVitaMassima()));
-        VBox boxMostro = creaBoxPersonaggio(m.getNome(), hpBarMostro, hpLabelMostro);
+        VBox boxMostro = creaBoxPersonaggio(
+                m.getNome(),
+                "/images.images/mostri/" + m.name().toLowerCase() + ".png",
+                hpBarMostro,
+                hpLabelMostro
+        );
 
         HBox arena = new HBox(120, boxGiocatore, boxMostro);
         arena.setAlignment(Pos.CENTER);
@@ -59,14 +74,22 @@ public class ControllerBattaglia {
             Button btn = new Button(testoBottone(a));
             btn.setPrefWidth(220);
             btn.setOnAction(e -> gestisciAzione(a));
+
+            // Mostra descrizione al passaggio del cursore
+            btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
+            btn.setOnMouseExited(e -> descrizioneAbilita.setText(" "));
+
             abilitaBox.getChildren().add(btn);
         }
 
         // ── Sezione inferiore ─────────────────────────────
-        Label manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
-        manaLabel.setStyle("-fx-font-size:12px;");
+        manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
+        descrizioneAbilita = new Label(" ");
+        descrizioneAbilita.setWrapText(true);
+        descrizioneAbilita.setStyle("-fx-font-size:11px; -fx-text-fill:#444;");
 
-        VBox bottom = new VBox(6, battleLog, manaLabel, abilitaBox);
+        VBox bottom = new VBox(6, battleLog, manaLabel, descrizioneAbilita, abilitaBox);
+        manaLabel.setStyle("-fx-font-size:12px;");
         bottom.setPadding(new Insets(10));
 
         // ── Layout radice ─────────────────────────────────
@@ -95,10 +118,99 @@ public class ControllerBattaglia {
             case MOSTRO_SCONFITTO -> {
                 battleLog.setText("Hai sconfitto " + gestore.getMostro().getNome() + "! Livello aumentato!");
                 disabilitaAzioni();
+
+                // Dopo 2 secondi apre la prossima schermata storia
+                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
+                        javafx.util.Duration.seconds(2)
+                );
+                pausa.setOnFinished(e -> {
+                    Personaggio p = gestore.getPersonaggio();
+                    int prossimoLivello = p.getLivello();
+
+                    // Se ci sono ancora livelli, mostra la storia del prossimo mostro
+                    if (prossimoLivello <= Livello.values().length) {
+                        try {
+                            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                                    getClass().getResource("/javafx/dialogscreen.fxml")
+                            );
+                            javafx.scene.Parent root = loader.load();
+                            ControllerDialogScreen controller = loader.getController();
+                            controller.initData(p);
+
+                            Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
+                            stageCorrente.setScene(new javafx.scene.Scene(root));
+                            stageCorrente.show();
+                        } catch (java.io.IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        // Gioco completato
+                        battleLog.setText("Hai completato il gioco! Sei il campione!");
+                    }
+                });
+                pausa.play();
             }
             case PERSONAGGIO_SCONFITTO -> {
-                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getNome() + "...");
+                battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getNome() + "... Ricarico il salvataggio!");
                 disabilitaAzioni();
+
+                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
+                        javafx.util.Duration.seconds(5)
+                );
+                pausa.setOnFinished(e -> {
+                    try {
+                        Personaggio pCaricato = new CreatoreSalvataggi().carica();
+                        if (pCaricato == null) {
+                            battleLog.setText("Nessun salvataggio trovato.");
+                            return;
+                        }
+
+                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                                getClass().getResource("/javafx/dialogscreen.fxml")
+                        );
+                        javafx.scene.Parent root = loader.load();
+                        ControllerDialogScreen controller = loader.getController();
+                        controller.initData(pCaricato);
+
+                        Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
+                        stageCorrente.setScene(new javafx.scene.Scene(root));
+                        stageCorrente.show();
+                    } catch (java.io.IOException ex) {
+                        ex.printStackTrace();
+                        battleLog.setText("Errore nel caricare il salvataggio.");
+                    }
+                });
+                pausa.play();
+            }
+            case MANA_ESAURITO -> {
+                battleLog.setText("⚠️ Non hai più mana né abilità disponibili... Sei spacciato!");
+                disabilitaAzioni();
+
+                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
+                        javafx.util.Duration.seconds(2)
+                );
+                pausa.setOnFinished(e -> {
+                    try {
+                        Personaggio pCaricato = new CreatoreSalvataggi().carica();
+                        if (pCaricato == null) {
+                            battleLog.setText("Nessun salvataggio trovato.");
+                            return;
+                        }
+                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                                getClass().getResource("/dialogscreen.fxml")
+                        );
+                        javafx.scene.Parent root = loader.load();
+                        ControllerDialogScreen controller = loader.getController();
+                        controller.initData(pCaricato);
+
+                        Stage stageCorrente = (Stage) battleLog.getScene().getWindow();
+                        stageCorrente.setScene(new javafx.scene.Scene(root));
+                        stageCorrente.show();
+                    } catch (java.io.IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                pausa.play();
             }
         }
     }
@@ -129,6 +241,7 @@ public class ControllerBattaglia {
                         p.getMana() < abilitas[i].getCostoMana());
             }
         }
+        manaLabel.setText("Mana: " + p.getMana() + "/" + p.getManaMax());
     }
 
     // ── Disabilita tutti i bottoni a fine battaglia ────────
@@ -141,17 +254,33 @@ public class ControllerBattaglia {
     }
 
     // ── Helper: crea il box di un combattente ─────────────
-    private VBox creaBoxPersonaggio(String nome, ProgressBar hpBar, Label hpLabel) {
+    private VBox creaBoxPersonaggio(String nome, String pathImmagine, ProgressBar hpBar, Label hpLabel) {
         Label nomeLabel = new Label(nome);
         nomeLabel.setStyle("-fx-font-weight:bold; -fx-font-size:15px;");
+
+        ImageView imageView = new ImageView();
+        try {
+            var stream = getClass().getResourceAsStream(pathImmagine);
+            if (stream != null) {
+                imageView.setImage(new Image(stream));
+            } else {
+                System.out.println("Stream null per: " + pathImmagine);
+            }
+        } catch (Exception e) {
+            System.out.println("Errore immagine: " + pathImmagine + " - " + e.getMessage());
+        }
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setPreserveRatio(true);
 
         hpBar.setPrefWidth(150);
         hpBar.setStyle("-fx-accent: green;");
 
-        VBox box = new VBox(5, nomeLabel, hpBar, hpLabel);
+        VBox box = new VBox(8, nomeLabel, imageView, hpBar, hpLabel);
         box.setAlignment(Pos.CENTER);
         return box;
     }
+
 
     // ── Helper: testo "HP attuale / massimo" ──────────────
     private String testoHP(int attuale, int massimo) {

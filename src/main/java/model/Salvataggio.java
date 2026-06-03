@@ -6,14 +6,19 @@ public class Salvataggio {
     public TipoClasse classe;
     public int livelloPersonaggio;
     public Inventario inventario;
+    public int vitaMax;
+    public int manaMax;
 
     public Salvataggio() {}
 
-    public Salvataggio(String nomePersonaggio, TipoClasse classe, Inventario inventario, int livelloPersonaggio) {
+    public Salvataggio(String nomePersonaggio, TipoClasse classe, Inventario inventario, int livelloPersonaggio, int vitaMax, int manaMax) {
             this.nomePersonaggio = nomePersonaggio;
             this.classe = classe;
             this.inventario = inventario;
             this.livelloPersonaggio = livelloPersonaggio;
+            this.vitaMax = vitaMax;
+            this.manaMax = manaMax;
+
     }
 
     public String getNomePersonaggio() {

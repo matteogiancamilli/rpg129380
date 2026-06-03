@@ -12,13 +12,18 @@ public class Mago extends Classe {
     @Override
     public Abilita[] abilitaIniziali() {
         return new Abilita[]{
-                new Abilita("Palla di Fuoco", "Il mago lancia una palla di fuoco",
-                        20, 0, 10, 0,0),
-                new Abilita("Meditazione", "Il mago medita, ripristinando vita e mana",
-                        -30, 0 , 0, 1,30 ),
-                new Abilita("Cura", "Il mago ricarica la sua vita", -50 , 0, 30, 2,0),
-                new Abilita("Stella Cadente", "Il model.Classi.Mago lancia una stella cadente",
-                        60, 0, 40, 3, 0)
+                new Abilita("Palla di Fuoco",
+                        "Il mago lancia una sfera di fuoco contro il nemico.",
+                        30, 0, 10, 0, 0),
+                new Abilita("Meditazione",
+                        "Il mago medita, recuperando vita e mana senza costi.",
+                        -35, 0, 0, 1, 30),
+                new Abilita("Cura",
+                        "Il mago canalizza energia guaritrice su se stesso.",
+                        -60, 0, 25, 2, 0),
+                new Abilita("Stella Cadente",
+                        "Il mago invoca una stella cadente che schiaccia il nemico.",
+                        85, 0, 45, 3, 0)
         };
     }
 }

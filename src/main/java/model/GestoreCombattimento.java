@@ -7,7 +7,8 @@ public class GestoreCombattimento {
         MANA_INSUFFICIENTE,
         ABILITA_IN_COOLDOWN,
         MOSTRO_SCONFITTO,
-        PERSONAGGIO_SCONFITTO
+        PERSONAGGIO_SCONFITTO,
+        MANA_ESAURITO
     }
 
     private final Personaggio personaggio;
@@ -65,6 +66,18 @@ public class GestoreCombattimento {
         // ── 6. Controlla se il personaggio è sconfitto ────
         if (personaggio.isSconfitto()) {
             return RisultatoTurno.PERSONAGGIO_SCONFITTO;
+        }
+
+        // ── 7. Controlla se il mana è esaurito ────────────
+        boolean tutteBloccate = true;
+        for (Abilita a : personaggio.getAbilitas()) {
+            if (a.abilitaPronta() && personaggio.getMana() >= a.getCostoMana()) {
+                tutteBloccate = false;
+                break;
+            }
+        }
+        if (tutteBloccate && !mostro.sconfitto()) {
+            return RisultatoTurno.MANA_ESAURITO;
         }
 
         return RisultatoTurno.OK;

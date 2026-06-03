@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.*;
-import model.Classi.Classe;
 
 import java.io.IOException;
 
@@ -67,9 +66,9 @@ public class ControllerNuovaPartita {
             return;
         }
         TipoClasse classe = selezionaClasse.getValue();
-        Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), 1, new Inventario(null), classe, classe.abilitaIniziali());
+        Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
         new CreatoreSalvataggi().nuovo(p);
-        cambiaScena(actionEvent, "/dialogscreen.fxml", p); // Pass the newly created character
+        cambiaScena(actionEvent, "/javafx/dialogscreen.fxml", p); // Pass the newly created character
     }
 
     private void cambiaScena(javafx.event.ActionEvent event, String fxml, Personaggio personaggio) throws IOException {

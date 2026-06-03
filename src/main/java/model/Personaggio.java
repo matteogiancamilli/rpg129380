@@ -11,11 +11,11 @@ public class Personaggio extends Persona {
     private TipoClasse classe;
     private Abilita[] abilitas;
 
-    public Personaggio(String nome, int vita, int livello, Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
+    public Personaggio(String nome, int vita,int manaMax, int livello, Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
         super(nome);
         this.vitaMax  = vita;
         this.vita     = vita;
-        this.manaMax  = 20;
+        this.manaMax  = classe.getMana();
         this.mana     = manaMax;
         this.livello  = livello;
         this.inventario = inventario;

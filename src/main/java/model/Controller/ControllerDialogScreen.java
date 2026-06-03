@@ -44,12 +44,20 @@ public class ControllerDialogScreen {
 
     @FXML
     private void handleContinua(ActionEvent event){
+        // Salva il progresso attuale prima di entrare in battaglia
+        new CreatoreSalvataggi().salva(currentPersonaggio);
+
         Missione missione = new Missione(currentPersonaggio.getLivello() - 1, currentPersonaggio);
         GestoreCombattimento gestore = new GestoreCombattimento(currentPersonaggio, missione.getMostro());
         ControllerBattaglia cb = new ControllerBattaglia();
         cb.setGestore(gestore);
+
+        Stage stageCorrente = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stageCorrente.close();
+
         Stage battleStage = new Stage();
         battleStage.setScene(cb.costruisciScena());
+        battleStage.setTitle("Battaglia");
         battleStage.show();
     }
 

@@ -23,7 +23,7 @@ public class CreatorePersonaggi {
                 System.out.println("Scelta non valida. Riprova.");
             }
         }
-        Personaggio personaggio = new Personaggio(nome, scelta.getVita(), 1, new Inventario(new Oggetto[0]), scelta, scelta.abilitaIniziali());
+        Personaggio personaggio = new Personaggio(nome, scelta.getVita(), scelta.getMana(), 1, new Inventario(new Oggetto[0]), scelta, scelta.abilitaIniziali());
         System.out.println("Personaggio creato: " + personaggio.getNome());
         return personaggio;
     }

@@ -47,7 +47,7 @@ public class ControllerStart {
 
     @FXML
     private void setBottoneNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/nuovapartita.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/nuovapartita.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -66,7 +66,7 @@ public class ControllerStart {
         System.out.println("DEBUG: Livello personaggio dopo caricamento in ControllerStart: " + personaggio.getLivello());
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dialogscreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
         Parent root = loader.load();
         ControllerDialogScreen controllerDialogScreen = loader.getController();
         controllerDialogScreen.initData(personaggio);

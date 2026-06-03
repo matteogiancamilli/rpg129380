@@ -1,6 +1,8 @@
 {
-  "nomePersonaggio": "qwdqwdqwdwqd",
+  "nomePersonaggio": "dadadaad",
   "classe": "Guerriero",
-  "livelloPersonaggio": 1,
-  "inventario": {}
+  "livelloPersonaggio": 2,
+  "inventario": {},
+  "vitaMax": 440,
+  "manaMax": 80
 }

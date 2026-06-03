@@ -11,7 +11,7 @@ public class MainFx extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/startingscreen.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/javafx/startingscreen.fxml"));
         } catch (Exception e) {
             System.err.println("Errore: impossibile caricare il file FXML");
             e.printStackTrace();

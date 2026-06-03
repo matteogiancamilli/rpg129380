@@ -1,11 +1,11 @@
 package model;
 
 public enum Mostro {
-    GOBLIN(1, 1.5,100, 50, "Goblin", "Appare un piccolo omuncolo dalle fratte... E' un goblin!"),
-    SCAGNOZZO(2, 2, 150, 60, "Scagnozzo", "Da dietro un palazzo, in modo diffidente, ti appare davanti uno scagnozzo di media statura. Non sembra avere buone intenzioni..."),
-    APPRENDISTAMAGO(3 , 2.5, 175, 70, "Mago", "Dalla cima della torre, esce un mago pronto a difendere il suo castello!"),
-    DRAGODELLAFORESTA(4, 2.5, 200, 70, "Drago della Foresta", "Dalla cima della montagna, appare imponente il drago protettore della foresta"),
-    SIGNOREOSCURO(5, 3, 300, 70, "Signore Oscuro", "Ed ecco apparire dalle tenebre colui che hanno tutti temuto... Il Signore Oscuro!");
+    GOBLIN           (1, 1.5, 120,  20, "Goblin",            "Appare un piccolo omuncolo dalle fratte... È un goblin!"),
+    SCAGNOZZO        (2, 2.0, 200,  28, "Scagnozzo",         "Da dietro un palazzo, in modo diffidente, ti appare davanti uno scagnozzo di media statura. Non sembra avere buone intenzioni..."),
+    APPRENDISTAMAGO  (3, 2.5, 260,  35, "Apprendista Mago",  "Dalla cima della torre, esce un mago pronto a difendere il suo castello!"),
+    DRAGODELLAFORESTA(4, 2.5, 350,  42, "Drago della Foresta","Dalla cima della montagna, appare imponente il drago protettore della foresta."),
+    SIGNOREOSCURO    (5, 3.0, 500,  50, "Signore Oscuro",    "Ed ecco apparire dalle tenebre colui che hanno tutti temuto... Il Signore Oscuro!");
 
 
     private final int id;
