@@ -1,10 +1,12 @@
 {
   "nomePersonaggio": "ErDistruttore",
-  "classe": "Guerriero",
+  "classe": "Mago",
   "livelloPersonaggio": 3,
   "inventario": {
-    "oggetti": []
+    "oggetti": [
+      "POZIONESALVAVITA"
+    ]
   },
-  "vitaMax": 484,
+  "vitaMax": 363,
   "manaMax": 90
 }

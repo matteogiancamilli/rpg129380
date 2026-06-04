@@ -33,6 +33,7 @@ public class NavigatoreSchermate {
 
                 ControllerDialogScreen controller = loader.getController();
                 controller.initData(p);
+                controller.setGestoreSalvataggi(this.gestoreSalvataggi); // <-- AGGIUNTO
 
                 // Usa lo stage passato come parametro, non cercare di prenderlo dal battleLog!
                 stage.setScene(new javafx.scene.Scene(root));
@@ -62,6 +63,7 @@ public class NavigatoreSchermate {
 
             ControllerDialogScreen controller = loader.getController();
             controller.initData(pCaricato);
+            controller.setGestoreSalvataggi(this.gestoreSalvataggi); // <-- AGGIUNTO
 
             stage.setScene(new javafx.scene.Scene(root));
             stage.show();
