@@ -8,9 +8,9 @@ import model.Classi.Mago;
 import java.util.function.Supplier;
 
 public enum TipoClasse {
-    GUERRIERO("Guerriero", "Alta Vita / Moderato Attacco / Bassa Velocità", Guerriero::new, 400, 1, 80),
-    ARCIERE  ("Arciere",   "Bassa Vita / Alto Attacco / Alta Velocità",     Arciere::new,  200, 3, 80),
-    MAGO     ("Mago",      "Media Vita / Medio Attacco / Media Velocità",   Mago::new,     300, 2, 80);
+    GUERRIERO("Guerriero", "Combatti per il Re e diventa una leggenda!\n - Alta Vita \n - Basso Attaco \n - Bassa Velocità", Guerriero::new, 400, 1, 80),
+    ARCIERE  ("Arciere",   "Mostra quanto la tua mira sia precisa!\n - Bassa Vita \n - Alto Attaco \n - Alta Velocità",     Arciere::new,  200, 3, 80),
+    MAGO     ("Mago",      "Usa le doti più arcane della magia!\n - Media Vita \n - Medio Attaco \n - Media Velocità",   Mago::new,     300, 2, 80);
 
     private final String nome;
     private final String descrizione;

@@ -3,10 +3,10 @@ package model;
 public enum Oggetto {
     POZIONESALVAVITA(1, "Ripristina 50 di vita", 1),
     POZIONEDELDRAGO(2, "Infligge 30 di danno", 2),
-    SCUDODELPALADINO(3, "Aumenta di 30 la difesa massima", 4),
-    SPADADELLAROCCIA(4, "Aumenta di 30 l'attacco massimo", 3),
-    GIGAPOZIONE(5, "Aumenta di 30 tutti i campi e li ripristina al massimo", 5 ),
-    SFERARIVELATRICE(6, "Aumenta di 50 l'attacco massimo ma diminuisce di 20 la vita", 3);
+    SCUDODELPALADINO(3, "Aumenta del 30% la difesa massima", 4),
+    SPADADELLAROCCIA(4, "Aumenta del 30% l'attacco massimo", 3),
+    GIGAPOZIONE(5, "Aumenta del 30% tutti i campi e li ripristina al massimo", 5 ),
+    SFERARIVELATRICE(6, "Aumenta del 50% l'attacco massimo ma diminuisce di 20 la vita", 3);
 
 
     private final int id;
