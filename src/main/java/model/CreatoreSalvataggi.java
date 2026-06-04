@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import model.Classi.Classe;
+import model.classi.Classe;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -55,12 +55,11 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
         salva(personaggio);
     }
 
-    public void salva(Personaggio p){
+    public void salva(Personaggio p) throws IOException {
         Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), p.getLivello(), p.getVitaMax(), p.getManaMax());
+
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(data, writer);
-        } catch (IOException e) {
-            System.out.println("Errore durante il salvataggio: " + e.getMessage());
         }
     }
 
@@ -70,14 +69,14 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
             Salvataggio data = gson.fromJson(reader, Salvataggio.class);
             if (data == null) return null;
 
-            TipoClasse tipoClasse = data.classe;
+            TipoClasse tipoClasse = data.getClasse();
             Classe classe = tipoClasse.crea();
 
-            Abilita[] abilitas = classe.abilitaIniziali();
+            Abilita[] abilita = tipoClasse.abilitaIniziali();
 
             int vitaMax = data.vitaMax > 0 ? data.vitaMax : tipoClasse.getVita();
             int manaMax = data.manaMax > 0 ? data.manaMax : tipoClasse.getMana();
-            return new Personaggio(data.nomePersonaggio, vitaMax, manaMax, data.livelloPersonaggio, data.inventario, tipoClasse, abilitas);
+            return new Personaggio(data.getNomePersonaggio(), vitaMax, manaMax, data.getLivelloPersonaggio(), data.getInventario(), tipoClasse, abilita);
         }
     }
 

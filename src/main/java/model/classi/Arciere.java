@@ -1,15 +1,14 @@
-package model.Classi;
+package model.classi;
 
 import model.Abilita;
 
 public class Arciere extends Classe {
 
     public Arciere() {
-        super("model.Classi.Arciere", 100, 3, 3);
+        super("Arciere", 100, 3, 3, abilitaIniziali());
     }
 
-    @Override
-    public Abilita[] abilitaIniziali() {
+    private static Abilita[] abilitaIniziali() {
         return new Abilita[]{
                 new Abilita("Scoccata",
                         "L'arciere scocca una freccia precisa e rapida.",

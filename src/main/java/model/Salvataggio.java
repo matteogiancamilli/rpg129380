@@ -2,12 +2,12 @@ package model;
 
 public class Salvataggio {
 
-    public String nomePersonaggio;
-    public TipoClasse classe;
-    public int livelloPersonaggio;
-    public Inventario inventario;
-    public int vitaMax;
-    public int manaMax;
+    private String nomePersonaggio;
+    private TipoClasse classe;
+    private int livelloPersonaggio;
+    private Inventario inventario;
+    int vitaMax;
+    int manaMax;
 
     public Salvataggio() {}
 

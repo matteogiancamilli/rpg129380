@@ -1,4 +1,4 @@
-package model.Controller;
+package Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -13,7 +13,11 @@ public class ControllerDialogScreen {
     private TextArea textArea;
 
     private Personaggio currentPersonaggio;
+    private final PersistenzaSalvataggio salvataggi;
 
+    public ControllerDialogScreen(PersistenzaSalvataggio salvataggi) {
+        this.salvataggi = salvataggi;
+    }
 
     @FXML
     public void initialize() {
@@ -38,7 +42,7 @@ public class ControllerDialogScreen {
 
     @FXML
     private void handleContinua(ActionEvent event){
-        new CreatoreSalvataggi().salva(currentPersonaggio);
+        salvataggi.salva(currentPersonaggio);
 
         Missione missione = new Missione(currentPersonaggio.getLivello() - 1, currentPersonaggio);
         GestoreCombattimento gestore = new GestoreCombattimento(currentPersonaggio, missione.getMostro());

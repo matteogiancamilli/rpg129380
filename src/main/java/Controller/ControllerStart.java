@@ -1,4 +1,4 @@
-package model.Controller;
+package Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.CreatoreSalvataggi;
 import model.GestoreSalvataggi;
 import model.Personaggio;
 
@@ -28,10 +27,11 @@ public class ControllerStart {
     @FXML
     private Button bottoneCrediti;
 
-    private final GestoreSalvataggi gestoreSalvataggi = new CreatoreSalvataggi();
+    private GestoreSalvataggi gestoreSalvataggi;
 
     @FXML
     private void initialize(){
+        this.gestoreSalvataggi = AppContext.getGestoreSalvataggi();
        boolean partitaEsistente = controllaSalvataggio();
        bottoneContinuaPartita.setDisable(!partitaEsistente);
     }
@@ -47,7 +47,7 @@ public class ControllerStart {
     }
 
     @FXML
-    private void setBottoneNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
+    private void apriNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/nuovapartita.fxml"));
         Parent root = loader.load();
         stageLoader(root, actionEvent);

@@ -87,22 +87,7 @@ public class GestoreCombattimento {
     // giocatore. I bonus % rimangono attivi fino alla fine del prossimo turno.
     // ────────────────────────────────────────────────────────────────────────
     public boolean eseguiUsoOggetto(Oggetto oggetto) {
-        switch (oggetto) {
-            case POZIONESALVAVITA -> personaggio.cura(50);
-            case POZIONEDELDRAGO  -> mostro.subisciDanno(30);
-            case SCUDODELPALADINO -> personaggio.aggiungiBonusDifesa(30);
-            case SPADADELLAROCCIA -> personaggio.aggiungiBonusAttacco(30);
-            case GIGAPOZIONE -> {
-                personaggio.aumentaVitaMax(30);
-                personaggio.aumentaManaMax(30);
-                personaggio.cura(personaggio.getVitaMax());
-                personaggio.ripristinaMana(personaggio.getManaMax());
-            }
-            case SFERARIVELATRICE -> {
-                personaggio.aggiungiBonusAttacco(50);
-                personaggio.subisciDanno(20);
-            }
-        }
+        oggetto.applicaEffetto(personaggio, mostro);
         return personaggio.getInventario().rimuovi(oggetto);
     }
 

@@ -13,7 +13,9 @@ public class Personaggio extends Persona {
 
     // Bonus temporanei applicati dagli oggetti (durano 1 solo turno)
     private int bonusAttaccoPerc  = 0;   // % di aumento danni (es. 30 = +30%)
-    private int bonusDifesaPerc   = 0;   // % di riduzione danni subiti (es. 50 = -50%)
+    private int bonusDifesaPerc   = 0;
+    private static final double MOLTIPLICATORE_VITA_LEVEL_UP = 1.1;
+    private static final int    INCREMENTO_MANA_LEVEL_UP     = 5;// % di riduzione danni subiti (es. 50 = -50%)
 
     public Personaggio(String nome, int vitaMax, int manaMax, int livello,
                        Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
@@ -105,11 +107,10 @@ public class Personaggio extends Persona {
 
     public void aumentaLivello() {
         this.livello++;
-        this.vitaMax = (int)(vitaMax * 1.1);
-        this.manaMax += 5;
+        this.vitaMax = (int)(vitaMax * MOLTIPLICATORE_VITA_LEVEL_UP);
+        this.manaMax += INCREMENTO_MANA_LEVEL_UP;
         this.vita    = vitaMax;
         this.mana    = manaMax;
-        System.out.println(getNome() + " è salito al livello " + this.livello + "!");
     }
 
     // ── Accessori ─────────────────────────────────────────

@@ -1,4 +1,4 @@
-package model.Classi;
+package model.classi;
 
 import model.Abilita;
 
@@ -6,11 +6,10 @@ public class Mago extends Classe {
 
 
     public Mago() {
-        super("model.Classi.Mago", 200, 2, 2);
+        super("Mago", 200, 2, 2, abilitaIniziali());
     }
 
-    @Override
-    public Abilita[] abilitaIniziali() {
+    private static Abilita[] abilitaIniziali() {
         return new Abilita[]{
                 new Abilita("Palla di Fuoco",
                         "Il mago lancia una sfera di fuoco contro il nemico.",

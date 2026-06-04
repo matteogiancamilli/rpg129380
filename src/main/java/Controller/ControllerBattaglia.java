@@ -1,4 +1,4 @@
-package model.Controller;
+package Controller;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,13 +8,16 @@ import javafx.stage.Stage;
 import model.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Livello;
-import model.CreatoreSalvataggi;
+
+import javafx.util.Duration;
 
 public class ControllerBattaglia {
 
     // ── Dati ──────────────────────────────────────────────
     private GestoreCombattimento gestore;
+    private final NavigatoreSchermate navigatoreSchermate;
+    private static final Duration PAUSA_VITTORIA  = Duration.seconds(2);
+    private static final Duration PAUSA_SCONFITTA = Duration.seconds(5);
 
     // ── Riferimenti UI aggiornabili ───────────────────────
     private Label       battleLog;
@@ -30,18 +33,40 @@ public class ControllerBattaglia {
     private FlowPane    oggettiPane;   // griglia oggetti nell'inventario
     private Label       labelOggetto;  // tooltip testuale in basso
 
+    public ControllerBattaglia(NavigatoreSchermate navigatoreSchermate) {
+        this.navigatoreSchermate = navigatoreSchermate;
+    }
+
     // ── Configurazione ────────────────────────────────────
     public void setGestore(GestoreCombattimento gestore) {
         this.gestore = gestore;
     }
 
-    // ── Costruzione scena ─────────────────────────────────
+    // ── Costruzione scena principale ──────────────────────
     public javafx.scene.Scene costruisciScena() {
-        Personaggio p = gestore.getPersonaggio();
-        Nemico      m = gestore.getMostro();
+        HBox arena = creaArena();
+        battleLog = creaLog();
+        TabPane pannello = creaPannelloAzioni();
 
-        // ── Arena ─────────────────────────────────────────
-        hpBarGiocatore   = new ProgressBar(1.0);
+        VBox bottom = new VBox(6, battleLog, pannello);
+        bottom.setPadding(new Insets(10));
+
+        BorderPane root = new BorderPane();
+        root.setCenter(arena);
+        root.setBottom(bottom);
+        root.setMinSize(700, 680);   // garantisce che arena + barre HP siano visibili
+
+        javafx.scene.Scene scene = new javafx.scene.Scene(root, 700, 720);
+        scene.getStylesheets().add(getClass().getResource("/javafx/battaglia.css").toExternalForm());
+        return scene;
+    }
+
+    // ── Helper: Crea l'area superiore (Giocatore e Mostro)
+    private HBox creaArena() {
+        Personaggio p = gestore.getPersonaggio();
+        Nemico m = gestore.getMostro();
+
+        hpBarGiocatore = new ProgressBar(1.0);
         hpLabelGiocatore = new Label(testoHP(p.getVita(), p.getVitaMax()));
         VBox boxGiocatore = creaBoxPersonaggio(
                 p.getNome(),
@@ -49,7 +74,7 @@ public class ControllerBattaglia {
                 hpBarGiocatore, hpLabelGiocatore
         );
 
-        hpBarMostro   = new ProgressBar(1.0);
+        hpBarMostro = new ProgressBar(1.0);
         hpLabelMostro = new Label(testoHP(m.getVitaCorrente(), m.getTipo().getVitaMassima()));
         VBox boxMostro = creaBoxPersonaggio(
                 m.getTipo().getNome(),
@@ -60,42 +85,61 @@ public class ControllerBattaglia {
         HBox arena = new HBox(120, boxGiocatore, boxMostro);
         arena.setAlignment(Pos.CENTER);
         arena.setPadding(new Insets(20));
+        return arena;
+    }
 
-        // ── Log ───────────────────────────────────────────
-        battleLog = new Label(m.getTipo().getIntroduzione());
-        battleLog.setWrapText(true);
-        battleLog.getStyleClass().add("battle-log");
-        battleLog.setPadding(new Insets(8));
+    // ── Helper: Crea il log della battaglia ───────────────
+    private Label creaLog() {
+        Nemico m = gestore.getMostro();
+        Label log = new Label(m.getTipo().getIntroduzione());
+        log.setWrapText(true);
+        log.getStyleClass().add("battle-log");
+        log.setPadding(new Insets(8));
+        return log;
+    }
 
-        // ── Abilità ───────────────────────────────────────
+    // ── Helper: Crea il TabPane (Abilità / Oggetti) ───────
+    private TabPane creaPannelloAzioni() {
+        TabPane tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+        Tab tabAbilita = new Tab("Abilità", creaTabAbilita());
+        Tab tabOggetti = new Tab("Oggetti", creaTabOggetti());
+
+        tabPane.getTabs().addAll(tabAbilita, tabOggetti);
+        return tabPane;
+    }
+
+    // ── Helper: Crea il contenuto del Tab "Abilità" ───────
+    private VBox creaTabAbilita() {
+        Personaggio p = gestore.getPersonaggio();
+
         abilitaBox = new VBox(6);
         abilitaBox.setPadding(new Insets(8));
-        for (Abilita a : p.getAbilitas()) {
-            Button btn = new Button(testoBottone(a));
-            btn.setPrefWidth(220);
-            btn.setOnAction(e -> gestisciAzione(a));
-            btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
-            btn.setOnMouseExited(e  -> descrizioneAbilita.setText(" "));
-            abilitaBox.getChildren().add(btn);
-        }
-
-        manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
-        manaLabel.getStyleClass().add("mana-label");
 
         descrizioneAbilita = new Label(" ");
         descrizioneAbilita.setWrapText(true);
         descrizioneAbilita.getStyleClass().add("descrizione-abilita");
 
-        // ── Tab Panel (Abilità | Oggetti) ─────────────────
-        TabPane tabPane = new TabPane();
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
+        manaLabel.getStyleClass().add("mana-label");
 
-        // Tab Abilità
+        for (Abilita a : p.getAbilitas()) {
+            Button btn = new Button(testoBottone(a));
+            btn.setPrefWidth(220);
+            btn.setOnAction(e -> gestisciAzione(a));
+            btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
+            btn.setOnMouseExited(e -> descrizioneAbilita.setText(" "));
+            abilitaBox.getChildren().add(btn);
+        }
+
         VBox abilitaContent = new VBox(6, manaLabel, descrizioneAbilita, abilitaBox);
         abilitaContent.setPadding(new Insets(8));
-        Tab tabAbilita = new Tab("Abilità", abilitaContent);
+        return abilitaContent;
+    }
 
-        // Tab Oggetti
+    // ── Helper: Crea il contenuto del Tab "Oggetti" ───────
+    private VBox creaTabOggetti() {
         labelOggetto = new Label(" ");
         labelOggetto.setWrapText(true);
         labelOggetto.getStyleClass().add("label-oggetto");
@@ -103,27 +147,12 @@ public class ControllerBattaglia {
         oggettiPane = new FlowPane(8, 8);
         oggettiPane.setPadding(new Insets(8));
         oggettiPane.setPrefWrapLength(380);
-        aggiornaOggettiPane();
+
+        aggiornaOggettiPane(); // Popola la FlowPane con gli oggetti attuali
 
         VBox oggettiContent = new VBox(6, oggettiPane, labelOggetto);
         oggettiContent.setPadding(new Insets(4));
-        Tab tabOggetti = new Tab("Oggetti", oggettiContent);
-
-        tabPane.getTabs().addAll(tabAbilita, tabOggetti);
-
-        // ── Sezione inferiore ─────────────────────────────
-        VBox bottom = new VBox(6, battleLog, tabPane);
-        bottom.setPadding(new Insets(10));
-
-        // ── Layout radice ─────────────────────────────────
-        BorderPane root = new BorderPane();
-        root.setCenter(arena);
-        root.setBottom(bottom);
-        root.setMinSize(700, 680);   // garantisce che arena + barre HP siano sempre visibili
-
-        javafx.scene.Scene scene = new javafx.scene.Scene(root, 700, 720);
-        scene.getStylesheets().add(getClass().getResource("/javafx/battaglia.css").toExternalForm());
-        return scene;
+        return oggettiContent;
     }
 
     // ── Aggiorna la FlowPane degli oggetti ────────────────
@@ -144,7 +173,7 @@ public class ControllerBattaglia {
             Button btn = new Button(o.getNomeVisuale());
             btn.setPrefWidth(170);
             btn.setWrapText(true);
-            btn.getStyleClass().add(classeBotoneOggetto(o));
+            btn.getStyleClass().add(o.getTipoOggetto().getClasseCSS());
 
             // Tooltip con descrizione al passaggio del mouse
             btn.setOnMouseEntered(e -> labelOggetto.setText(o.getNomeVisuale() + ": " + o.getDescrizione()));
@@ -155,18 +184,6 @@ public class ControllerBattaglia {
 
             oggettiPane.getChildren().add(btn);
         }
-    }
-
-    // ── Classe CSS del bottone in base al tipo oggetto ────
-    private String classeBotoneOggetto(Oggetto o) {
-        return switch (o.getTipo()) {
-            case 1 -> "btn-oggetto-cura";      // verde  – cura
-            case 2 -> "btn-oggetto-danno";     // rosso  – danno
-            case 3 -> "btn-oggetto-attacco";   // arancio – attacco
-            case 4 -> "btn-oggetto-difesa";    // blu    – difesa
-            case 5 -> "btn-oggetto-raro";      // viola  – raro
-            default -> "button";
-        };
     }
 
     // ── Popup di conferma uso oggetto ─────────────────────
@@ -208,88 +225,41 @@ public class ControllerBattaglia {
                     battleLog.setText(abilita.getNome() + " è ancora in ricarica (" +
                             abilita.getCooldownCorrente() + " turni).");
             case MOSTRO_SCONFITTO -> {
-                // ── Drop oggetto casuale ───────────────────
-                Oggetto drop = Inventario.dropCasuale();
+                Oggetto drop = Drop.dropCasuale();
                 gestore.getPersonaggio().getInventario().aggiungi(drop);
                 battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() +
                         "! Livello aumentato!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
                 disabilitaAzioni();
 
-                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(2));
-                pausa.setOnFinished(e -> navigaASchermataSuccessiva());
+                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA_VITTORIA);
+
+                pausa.setOnFinished(e -> {
+                    Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
+                    navigatoreSchermate.navigaASchermataSuccessiva(stageAttuale, gestore.getPersonaggio());
+                });
                 pausa.play();
             }
             case PERSONAGGIO_SCONFITTO -> {
                 battleLog.setText("Sei stato sconfitto da " + gestore.getMostro().getTipo().getNome() +
                         "... Ricarico il salvataggio!");
-                disabilitaAzioni();
-
-                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(5));
-                pausa.setOnFinished(e -> caricaSalvataggioENaviga());
-                pausa.play();
+                transizioneSconfitta();
             }
             case MANA_ESAURITO -> {
                 battleLog.setText("⚠ Non hai più mana né abilità disponibili... Sei spacciato!");
-                disabilitaAzioni();
-
-                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(
-                        javafx.util.Duration.seconds(2));
-                pausa.setOnFinished(e -> caricaSalvataggioENaviga());
-                pausa.play();
+                transizioneSconfitta();
             }
         }
     }
 
-    // ── Naviga alla schermata dialogo successiva ──────────
-    private void navigaASchermataSuccessiva() {
-        Personaggio p = gestore.getPersonaggio();
-        int prossimoLivello = p.getLivello();
-
-        if (prossimoLivello <= Livello.values().length) {
-            try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                        getClass().getResource("/javafx/dialogscreen.fxml"));
-                javafx.scene.Parent root = loader.load();
-                ControllerDialogScreen controller = loader.getController();
-                controller.initData(p);
-
-                Stage stage = (Stage) battleLog.getScene().getWindow();
-                stage.setScene(new javafx.scene.Scene(root));
-                stage.show();
-            } catch (java.io.IOException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            battleLog.setText("Hai completato il gioco! Sei il campione!");
-        }
+    private void transizioneSconfitta(){
+        disabilitaAzioni();
+        javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA_SCONFITTA);
+        pausa.setOnFinished(e -> {Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
+            navigatoreSchermate.caricaSalvataggioENaviga(stageAttuale);
+        });
+        pausa.play();
     }
 
-    // ── Ricarica salvataggio e torna al dialogo ───────────
-    private void caricaSalvataggioENaviga() {
-        try {
-            Personaggio pCaricato = new CreatoreSalvataggi().carica();
-            if (pCaricato == null) {
-                battleLog.setText("Nessun salvataggio trovato.");
-                return;
-            }
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/javafx/dialogscreen.fxml"));
-            javafx.scene.Parent root = loader.load();
-            ControllerDialogScreen controller = loader.getController();
-            controller.initData(pCaricato);
-
-            Stage stage = (Stage) battleLog.getScene().getWindow();
-            stage.setScene(new javafx.scene.Scene(root));
-            stage.show();
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
-            battleLog.setText("Errore nel caricare il salvataggio.");
-        }
-    }
-
-    // ── Aggiorna barre HP, mana, bottoni abilità ──────────
     private void aggiornaUI() {
         Personaggio p = gestore.getPersonaggio();
         Nemico      m = gestore.getMostro();

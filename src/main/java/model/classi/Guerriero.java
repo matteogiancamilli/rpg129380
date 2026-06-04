@@ -1,15 +1,14 @@
-package model.Classi;
+package model.classi;
 
 import model.Abilita;
 
 public class Guerriero extends Classe {
 
     public Guerriero() {
-        super("model.Classi.Guerriero", 300, 2, 1);
+        super("Guerriero", 300, 2, 1, abilitaIniziali());
     }
 
-    @Override
-    public Abilita[] abilitaIniziali() {
+    private static Abilita[] abilitaIniziali() {
         return new Abilita[]{
                 new Abilita("Fendente",
                         "Il guerriero sferra un fendente con la spada.",

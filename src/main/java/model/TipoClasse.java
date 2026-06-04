@@ -1,9 +1,9 @@
 package model;
 
-import model.Classi.Arciere;
-import model.Classi.Classe;
-import model.Classi.Guerriero;
-import model.Classi.Mago;
+import model.classi.Arciere;
+import model.classi.Classe;
+import model.classi.Guerriero;
+import model.classi.Mago;
 
 import java.util.function.Supplier;
 
@@ -14,7 +14,7 @@ public enum TipoClasse {
 
     private final String nome;
     private final String descrizione;
-    private int vita, velocita, mana;
+    private final int vita, velocita, mana;
     private final Supplier<Classe> factory;
 
     TipoClasse(String nome, String descrizione, Supplier<Classe> factory, int vita, int velocita, int mana) {

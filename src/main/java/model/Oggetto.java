@@ -1,32 +1,35 @@
 package model;
 
 public enum Oggetto {
-    POZIONESALVAVITA(1, "Ripristina 50 di vita", 1),
-    POZIONEDELDRAGO(2, "Infligge 30 di danno", 2),
-    SCUDODELPALADINO(3, "Aumenta del 30% la difesa massima", 4),
-    SPADADELLAROCCIA(4, "Aumenta del 30% l'attacco massimo", 3),
-    GIGAPOZIONE(5, "Aumenta del 30% tutti i campi e li ripristina al massimo", 5 ),
-    SFERARIVELATRICE(6, "Aumenta del 50% l'attacco massimo ma diminuisce di 20 la vita", 3);
+    POZIONESALVAVITA(1, "Ripristina 50 di vita", TipoOggetto.CURA, (p,n) -> p.cura(50)),
 
+    POZIONEDELDRAGO(2, "Infligge 30 di danno", TipoOggetto.DANNO, (p,n) -> n.subisciDanno(30)),
+
+    SCUDODELPALADINO(3, "Aumenta del 30% la difesa massima", TipoOggetto.DIFESA, (p,n) -> p.aggiungiBonusDifesa(30)),
+
+    SPADADELLAROCCIA(4, "Aumenta del 30% l'attacco massimo", TipoOggetto.ATTACCO, (p,n) -> p.aggiungiBonusAttacco(30)),
+
+    GIGAPOZIONE(5, "Aumenta del 30% tutti i campi e li ripristina al massimo", TipoOggetto.RARO, (p,n) -> {
+        p.aggiungiBonusDifesa(30);
+        p.aggiungiBonusAttacco(30);
+        p.cura(p.getVitaMax());
+    }),
+
+    SFERARIVELATRICE(6, "Aumenta del 50% l'attacco massimo ma diminuisce di 20 la vita", TipoOggetto.ATTACCO, (p,n) -> {
+        p.aggiungiBonusAttacco(50);
+        p.subisciDanno(20);
+    });
 
     private final int id;
     private final String descrizione;
-    private final int tipo;
+    private final TipoOggetto tipo;
+    private final EffettoOggetto effetto;
 
-    /*
-    Tipi:
-    - 1 = Cura Personale
-    - 2 = Danno all'avversario
-    - 3 = Aumento attacco
-    - 4 = Aumento difesa
-    - 5 = Oggetto Raro (La proabilità di ottenerlo è molto più bassa delle altre
-
-     */
-
-    Oggetto(int id, String descrizione, int tipo) {
+    Oggetto(int id, String descrizione, TipoOggetto tipo, EffettoOggetto effetto) {
         this.id = id;
         this.descrizione = descrizione;
         this.tipo = tipo;
+        this.effetto = effetto;
     }
 
     public int getId() {
@@ -37,7 +40,7 @@ public enum Oggetto {
         return descrizione;
     }
 
-    public int getTipo() {
+    public TipoOggetto getTipo() {
         return tipo;
     }
 
@@ -50,5 +53,13 @@ public enum Oggetto {
             case GIGAPOZIONE      -> "Giga Pozione";
             case SFERARIVELATRICE -> "Sfera Rivelatrice";
         };
+    }
+
+    public void applicaEffetto(Personaggio p, Nemico n) {
+        effetto.applica(p, n);
+    }
+
+    public TipoOggetto getTipoOggetto() {
+        return tipo;
     }
 }
