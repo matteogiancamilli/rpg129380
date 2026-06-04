@@ -1,4 +1,4 @@
-package gioco;
+package model.gioco;
 
 public enum Livello {
     LIVELLO1(1,"La storia inizia...Ti risvegli tra le radici contorte di una foresta sconosciuta, il respiro ancora pesante dopo la leggendaria Battaglia di Varkhûn, il cui eco riecheggia nella tua mente come un incubo lontano." +

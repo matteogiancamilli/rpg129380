@@ -17,7 +17,7 @@ public class Inventario {
         }
     }
 
-    /** Costruttore vuoto per nuovo gioco. */
+    /** Costruttore vuoto per nuovo model.gioco. */
     public Inventario() {
         this.oggetti = new ArrayList<>();
     }

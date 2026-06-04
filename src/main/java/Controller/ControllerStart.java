@@ -1,24 +1,18 @@
 package Controller;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.CreatoreSalvataggi;
+import model.salvataggi.CreatoreSalvataggi;
 import interfaces.GestoreSalvataggi;
 import model.NavigatoreSchermate;
 import model.personaggio.Personaggio;
 
 import java.io.File;
 import java.io.IOException;
-
-import static model.NavigatoreSchermate.cambiaScena;
 
 public class ControllerStart {
 

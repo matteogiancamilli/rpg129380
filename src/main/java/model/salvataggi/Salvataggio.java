@@ -1,4 +1,4 @@
-package model;
+package model.salvataggi;
 
 import model.classi.TipoClasse;
 import model.personaggio.Inventario;

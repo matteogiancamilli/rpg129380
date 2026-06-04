@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.CreatoreSalvataggi;
+import model.salvataggi.CreatoreSalvataggi;
 
 public class MainFx extends Application {
 

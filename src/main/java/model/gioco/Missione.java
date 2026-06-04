@@ -1,4 +1,4 @@
-package gioco;
+package model.gioco;
 
 import model.nemici.Mostro;
 import model.nemici.Nemico;

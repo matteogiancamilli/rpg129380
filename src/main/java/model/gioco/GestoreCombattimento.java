@@ -1,4 +1,4 @@
-package gioco;
+package model.gioco;
 
 import model.nemici.Nemico;
 import model.personaggio.Abilita;
@@ -67,9 +67,6 @@ public class GestoreCombattimento {
 
         // Fine turno: reset bonus oggetti e tick cooldown
         personaggio.eseguiFineTurno(); // <-- Feature Envy risolta
-
-        if (personaggio.isSconfitto())
-            return RisultatoTurno.PERSONAGGIO_SCONFITTO;
 
         if (personaggio.isSconfitto())
             return RisultatoTurno.PERSONAGGIO_SCONFITTO;

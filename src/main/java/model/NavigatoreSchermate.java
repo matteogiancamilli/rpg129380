@@ -1,6 +1,6 @@
 package model;
 
-import gioco.Livello;
+import model.gioco.Livello;
 import interfaces.GestoreSalvataggi;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import Controller.ControllerDialogScreen;
 import model.personaggio.Personaggio;
+import model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
 
@@ -42,7 +43,7 @@ public class NavigatoreSchermate {
             }
         } else {
             // Invece di scrivere sul log della vecchia battaglia, mostriamo un popup di vittoria
-            mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il gioco! Sei il campione!");
+            mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il model.gioco! Sei il campione!");
         }
     }
 

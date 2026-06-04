@@ -1,8 +1,8 @@
 package Controller;
 
-import gioco.GestoreCombattimento;
-import gioco.Livello;
-import gioco.Missione;
+import model.gioco.GestoreCombattimento;
+import model.gioco.Livello;
+import model.gioco.Missione;
 import interfaces.GestoreSalvataggi;
 import interfaces.PersistenzaSalvataggio;
 import javafx.fxml.FXML;
@@ -12,8 +12,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import model.*;
 import model.personaggio.Personaggio;
+import model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
 

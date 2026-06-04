@@ -2,10 +2,6 @@ package Controller;
 
 import interfaces.GestoreSalvataggi;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -16,10 +12,9 @@ import model.*;
 import model.classi.TipoClasse;
 import model.personaggio.Inventario;
 import model.personaggio.Personaggio;
+import model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
-
-import static model.NavigatoreSchermate.cambiaScena;
 
 public class ControllerNuovaPartita {
 

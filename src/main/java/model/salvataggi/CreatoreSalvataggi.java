@@ -1,4 +1,4 @@
-package model;
+package model.salvataggi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +11,6 @@ import model.classi.TipoClasse;
 import model.personaggio.Abilita;
 import model.personaggio.Personaggio;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

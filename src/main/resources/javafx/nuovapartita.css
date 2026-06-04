@@ -55,7 +55,7 @@
     -fx-background-color: #e94560;
 }
 
-/* Stile base per tutti i bottoni del gioco */
+/* Stile base per tutti i bottoni del model.gioco */
 .button {
     -fx-background-color: #0f3460;
     -fx-text-fill: white;
