@@ -64,7 +64,7 @@ public class ControllerBattaglia {
         // ── Log ───────────────────────────────────────────
         battleLog = new Label(m.getTipo().getIntroduzione());
         battleLog.setWrapText(true);
-        battleLog.setStyle("-fx-font-size:13px; -fx-text-fill:#8b0000; -fx-font-weight:bold;");
+        battleLog.getStyleClass().add("battle-log");
         battleLog.setPadding(new Insets(8));
 
         // ── Abilità ───────────────────────────────────────
@@ -80,10 +80,11 @@ public class ControllerBattaglia {
         }
 
         manaLabel = new Label("Mana: " + p.getMana() + "/" + p.getManaMax());
-        manaLabel.setStyle("-fx-font-size:12px;");
+        manaLabel.getStyleClass().add("mana-label");
+
         descrizioneAbilita = new Label(" ");
         descrizioneAbilita.setWrapText(true);
-        descrizioneAbilita.setStyle("-fx-font-size:11px; -fx-text-fill:#444;");
+        descrizioneAbilita.getStyleClass().add("descrizione-abilita");
 
         // ── Tab Panel (Abilità | Oggetti) ─────────────────
         TabPane tabPane = new TabPane();
@@ -97,7 +98,7 @@ public class ControllerBattaglia {
         // Tab Oggetti
         labelOggetto = new Label(" ");
         labelOggetto.setWrapText(true);
-        labelOggetto.setStyle("-fx-font-size:11px; -fx-text-fill:#444; -fx-padding:4;");
+        labelOggetto.getStyleClass().add("label-oggetto");
 
         oggettiPane = new FlowPane(8, 8);
         oggettiPane.setPadding(new Insets(8));
@@ -118,8 +119,11 @@ public class ControllerBattaglia {
         BorderPane root = new BorderPane();
         root.setCenter(arena);
         root.setBottom(bottom);
+        root.setMinSize(700, 680);   // garantisce che arena + barre HP siano sempre visibili
 
-        return new javafx.scene.Scene(root, 700, 560);
+        javafx.scene.Scene scene = new javafx.scene.Scene(root, 700, 720);
+        scene.getStylesheets().add(getClass().getResource("/javafx/battaglia.css").toExternalForm());
+        return scene;
     }
 
     // ── Aggiorna la FlowPane degli oggetti ────────────────
@@ -131,7 +135,7 @@ public class ControllerBattaglia {
 
         if (lista.isEmpty()) {
             Label vuoto = new Label("Inventario vuoto");
-            vuoto.setStyle("-fx-text-fill:#888; -fx-font-style:italic;");
+            vuoto.getStyleClass().add("inventario-vuoto");
             oggettiPane.getChildren().add(vuoto);
             return;
         }
@@ -140,7 +144,7 @@ public class ControllerBattaglia {
             Button btn = new Button(o.getNomeVisuale());
             btn.setPrefWidth(170);
             btn.setWrapText(true);
-            btn.setStyle(stileBotoneOggetto(o));
+            btn.getStyleClass().add(classeBotoneOggetto(o));
 
             // Tooltip con descrizione al passaggio del mouse
             btn.setOnMouseEntered(e -> labelOggetto.setText(o.getNomeVisuale() + ": " + o.getDescrizione()));
@@ -153,15 +157,15 @@ public class ControllerBattaglia {
         }
     }
 
-    // ── Colore del bottone in base al tipo oggetto ────────
-    private String stileBotoneOggetto(Oggetto o) {
+    // ── Classe CSS del bottone in base al tipo oggetto ────
+    private String classeBotoneOggetto(Oggetto o) {
         return switch (o.getTipo()) {
-            case 1 -> "-fx-background-color:#2e7d32; -fx-text-fill:white;";  // verde  – cura
-            case 2 -> "-fx-background-color:#b71c1c; -fx-text-fill:white;";  // rosso  – danno
-            case 3 -> "-fx-background-color:#e65100; -fx-text-fill:white;";  // arancio – attacco
-            case 4 -> "-fx-background-color:#1565c0; -fx-text-fill:white;";  // blu    – difesa
-            case 5 -> "-fx-background-color:#6a1b9a; -fx-text-fill:white;";  // viola  – raro
-            default -> "";
+            case 1 -> "btn-oggetto-cura";      // verde  – cura
+            case 2 -> "btn-oggetto-danno";     // rosso  – danno
+            case 3 -> "btn-oggetto-attacco";   // arancio – attacco
+            case 4 -> "btn-oggetto-difesa";    // blu    – difesa
+            case 5 -> "btn-oggetto-raro";      // viola  – raro
+            default -> "button";
         };
     }
 
@@ -292,12 +296,12 @@ public class ControllerBattaglia {
 
         double percP = (double) p.getVita() / p.getVitaMax();
         hpBarGiocatore.setProgress(percP);
-        hpBarGiocatore.setStyle(coloreHP(percP));
+        aggiornaClasseHP(hpBarGiocatore, percP);
         hpLabelGiocatore.setText(testoHP(p.getVita(), p.getVitaMax()));
 
         double percM = (double) m.getVitaCorrente() / m.getTipo().getVitaMassima();
         hpBarMostro.setProgress(Math.max(0, percM));
-        hpBarMostro.setStyle(coloreHP(percM));
+        aggiornaClasseHP(hpBarMostro, percM);
         hpLabelMostro.setText(testoHP(Math.max(0, m.getVitaCorrente()), m.getTipo().getVitaMassima()));
 
         Abilita[] abilitas = p.getAbilitas();
@@ -322,7 +326,7 @@ public class ControllerBattaglia {
     private VBox creaBoxPersonaggio(String nome, String pathImmagine,
                                     ProgressBar hpBar, Label hpLabel) {
         Label nomeLabel = new Label(nome);
-        nomeLabel.setStyle("-fx-font-weight:bold; -fx-font-size:15px;");
+        nomeLabel.getStyleClass().add("battle-name-label");
 
         ImageView imageView = new ImageView();
         try {
@@ -338,7 +342,7 @@ public class ControllerBattaglia {
         imageView.setPreserveRatio(true);
 
         hpBar.setPrefWidth(150);
-        hpBar.setStyle("-fx-accent: green;");
+        hpBar.getStyleClass().add("hp-green");
 
         VBox box = new VBox(8, nomeLabel, imageView, hpBar, hpLabel);
         box.setAlignment(Pos.CENTER);
@@ -351,12 +355,14 @@ public class ControllerBattaglia {
     }
 
     private String testoBottone(Abilita a) {
-        return a.getNome() + "  (MP:" + a.getCostoMana() + ")" + a.stato();
+        return a.getNome() + "  (M:" + a.getCostoMana() + ")" + a.stato();
     }
 
-    private String coloreHP(double perc) {
-        if (perc > 0.5) return "-fx-accent: green;";
-        if (perc > 0.25) return "-fx-accent: orange;";
-        return "-fx-accent: red;";
+    // ── Aggiorna classe CSS della barra HP ────────────────
+    private void aggiornaClasseHP(ProgressBar bar, double perc) {
+        bar.getStyleClass().removeAll("hp-green", "hp-orange", "hp-red");
+        if (perc > 0.5)       bar.getStyleClass().add("hp-green");
+        else if (perc > 0.25) bar.getStyleClass().add("hp-orange");
+        else                  bar.getStyleClass().add("hp-red");
     }
 }

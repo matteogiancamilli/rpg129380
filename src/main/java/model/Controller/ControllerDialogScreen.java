@@ -51,6 +51,8 @@ public class ControllerDialogScreen {
         Stage battleStage = new Stage();
         battleStage.setScene(cb.costruisciScena());
         battleStage.setTitle("Battaglia");
+        battleStage.setMinWidth(700);
+        battleStage.setMinHeight(700);
         battleStage.show();
     }
 

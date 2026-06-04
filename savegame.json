@@ -1,11 +1,11 @@
 {
-  "nomePersonaggio": "Er Distruttore",
+  "nomePersonaggio": "ErDistruttore",
   "classe": "Guerriero",
   "livelloPersonaggio": 3,
   "inventario": {
     "inventario": [
-      "SPADADELLAROCCIA",
-      "POZIONEDELDRAGO"
+      "POZIONESALVAVITA",
+      "SPADADELLAROCCIA"
     ]
   },
   "vitaMax": 484,

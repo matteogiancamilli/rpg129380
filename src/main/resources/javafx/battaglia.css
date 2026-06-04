@@ -1,0 +1,198 @@
+/* ============================================================
+   battaglia.css  –  Magic Strike  |  Stile coerente con le altre schermate
+   Palette: #1a1a2e (sfondo) | #0f3460 (blu) | #e94560 (rosso) | white
+   ============================================================ */
+
+/* ── Root / sfondo ─────────────────────────────────────────── */
+.root {
+    -fx-background-color: #1a1a2e;
+    -fx-font-family: "Arial";
+}
+
+/* ── Etichette generiche ───────────────────────────────────── */
+.label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+}
+
+/* ── Nome del personaggio / mostro ───────────────────────────
+   Classe: battle-name-label                                   */
+.battle-name-label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* ── Log di battaglia ────────────────────────────────────────
+   Classe: battle-log                                          */
+.battle-log {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8;
+    -fx-background-color: transparent;
+}
+
+/* ── Etichette HP  (es. "80 / 120 HP") ───────────────────────
+   Eredita .label; nessuna classe aggiuntiva necessaria        */
+
+/* ── Etichetta Mana ──────────────────────────────────────────
+   Classe: mana-label                                          */
+.mana-label {
+    -fx-text-fill: #7ecfff;
+    -fx-font-size: 12px;
+}
+
+/* ── Descrizione abilità (tooltip inline) ────────────────────
+   Classe: descrizione-abilita                                 */
+.descrizione-abilita {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 11px;
+}
+
+/* ── Etichetta tooltip oggetto ───────────────────────────────
+   Classe: label-oggetto                                       */
+.label-oggetto {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 11px;
+    -fx-padding: 4;
+}
+
+/* ── Etichetta "Inventario vuoto" ────────────────────────────
+   Classe: inventario-vuoto                                    */
+.inventario-vuoto {
+    -fx-text-fill: #888888;
+    -fx-font-style: italic;
+}
+
+/* ── Bottoni abilità / azioni principali ─────────────────────
+   Classe standard .button                                     */
+.button {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: #e94560;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #e94560;
+    -fx-text-fill: white;
+}
+
+.button:disabled {
+    -fx-opacity: 0.4;
+    -fx-cursor: default;
+}
+
+/* ── Bottoni oggetti per tipo ────────────────────────────────
+   Classi: btn-oggetto-cura | btn-oggetto-danno |
+           btn-oggetto-attacco | btn-oggetto-difesa | btn-oggetto-raro */
+.btn-oggetto-cura {
+    -fx-background-color: #2e7d32;
+    -fx-text-fill: white;
+    -fx-border-color: #66bb6a;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-oggetto-cura:hover    { -fx-background-color: #388e3c; }
+
+.btn-oggetto-danno {
+    -fx-background-color: #b71c1c;
+    -fx-text-fill: white;
+    -fx-border-color: #ef5350;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-oggetto-danno:hover   { -fx-background-color: #c62828; }
+
+.btn-oggetto-attacco {
+    -fx-background-color: #e65100;
+    -fx-text-fill: white;
+    -fx-border-color: #ff8a65;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-oggetto-attacco:hover { -fx-background-color: #ef6c00; }
+
+.btn-oggetto-difesa {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-border-color: #64b5f6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-oggetto-difesa:hover  { -fx-background-color: #1976d2; }
+
+.btn-oggetto-raro {
+    -fx-background-color: #6a1b9a;
+    -fx-text-fill: white;
+    -fx-border-color: #ce93d8;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-oggetto-raro:hover    { -fx-background-color: #7b1fa2; }
+
+/* ── TabPane ─────────────────────────────────────────────────*/
+.tab-pane {
+    -fx-background-color: #1a1a2e;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #0f3460;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #0f3460;
+    -fx-border-color: transparent;
+    -fx-padding: 4 12 4 12;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #e94560;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #1a1a2e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 1px;
+}
+
+/* ── ProgressBar HP ─────────────────────────────────────────
+   Il colore dinamico (verde/arancio/rosso) viene aggiunto
+   via classi: hp-green | hp-orange | hp-red               */
+.progress-bar {
+    -fx-background-color: #0f3460;
+    -fx-border-color: #e94560;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 1;
+    -fx-background-radius: 3;
+}
+
+.progress-bar.hp-green  .bar { -fx-background-color: #4caf50; }
+.progress-bar.hp-orange .bar { -fx-background-color: #ff9800; }
+.progress-bar.hp-red    .bar { -fx-background-color: #f44336; }
+
+/* ── VBox arena (contenitore personaggio / mostro) ──────────
+   Classe: arena-box                                          */
+.arena-box {
+    -fx-background-color: transparent;
+}
