@@ -9,8 +9,8 @@ public class Salvataggio {
     private TipoClasse classe;
     private int livelloPersonaggio;
     private Inventario inventario;
-    int vitaMax;
-    int manaMax;
+    private int vitaMax;
+    private int manaMax;
 
     public Salvataggio() {}
 
@@ -38,4 +38,12 @@ public class Salvataggio {
     }
 
     public Inventario getInventario(){ return inventario;}
+
+    public int getVitaMax() {
+        return vitaMax;
+    }
+
+    public int getManaMax() {
+        return manaMax;
+    }
 }

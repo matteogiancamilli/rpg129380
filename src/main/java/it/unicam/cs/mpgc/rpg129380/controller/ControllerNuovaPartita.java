@@ -1,7 +1,9 @@
-package it.unicam.cs.mpgc.rpg129380.Controller;
+package it.unicam.cs.mpgc.rpg129380.controller;
 
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
+import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -16,7 +18,7 @@ import it.unicam.cs.mpgc.rpg129380.model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
 
-public class ControllerNuovaPartita {
+public class ControllerNuovaPartita implements Inizializzabile {
 
     @FXML
     private ChoiceBox<TipoClasse> selezionaClasse;
@@ -28,6 +30,9 @@ public class ControllerNuovaPartita {
     private TextField nomePersonaggio;
     @FXML
     private TextArea errorDisplay;
+
+    private GestoreSalvataggi gestoreSalvataggi;
+
 
     @FXML
     public void initialize() {
@@ -59,13 +64,17 @@ public class ControllerNuovaPartita {
         }
         TipoClasse classe = selezionaClasse.getValue();
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
-        // 1. Istanziamo il gestore e salviamo la nuova partita
-        GestoreSalvataggi salvataggi = new CreatoreSalvataggi();
-        salvataggi.nuovo(p);
+        this.gestoreSalvataggi.nuovo(p);
 
         // 2. Cambiamo scena andando al dialogo del Livello 1
         Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-        NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", p, salvataggi);
+        NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", p, this.gestoreSalvataggi);
+    }
+
+    @Override
+    public void initDati(Personaggio personaggio, GestoreSalvataggi gestoreSalvataggi) {
+        this.gestoreSalvataggi = gestoreSalvataggi;
+        // personaggio è null quando si apre la schermata nuova partita, va bene così
     }
 
     @FXML

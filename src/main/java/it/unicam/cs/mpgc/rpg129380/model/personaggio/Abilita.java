@@ -22,19 +22,6 @@ public class Abilita {
         this.cooldownCorrente = 0;
     }
 
-
-    public String descrizione(){
-        String azione;
-        if (isCura()) {
-            azione = "Cura: " + (-danno);
-        } else {
-            azione = "Danno: " + danno;
-        }
-
-        return "Nome: " + nome + "\nDescrizione: " + descrizione +
-                "\n" + azione +  " \n" + "Costo: " + costoMana + "\n";
-    }
-
     public String stato(){
         String stato = "";
             if (cooldownCorrente == 0) {

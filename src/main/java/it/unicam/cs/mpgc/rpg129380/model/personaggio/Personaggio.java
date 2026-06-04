@@ -1,6 +1,6 @@
 package it.unicam.cs.mpgc.rpg129380.model.personaggio;
 
-import it.unicam.cs.mpgc.rpg129380.interfaces.Persona;
+import it.unicam.cs.mpgc.rpg129380.model.classi.Persona;
 import it.unicam.cs.mpgc.rpg129380.model.classi.TipoClasse;
 
 public class Personaggio extends Persona {

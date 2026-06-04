@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg129380.Controller;
+package it.unicam.cs.mpgc.rpg129380.controller;
 
 import it.unicam.cs.mpgc.rpg129380.model.gioco.GestoreCombattimento;
 import javafx.fxml.FXML;
@@ -14,12 +14,11 @@ import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Drop;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Oggetto;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
-import it.unicam.cs.mpgc.rpg129380.model.salvataggi.CreatoreSalvataggi;
 
 public class ControllerBattaglia {
 
     private GestoreCombattimento gestore;
-    private final NavigatoreSchermate navigatoreSchermate;
+    private NavigatoreSchermate navigatoreSchermate;
     private static final Duration PAUSA_VITTORIA  = Duration.seconds(2);
     private static final Duration PAUSA_SCONFITTA = Duration.seconds(5);
 
@@ -38,8 +37,10 @@ public class ControllerBattaglia {
     @FXML private FlowPane oggettiPane;
     @FXML private Label labelOggetto;
 
-    public ControllerBattaglia() {
-        this.navigatoreSchermate = new NavigatoreSchermate(new CreatoreSalvataggi());
+    public ControllerBattaglia(){}
+
+    public void setNavigatore(NavigatoreSchermate navigatore) {
+        this.navigatoreSchermate = navigatore;
     }
 
     public void initData(GestoreCombattimento gestore) {

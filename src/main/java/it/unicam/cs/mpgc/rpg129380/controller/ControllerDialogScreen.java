@@ -1,10 +1,11 @@
-package it.unicam.cs.mpgc.rpg129380.Controller;
+package it.unicam.cs.mpgc.rpg129380.controller;
 
+import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
+import it.unicam.cs.mpgc.rpg129380.model.NavigatoreSchermate;
 import it.unicam.cs.mpgc.rpg129380.model.gioco.GestoreCombattimento;
 import it.unicam.cs.mpgc.rpg129380.model.gioco.Livello;
 import it.unicam.cs.mpgc.rpg129380.model.gioco.Missione;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
-import it.unicam.cs.mpgc.rpg129380.interfaces.PersistenzaSalvataggio;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -13,23 +14,21 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
-import it.unicam.cs.mpgc.rpg129380.model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
 
-public class ControllerDialogScreen {
+public class ControllerDialogScreen implements Inizializzabile {
 
     @FXML
     private TextArea textArea;
 
     private Personaggio currentPersonaggio;
-    private final PersistenzaSalvataggio salvataggi;
-
-    public ControllerDialogScreen() {
-        this.salvataggi = new CreatoreSalvataggi();
-    }
 
     private GestoreSalvataggi gestoreSalvataggi;
+
+
+    public ControllerDialogScreen() {}
+
 
     public void setGestoreSalvataggi(GestoreSalvataggi gestore) {
         this.gestoreSalvataggi = gestore;
@@ -54,6 +53,11 @@ public class ControllerDialogScreen {
                 setStoria(storiaLivello);
             }
         }
+    }
+
+    public void initDati(Personaggio personaggio, GestoreSalvataggi gestoreSalvataggi) {
+        this.setGestoreSalvataggi(gestoreSalvataggi);
+        this.initData(personaggio);
     }
 
     @FXML
@@ -86,6 +90,7 @@ public class ControllerDialogScreen {
             // ECCO DOVE USI INITDATA: Passi il gestore al nuovo controller
             // affinché possa aggiornare le barre HP e i nomi prima che la scena appaia
             cb.initData(gestore);
+            cb.setNavigatore(new NavigatoreSchermate(this.gestoreSalvataggi));
 
             // 4. Cambia la scena nello Stage attuale senza aprire mille finestre
             Stage stageCorrente = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import it.unicam.cs.mpgc.rpg129380.interfaces.Classe;
+import it.unicam.cs.mpgc.rpg129380.model.classi.Classe;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
 import it.unicam.cs.mpgc.rpg129380.model.classi.TipoClasse;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
@@ -74,8 +74,8 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
 
         Abilita[] abilita = tipoClasse.abilitaIniziali();
 
-        int vitaMax = data.vitaMax > 0 ? data.vitaMax : tipoClasse.getVita();
-        int manaMax = data.manaMax > 0 ? data.manaMax : tipoClasse.getMana();
+        int vitaMax = data.getVitaMax() > 0 ? data.getVitaMax() : tipoClasse.getVita();
+        int manaMax = data.getManaMax() > 0 ? data.getManaMax() : tipoClasse.getMana();
         return new Personaggio(data.getNomePersonaggio(), vitaMax, manaMax, data.getLivelloPersonaggio(), data.getInventario(), tipoClasse, abilita);
     }
 

@@ -1,6 +1,6 @@
 package it.unicam.cs.mpgc.rpg129380;
 
-import it.unicam.cs.mpgc.rpg129380.Controller.ControllerStart;
+import it.unicam.cs.mpgc.rpg129380.controller.ControllerStart;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

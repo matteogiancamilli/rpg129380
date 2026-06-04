@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg129380.interfaces;
+package it.unicam.cs.mpgc.rpg129380.model.classi;
 
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 

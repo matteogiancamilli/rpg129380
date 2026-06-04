@@ -1,6 +1,5 @@
 package it.unicam.cs.mpgc.rpg129380.model.classi;
 
-import it.unicam.cs.mpgc.rpg129380.interfaces.Classe;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 
 import java.util.function.Supplier;
