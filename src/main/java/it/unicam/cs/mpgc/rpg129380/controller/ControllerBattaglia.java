@@ -19,8 +19,7 @@ public class ControllerBattaglia {
 
     private GestoreCombattimento gestore;
     private NavigatoreSchermate navigatoreSchermate;
-    private static final Duration PAUSA_VITTORIA  = Duration.seconds(2);
-    private static final Duration PAUSA_SCONFITTA = Duration.seconds(5);
+    private static final Duration PAUSA  = Duration.seconds(3);
 
     @FXML private Label battleLog;
     @FXML private ProgressBar hpBarGiocatore;
@@ -138,7 +137,7 @@ public class ControllerBattaglia {
                 gestore.getPersonaggio().getInventario().aggiungi(drop);
                 battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() + "!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
                 disabilitaAzioni();
-                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA_VITTORIA);
+                javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA);
                 pausa.setOnFinished(e -> {Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
                     navigatoreSchermate.navigaASchermataSuccessiva(stageAttuale, gestore.getPersonaggio());
                 });
@@ -157,7 +156,7 @@ public class ControllerBattaglia {
 
     private void transizioneSconfitta(){
         disabilitaAzioni();
-        javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA_SCONFITTA);
+        javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA);
         pausa.setOnFinished(e -> {
             Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
             navigatoreSchermate.caricaSalvataggioENaviga(stageAttuale);
