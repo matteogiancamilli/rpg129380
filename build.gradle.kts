@@ -24,7 +24,7 @@ javafx{
 }
 
 application {
-    mainClass.set("MainFx")
+    mainClass.set("it.unicam.cs.mpgc.rpg129380.MainFx")
 }
 
 tasks.test {
