@@ -48,18 +48,14 @@ public class ControllerBattaglia {
         Personaggio p = gestore.getPersonaggio();
         Nemico m = gestore.getMostro();
 
-        // Setup Nomi
         nomeGiocatore.setText(p.getNome());
         nomeMostro.setText(m.getTipo().getNome());
 
-        // Setup Immagini
         impostaImmagine(immagineGiocatore, "/images/images/classi/" + p.getClasse().getNome().toLowerCase() + ".png");
         impostaImmagine(immagineMostro, "/images/images/mostri/" + m.getTipo().name().toLowerCase() + ".png");
 
-        // Setup Log iniziale
         battleLog.setText(m.getTipo().getIntroduzione());
 
-        // Creazione bottoni Abilità
         for (Abilita a : p.getAbilitas()) {
             Button btn = new Button(testoBottone(a));
             btn.setPrefWidth(220);
@@ -112,8 +108,7 @@ public class ControllerBattaglia {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usa oggetto");
         alert.setHeaderText("Vuoi usare " + oggetto.getNomeVisuale() + "?");
-        alert.setContentText("Effetto: " + oggetto.getDescrizione() +
-                "\n\nL'oggetto verrà rimosso dall'inventario.\nIl turno rimarrà al tuo personaggio.");
+        alert.setContentText("Effetto: " + oggetto.getDescrizione() + "\n\nL'oggetto verrà rimosso dall'inventario.\nIl turno rimarrà al tuo personaggio.");
 
         ButtonType btnUsa = new ButtonType("Usa");
         ButtonType btnAnnulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -141,12 +136,10 @@ public class ControllerBattaglia {
             case MOSTRO_SCONFITTO -> {
                 Oggetto drop = Drop.dropCasuale();
                 gestore.getPersonaggio().getInventario().aggiungi(drop);
-                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() +
-                        "!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
+                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() + "!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
                 disabilitaAzioni();
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA_VITTORIA);
-                pausa.setOnFinished(e -> {
-                    Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
+                pausa.setOnFinished(e -> {Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
                     navigatoreSchermate.navigaASchermataSuccessiva(stageAttuale, gestore.getPersonaggio());
                 });
                 pausa.play();
@@ -156,7 +149,7 @@ public class ControllerBattaglia {
                 transizioneSconfitta();
             }
             case MANA_ESAURITO -> {
-                battleLog.setText("⚠ Non hai più mana né abilità disponibili... Sei spacciato!");
+                battleLog.setText("Non hai più mana né abilità disponibili... Sei spacciato!");
                 transizioneSconfitta();
             }
         }

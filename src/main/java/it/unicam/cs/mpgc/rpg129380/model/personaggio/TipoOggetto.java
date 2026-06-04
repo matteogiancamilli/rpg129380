@@ -8,6 +8,12 @@ public enum TipoOggetto {
     RARO    ("btn-oggetto-raro");
 
     private final String classeCSS;
-    TipoOggetto(String classeCSS) { this.classeCSS = classeCSS; }
-    public String getClasseCSS()  { return classeCSS; }
+
+    TipoOggetto(String classeCSS) {
+        this.classeCSS = classeCSS;
+    }
+
+    public String getClasseCSS()  {
+        return classeCSS;
+    }
 }

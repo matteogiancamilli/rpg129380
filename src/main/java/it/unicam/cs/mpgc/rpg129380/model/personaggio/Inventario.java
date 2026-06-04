@@ -7,7 +7,6 @@ public class Inventario {
 
     private List<Oggetto> oggetti;
 
-    /** Costruttore usato dalla deserializzazione Gson (array null-safe). */
     public Inventario(Oggetto[] inventario) {
         this.oggetti = new ArrayList<>();
         if (inventario != null) {
@@ -15,22 +14,6 @@ public class Inventario {
                 if (o != null) this.oggetti.add(o);
             }
         }
-    }
-
-    /** Costruttore vuoto per nuovo it.unicam.cs.mpgc.rpg129380.model.gioco. */
-    public Inventario() {
-        this.oggetti = new ArrayList<>();
-    }
-
-    // ── Accesso ───────────────────────────────────────────
-
-    public List<Oggetto> getOggetti() {
-        return oggetti;
-    }
-
-    /** Compatibilità con Gson / codice esistente che usa array. */
-    public Oggetto[] getInventario() {
-        return oggetti.toArray(new Oggetto[0]);
     }
 
     public void setInventario(Oggetto[] arr) {
@@ -42,19 +25,24 @@ public class Inventario {
         }
     }
 
-    // ── Modifica ──────────────────────────────────────────
+    public Inventario() {
+        this.oggetti = new ArrayList<>();
+    }
+
+    public List<Oggetto> getOggetti() {
+        return oggetti;
+    }
+
+    public Oggetto[] getInventario() {
+        return oggetti.toArray(new Oggetto[0]);
+    }
 
     public void aggiungi(Oggetto o) {
         oggetti.add(o);
     }
 
-    /**
-     * Rimuove la prima occorrenza dell'oggetto specificato.
-     * @return true se l'oggetto era presente ed è stato rimosso.
-     */
     public boolean rimuovi(Oggetto o) {
         return oggetti.remove(o);
     }
-
 
 }

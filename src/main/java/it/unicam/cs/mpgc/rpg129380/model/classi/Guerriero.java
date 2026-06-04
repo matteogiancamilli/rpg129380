@@ -4,7 +4,7 @@ import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 
 public class Guerriero extends Classe {
 
-    public Guerriero() {
+    public Guerriero(){
         super("Guerriero", 300, 2, 1, abilitaIniziali());
     }
 

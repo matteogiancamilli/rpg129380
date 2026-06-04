@@ -4,7 +4,7 @@ import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 
 public class Arciere extends Classe {
 
-    public Arciere() {
+    public Arciere(){
         super("Arciere", 100, 3, 3, abilitaIniziali());
     }
 

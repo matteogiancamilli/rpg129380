@@ -15,7 +15,6 @@ public class MainFx extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/startingscreen.fxml"));
         Parent root = loader.load();
 
-        // Iniezione della dipendenza
         ControllerStart startController = loader.getController();
         startController.setGestoreSalvataggi(new CreatoreSalvataggi());
 

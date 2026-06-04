@@ -4,7 +4,7 @@ public class Abilita {
 
     private final String nome;
     private final String descrizione;
-    private final int danno; //Se positivo è una cura
+    private final int danno;
     private final int aumentaVelocita;
     private final int costoMana;
     private final int cooldownMax;

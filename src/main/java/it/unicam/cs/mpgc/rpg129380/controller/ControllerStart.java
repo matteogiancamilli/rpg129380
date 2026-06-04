@@ -50,10 +50,7 @@ public class ControllerStart {
 
     @FXML
     private void apriNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
-        // 1. Recuperiamo la finestra (Stage) dal bottone che è stato premuto
         Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-
-        // 2. Usiamo il navigatore (Passiamo null per Personaggio perché stiamo solo aprendo il form)
         NavigatoreSchermate.cambiaScena(stage, "/javafx/nuovapartita.fxml", null, this.gestoreSalvataggi);
     }
 
@@ -66,7 +63,6 @@ public class ControllerStart {
         }
 
         Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-        // Qui passiamo il personaggio caricato
         NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", personaggio, this.gestoreSalvataggi);
     }
 

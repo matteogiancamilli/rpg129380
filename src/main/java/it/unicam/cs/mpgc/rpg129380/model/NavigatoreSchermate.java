@@ -26,15 +26,13 @@ public class NavigatoreSchermate {
 
         if (prossimoLivello <= Livello.values().length) {
             try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                        getClass().getResource("/javafx/dialogscreen.fxml"));
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
                 javafx.scene.Parent root = loader.load();
 
                 ControllerDialogScreen controller = loader.getController();
                 controller.initData(p);
-                controller.setGestoreSalvataggi(this.gestoreSalvataggi); // <-- AGGIUNTO
+                controller.setGestoreSalvataggi(this.gestoreSalvataggi);
 
-                // Usa lo stage passato come parametro, non cercare di prenderlo dal battleLog!
                 stage.setScene(new javafx.scene.Scene(root));
                 stage.show();
             } catch (IOException ex) {
@@ -42,7 +40,6 @@ public class NavigatoreSchermate {
                 mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata successiva.");
             }
         } else {
-            // Invece di scrivere sul log della vecchia battaglia, mostriamo un popup di vittoria
             mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il it.unicam.cs.mpgc.rpg129380.model.gioco! Sei il campione!");
         }
     }
@@ -56,14 +53,12 @@ public class NavigatoreSchermate {
                 return;
             }
 
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/javafx/dialogscreen.fxml"));
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
             javafx.scene.Parent root = loader.load();
 
             ControllerDialogScreen controller = loader.getController();
             controller.initData(pCaricato);
-            controller.setGestoreSalvataggi(this.gestoreSalvataggi); // <-- AGGIUNTO
-
+            controller.setGestoreSalvataggi(this.gestoreSalvataggi);
             stage.setScene(new javafx.scene.Scene(root));
             stage.show();
         } catch (IOException ex) {
@@ -72,7 +67,6 @@ public class NavigatoreSchermate {
         }
     }
 
-    // Metodo helper per tenere la classe pulita
     private void mostraPopup(Alert.AlertType tipo, String titolo, String messaggio) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titolo);

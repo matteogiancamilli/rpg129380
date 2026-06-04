@@ -19,23 +19,23 @@ public abstract class Classe {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return "Classe: " + nome + "/ Vita: " + vita + " / + Attacco: " + attacco + " / Velocità: " + velocita;
     }
 
-    public String getNome() {
+    public String getNome(){
         return nome;
     }
 
-    public int getVita() {
+    public int getVita(){
         return vita;
     }
 
-    public int getVelocita() {
+    public int getVelocita(){
         return velocita;
     }
 
-    public Abilita[] getAbilita() {
+    public Abilita[] getAbilita(){
         return abilita;
     }
 }

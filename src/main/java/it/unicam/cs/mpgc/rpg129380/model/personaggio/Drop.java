@@ -24,13 +24,11 @@ public class Drop {
     }
 
     private static Oggetto estraiCasuale(Oggetto[] tutti, int[] pesi) {
-        // 1. Calcoliamo il totale dei pesi direttamente qui dentro
         int totale = 0;
         for (int peso : pesi) {
             totale += peso;
         }
 
-        // 2. Ora possiamo tirare il dado senza errori
         int dado = RNG.nextInt(totale);
         int accumulato = 0;
 
@@ -39,6 +37,6 @@ public class Drop {
             if (dado < accumulato) return tutti[i];
         }
 
-        return tutti[0]; // Ritorno di sicurezza
+        return tutti[0];
     }
 }

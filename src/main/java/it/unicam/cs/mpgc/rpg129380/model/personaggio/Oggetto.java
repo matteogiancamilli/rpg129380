@@ -28,26 +28,14 @@ public enum Oggetto {
     private final TipoOggetto tipo;
     private final EffettoOggetto effetto;
 
-    Oggetto(int id, String descrizione, TipoOggetto tipo, EffettoOggetto effetto) {
+    Oggetto(int id, String descrizione, TipoOggetto tipo, EffettoOggetto effetto){
         this.id = id;
         this.descrizione = descrizione;
         this.tipo = tipo;
         this.effetto = effetto;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public TipoOggetto getTipo() {
-        return tipo;
-    }
-
-    public String getNomeVisuale() {
+    public String getNomeVisuale(){
         return switch (this) {
             case POZIONESALVAVITA -> "Pozione Salva Vita";
             case POZIONEDELDRAGO  -> "Pozione del Drago";
@@ -58,11 +46,23 @@ public enum Oggetto {
         };
     }
 
-    public void applicaEffetto(Personaggio p, Nemico n) {
+    public void applicaEffetto(Personaggio p, Nemico n){
         effetto.applica(p, n);
     }
 
-    public TipoOggetto getTipoOggetto() {
+    public TipoOggetto getTipoOggetto(){
+        return tipo;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public String getDescrizione(){
+        return descrizione;
+    }
+
+    public TipoOggetto getTipo(){
         return tipo;
     }
 }

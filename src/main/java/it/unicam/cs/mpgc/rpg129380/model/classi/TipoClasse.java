@@ -23,15 +23,19 @@ public enum TipoClasse {
         this.mana = mana;
     }
 
-    public String getNome()        { return nome; }
-    public String getDescrizione() { return descrizione; }
-    public Classe crea()           { return factory.get(); }
+    public Classe crea(){
+        return factory.get();
+    }
 
-    public static TipoClasse daId(int id) {     // 1-based per il menu
+    public static TipoClasse daId(int id) {
         if (id < 1 || id > values().length) {
             throw new IllegalArgumentException("Id non valido: " + id);
         }
         return values()[id - 1];
+    }
+
+    public Abilita[] abilitaIniziali() {
+        return crea().getAbilita();
     }
 
     public static TipoClasse daNome(String nome) {
@@ -41,12 +45,20 @@ public enum TipoClasse {
         throw new IllegalArgumentException("Classe non valida: " + nome);
     }
 
-    public int getVita() {
+    public int getVita(){
         return vita;
     }
-    public int getMana() { return mana; }
-
-    public Abilita[] abilitaIniziali() {
-        return crea().getAbilita();
+    public int getMana(){
+        return mana;
     }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public String getDescrizione(){
+        return descrizione;
+    }
+
+
 }

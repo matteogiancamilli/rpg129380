@@ -24,26 +24,27 @@ public class Salvataggio {
 
     }
 
-    public String getNomePersonaggio() {
+    public String getNomePersonaggio(){
         return nomePersonaggio;
     }
 
-    public TipoClasse getClasse() {
+    public TipoClasse getClasse(){
         return classe;
     }
 
-
-    public int getLivelloPersonaggio() {
+    public int getLivelloPersonaggio(){
         return livelloPersonaggio;
     }
 
-    public Inventario getInventario(){ return inventario;}
+    public Inventario getInventario(){
+        return inventario;
+    }
 
-    public int getVitaMax() {
+    public int getVitaMax(){
         return vitaMax;
     }
 
-    public int getManaMax() {
+    public int getManaMax(){
         return manaMax;
     }
 }

@@ -74,7 +74,6 @@ public class ControllerNuovaPartita implements Inizializzabile {
     @Override
     public void initDati(Personaggio personaggio, GestoreSalvataggi gestoreSalvataggi) {
         this.gestoreSalvataggi = gestoreSalvataggi;
-        // personaggio è null quando si apre la schermata nuova partita, va bene così
     }
 
     @FXML

@@ -9,14 +9,6 @@ public class Nemico {
         this.vitaCorrente = tipo.getVitaMassima();
     }
 
-    public Mostro getTipo(){
-        return tipo;
-    }
-
-    public int getVitaCorrente(){
-        return vitaCorrente;
-    }
-
     public void subisciDanno(int danno){
         this.vitaCorrente -= danno;
         if (this.vitaCorrente < 0) {
@@ -30,5 +22,13 @@ public class Nemico {
 
     public void resetMostro(){
         this.vitaCorrente = tipo.getVitaMassima();
+    }
+
+    public Mostro getTipo(){
+        return tipo;
+    }
+
+    public int getVitaCorrente(){
+        return vitaCorrente;
     }
 }
