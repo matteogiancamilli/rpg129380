@@ -1,5 +1,6 @@
 package Controller;
 
+import gioco.GestoreCombattimento;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -10,6 +11,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.util.Duration;
+import model.nemici.Nemico;
+import model.personaggio.Abilita;
+import model.personaggio.Drop;
+import model.personaggio.Oggetto;
+import model.personaggio.Personaggio;
 
 public class ControllerBattaglia {
 
@@ -33,8 +39,8 @@ public class ControllerBattaglia {
     private FlowPane    oggettiPane;   // griglia oggetti nell'inventario
     private Label       labelOggetto;  // tooltip testuale in basso
 
-    public ControllerBattaglia(NavigatoreSchermate navigatoreSchermate) {
-        this.navigatoreSchermate = navigatoreSchermate;
+    public ControllerBattaglia() {
+        this.navigatoreSchermate = new NavigatoreSchermate(new CreatoreSalvataggi());
     }
 
     // ── Configurazione ────────────────────────────────────

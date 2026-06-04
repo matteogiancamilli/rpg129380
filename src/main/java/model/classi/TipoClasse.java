@@ -1,9 +1,7 @@
-package model;
+package model.classi;
 
-import model.classi.Arciere;
-import model.classi.Classe;
-import model.classi.Guerriero;
-import model.classi.Mago;
+import interfaces.Classe;
+import model.personaggio.Abilita;
 
 import java.util.function.Supplier;
 
@@ -44,13 +42,12 @@ public enum TipoClasse {
         throw new IllegalArgumentException("Classe non valida: " + nome);
     }
 
-
     public int getVita() {
         return vita;
     }
     public int getMana() { return mana; }
 
     public Abilita[] abilitaIniziali() {
-        return crea().abilitaIniziali();
+        return crea().getAbilita();
     }
 }

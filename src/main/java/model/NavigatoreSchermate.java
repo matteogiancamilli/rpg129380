@@ -1,8 +1,12 @@
 package model;
 
+import gioco.Livello;
+import interfaces.GestoreSalvataggi;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import Controller.ControllerDialogScreen;
+import model.personaggio.Personaggio;
+
 import java.io.IOException;
 
 public class NavigatoreSchermate {

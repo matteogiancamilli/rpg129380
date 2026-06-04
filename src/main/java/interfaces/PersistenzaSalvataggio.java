@@ -1,4 +1,6 @@
-package model;
+package interfaces;
+
+import model.personaggio.Personaggio;
 
 import java.io.IOException;
 

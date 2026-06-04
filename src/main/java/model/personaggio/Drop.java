@@ -1,4 +1,4 @@
-package model;
+package model.personaggio;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ public class Drop {
         int[] pesi = new int[tutti.length];
 
         for (int i = 0; i < tutti.length; i++) {
-            pesi[i] = (tutti[i].getTipo() == OggettoTipo.RARO) ? PESO_RARO : PESO_NORMALE;
+            pesi[i] = (tutti[i].getTipo() == TipoOggetto.RARO) ? PESO_RARO : PESO_NORMALE;
         }
 
         return pesi;

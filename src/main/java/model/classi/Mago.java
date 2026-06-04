@@ -1,6 +1,7 @@
 package model.classi;
 
-import model.Abilita;
+import interfaces.Classe;
+import model.personaggio.Abilita;
 
 public class Mago extends Classe {
 

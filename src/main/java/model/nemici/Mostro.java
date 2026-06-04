@@ -1,4 +1,4 @@
-package model;
+package model.nemici;
 
 import java.util.Random;
 

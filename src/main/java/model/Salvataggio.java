@@ -1,5 +1,8 @@
 package model;
 
+import model.classi.TipoClasse;
+import model.personaggio.Inventario;
+
 public class Salvataggio {
 
     private String nomePersonaggio;

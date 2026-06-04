@@ -5,7 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import model.classi.Classe;
+import interfaces.Classe;
+import interfaces.GestoreSalvataggi;
+import model.classi.TipoClasse;
+import model.personaggio.Abilita;
+import model.personaggio.Personaggio;
 
 import java.io.FileReader;
 import java.io.FileWriter;

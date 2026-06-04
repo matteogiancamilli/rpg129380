@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.*;
+import model.classi.TipoClasse;
+import model.personaggio.Inventario;
+import model.personaggio.Personaggio;
 
 import java.io.IOException;
 

@@ -1,4 +1,7 @@
-package model;
+package interfaces;
+
+import model.nemici.Nemico;
+import model.personaggio.Personaggio;
 
 @FunctionalInterface
 public interface EffettoOggetto {

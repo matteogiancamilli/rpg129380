@@ -1,11 +1,18 @@
 package Controller;
 
+import gioco.GestoreCombattimento;
+import gioco.Livello;
+import gioco.Missione;
+import interfaces.PersistenzaSalvataggio;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import model.*;
+import model.personaggio.Personaggio;
+
+import java.io.IOException;
 
 public class ControllerDialogScreen {
 
@@ -15,8 +22,8 @@ public class ControllerDialogScreen {
     private Personaggio currentPersonaggio;
     private final PersistenzaSalvataggio salvataggi;
 
-    public ControllerDialogScreen(PersistenzaSalvataggio salvataggi) {
-        this.salvataggi = salvataggi;
+    public ControllerDialogScreen() {
+        this.salvataggi = new CreatoreSalvataggi();
     }
 
     @FXML
@@ -42,7 +49,11 @@ public class ControllerDialogScreen {
 
     @FXML
     private void handleContinua(ActionEvent event){
-        salvataggi.salva(currentPersonaggio);
+        try {
+            salvataggi.salva(currentPersonaggio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Missione missione = new Missione(currentPersonaggio.getLivello() - 1, currentPersonaggio);
         GestoreCombattimento gestore = new GestoreCombattimento(currentPersonaggio, missione.getMostro());
@@ -64,7 +75,11 @@ public class ControllerDialogScreen {
     private void handleSaveAndExit(ActionEvent event) {
         if (currentPersonaggio != null) {
             CreatoreSalvataggi gestore = new CreatoreSalvataggi();
-            gestore.salva(currentPersonaggio);
+            try {
+                gestore.salva(currentPersonaggio);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();

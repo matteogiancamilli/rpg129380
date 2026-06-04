@@ -1,7 +1,10 @@
-package model;
+package model.personaggio;
+
+import interfaces.EffettoOggetto;
+import model.nemici.Nemico;
 
 public enum Oggetto {
-    POZIONESALVAVITA(1, "Ripristina 50 di vita", TipoOggetto.CURA, (p,n) -> p.cura(50)),
+    POZIONESALVAVITA(1, "Ripristina 50 di vita", TipoOggetto.CURA, (p, n) -> p.cura(50)),
 
     POZIONEDELDRAGO(2, "Infligge 30 di danno", TipoOggetto.DANNO, (p,n) -> n.subisciDanno(30)),
 

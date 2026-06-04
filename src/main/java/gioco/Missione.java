@@ -1,4 +1,8 @@
-package model;
+package gioco;
+
+import model.nemici.Mostro;
+import model.nemici.Nemico;
+import model.personaggio.Personaggio;
 
 public class Missione {
 

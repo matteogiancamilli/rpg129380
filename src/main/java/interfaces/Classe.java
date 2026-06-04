@@ -1,6 +1,6 @@
-package model.classi;
+package interfaces;
 
-import model.Abilita;
+import model.personaggio.Abilita;
 
 public abstract class Classe {
 
@@ -33,5 +33,9 @@ public abstract class Classe {
 
     public int getVelocita() {
         return velocita;
+    }
+
+    public Abilita[] getAbilita() {
+        return abilita;
     }
 }

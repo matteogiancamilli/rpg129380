@@ -10,8 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.GestoreSalvataggi;
-import model.Personaggio;
+import model.CreatoreSalvataggi;
+import interfaces.GestoreSalvataggi;
+import model.personaggio.Personaggio;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +32,9 @@ public class ControllerStart {
 
     @FXML
     private void initialize(){
-        this.gestoreSalvataggi = AppContext.getGestoreSalvataggi();
-       boolean partitaEsistente = controllaSalvataggio();
-       bottoneContinuaPartita.setDisable(!partitaEsistente);
+        this.gestoreSalvataggi = new CreatoreSalvataggi();
+        boolean partitaEsistente = controllaSalvataggio();
+        bottoneContinuaPartita.setDisable(!partitaEsistente);
     }
 
     @FXML

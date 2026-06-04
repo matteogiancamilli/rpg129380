@@ -1,4 +1,7 @@
-package model;
+package model.personaggio;
+
+import interfaces.Persona;
+import model.classi.TipoClasse;
 
 public class Personaggio extends Persona {
 

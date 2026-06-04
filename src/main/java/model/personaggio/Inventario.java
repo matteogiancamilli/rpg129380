@@ -1,8 +1,7 @@
-package model;
+package model.personaggio;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Inventario {
 

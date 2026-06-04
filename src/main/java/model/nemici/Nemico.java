@@ -1,4 +1,4 @@
-package model;
+package model.nemici;
 
 public class Nemico {
     private final Mostro tipo;

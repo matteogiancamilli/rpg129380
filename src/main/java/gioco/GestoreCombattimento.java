@@ -1,4 +1,9 @@
-package model;
+package gioco;
+
+import model.nemici.Nemico;
+import model.personaggio.Abilita;
+import model.personaggio.Oggetto;
+import model.personaggio.Personaggio;
 
 public class GestoreCombattimento {
 
@@ -12,7 +17,7 @@ public class GestoreCombattimento {
     }
 
     private final Personaggio personaggio;
-    private final Nemico      mostro;
+    private final Nemico mostro;
 
     /** Danno effettivo inflitto al mostro nell'ultimo turno (per il log). */
     private int ultimoDannoInflitto = 0;

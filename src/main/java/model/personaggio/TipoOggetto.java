@@ -1,4 +1,4 @@
-package model;
+package model.personaggio;
 
 public enum TipoOggetto {
     CURA    ("btn-oggetto-cura"),
