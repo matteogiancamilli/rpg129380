@@ -61,27 +61,24 @@ public class CreatoreSalvataggi implements GestoreSalvataggi {
 
     public void salva(Personaggio p) throws IOException {
         Salvataggio data = new Salvataggio(p.getNome(), p.getClasse(), p.getInventario(), p.getLivello(), p.getVitaMax(), p.getManaMax());
-
-        try (FileWriter writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(data, writer);
-        }
+        String jsonString = gson.toJson(data);
+        FileManager.scriviFile(FILE_PATH, jsonString);
     }
 
     public Personaggio carica() throws IOException {
-        if (!esisteSalvataggio()) return null;
-        try (FileReader reader = new FileReader(FILE_PATH)) {
-            Salvataggio data = gson.fromJson(reader, Salvataggio.class);
-            if (data == null) return null;
+        if (!FileManager.esiste(FILE_PATH)) return null;
+        String jsonString = FileManager.leggiFile(FILE_PATH);
+        Salvataggio data = gson.fromJson(jsonString, Salvataggio.class);
+        if (data == null) return null;
 
-            TipoClasse tipoClasse = data.getClasse();
-            Classe classe = tipoClasse.crea();
+        TipoClasse tipoClasse = data.getClasse();
+        Classe classe = tipoClasse.crea();
 
-            Abilita[] abilita = tipoClasse.abilitaIniziali();
+        Abilita[] abilita = tipoClasse.abilitaIniziali();
 
-            int vitaMax = data.vitaMax > 0 ? data.vitaMax : tipoClasse.getVita();
-            int manaMax = data.manaMax > 0 ? data.manaMax : tipoClasse.getMana();
-            return new Personaggio(data.getNomePersonaggio(), vitaMax, manaMax, data.getLivelloPersonaggio(), data.getInventario(), tipoClasse, abilita);
-        }
+        int vitaMax = data.vitaMax > 0 ? data.vitaMax : tipoClasse.getVita();
+        int manaMax = data.manaMax > 0 ? data.manaMax : tipoClasse.getMana();
+        return new Personaggio(data.getNomePersonaggio(), vitaMax, manaMax, data.getLivelloPersonaggio(), data.getInventario(), tipoClasse, abilita);
     }
 
     public void resetSalvataggio() throws IOException {

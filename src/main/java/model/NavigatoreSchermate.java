@@ -2,6 +2,9 @@ package model;
 
 import gioco.Livello;
 import interfaces.GestoreSalvataggi;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import Controller.ControllerDialogScreen;
@@ -74,5 +77,21 @@ public class NavigatoreSchermate {
         alert.setHeaderText(null);
         alert.setContentText(messaggio);
         alert.showAndWait();
+    }
+
+    public static void cambiaScena(Stage stage, String fxmlPath, Personaggio p, GestoreSalvataggi salvataggi) throws IOException {
+        FXMLLoader loader = new FXMLLoader(NavigatoreSchermate.class.getResource(fxmlPath));
+        Parent root = loader.load();
+
+        // Gestione generica del passaggio di dati ai controller
+        Object controller = loader.getController();
+        if (controller instanceof ControllerDialogScreen) {
+            ((ControllerDialogScreen) controller).initData(p);
+            ((ControllerDialogScreen) controller).setGestoreSalvataggi(salvataggi);
+        }
+        // Aggiungere qui altri "if" per altri controller, oppure usare una interfaccia comune
+
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

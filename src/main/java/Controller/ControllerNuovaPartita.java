@@ -1,5 +1,6 @@
 package Controller;
 
+import interfaces.GestoreSalvataggi;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +18,8 @@ import model.personaggio.Inventario;
 import model.personaggio.Personaggio;
 
 import java.io.IOException;
+
+import static model.NavigatoreSchermate.cambiaScena;
 
 public class ControllerNuovaPartita {
 
@@ -52,42 +55,26 @@ public class ControllerNuovaPartita {
     @FXML
     public void iniziaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
         if (nomePersonaggio.getText().isEmpty()) {
-            errorDisplay(1);
+            mostraErrore("Inserisci un nome per il personaggio");
             return;
         }
         if (selezionaClasse.getValue() == null) {
-            errorDisplay(2);
+            mostraErrore("Seleziona una classe");
             return;
         }
         TipoClasse classe = selezionaClasse.getValue();
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
-        new CreatoreSalvataggi().nuovo(p);
-        cambiaScena(actionEvent, "/javafx/dialogscreen.fxml", p);
-    }
+        // 1. Istanziamo il gestore e salviamo la nuova partita
+        GestoreSalvataggi salvataggi = new CreatoreSalvataggi();
+        salvataggi.nuovo(p);
 
-    private void cambiaScena(javafx.event.ActionEvent event, String fxml, Personaggio personaggio) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-        Parent root = loader.load();
-
-        ControllerDialogScreen dialogController = loader.getController();
-        if (dialogController != null) {
-            dialogController.initData(personaggio);
-        }
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        // 2. Cambiamo scena andando al dialogo del Livello 1
+        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+        NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", p, salvataggi);
     }
 
     @FXML
-    private void errorDisplay(int errore){
-        switch (errore){
-            case 1:
-                errorDisplay.setText("Inserisci un nome per il personaggio");
-                break;
-            case 2:
-                errorDisplay.setText("Seleziona una classe");
-
-        }
+    private void mostraErrore(String messaggio){
+        errorDisplay.setText(messaggio);
     }
 }

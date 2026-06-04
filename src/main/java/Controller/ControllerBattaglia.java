@@ -1,6 +1,7 @@
 package Controller;
 
 import gioco.GestoreCombattimento;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -19,6 +20,8 @@ import model.personaggio.Personaggio;
 
 public class ControllerBattaglia {
 
+
+
     // ── Dati ──────────────────────────────────────────────
     private GestoreCombattimento gestore;
     private final NavigatoreSchermate navigatoreSchermate;
@@ -26,14 +29,16 @@ public class ControllerBattaglia {
     private static final Duration PAUSA_SCONFITTA = Duration.seconds(5);
 
     // ── Riferimenti UI aggiornabili ───────────────────────
-    private Label       battleLog;
-    private ProgressBar hpBarGiocatore;
-    private Label       hpLabelGiocatore;
-    private ProgressBar hpBarMostro;
-    private Label       hpLabelMostro;
-    private VBox        abilitaBox;
-    private Label       manaLabel;
-    private Label       descrizioneAbilita;
+    @FXML private Label battleLog;
+    @FXML private ProgressBar hpBarGiocatore;
+    @FXML private Label hpLabelGiocatore;
+    @FXML private ProgressBar hpBarMostro;
+    @FXML private Label hpLabelMostro;
+    @FXML private VBox abilitaBox;
+    @FXML private Label manaLabel;
+    @FXML private Label descrizioneAbilita;
+    @FXML private Label nomeGiocatore;
+    @FXML private Label nomeMostro;
 
     // ── Sezione oggetti ───────────────────────────────────
     private FlowPane    oggettiPane;   // griglia oggetti nell'inventario
@@ -49,22 +54,9 @@ public class ControllerBattaglia {
     }
 
     // ── Costruzione scena principale ──────────────────────
-    public javafx.scene.Scene costruisciScena() {
-        HBox arena = creaArena();
-        battleLog = creaLog();
-        TabPane pannello = creaPannelloAzioni();
-
-        VBox bottom = new VBox(6, battleLog, pannello);
-        bottom.setPadding(new Insets(10));
-
-        BorderPane root = new BorderPane();
-        root.setCenter(arena);
-        root.setBottom(bottom);
-        root.setMinSize(700, 680);   // garantisce che arena + barre HP siano visibili
-
-        javafx.scene.Scene scene = new javafx.scene.Scene(root, 700, 720);
-        scene.getStylesheets().add(getClass().getResource("/javafx/battaglia.css").toExternalForm());
-        return scene;
+    public void initData(GestoreCombattimento gestore) {
+        this.gestore = gestore;
+        aggiornaUI();
     }
 
     // ── Helper: Crea l'area superiore (Giocatore e Mostro)

@@ -66,10 +66,10 @@ public class GestoreCombattimento {
         personaggio.subisciDanno(dannoMostro);   // subisciDanno applica già il bonus difesa
 
         // Fine turno: reset bonus oggetti e tick cooldown
-        personaggio.resettaBonus();
+        personaggio.eseguiFineTurno(); // <-- Feature Envy risolta
 
-        for (Abilita a : personaggio.getAbilitas())
-            a.tickCooldown();
+        if (personaggio.isSconfitto())
+            return RisultatoTurno.PERSONAGGIO_SCONFITTO;
 
         if (personaggio.isSconfitto())
             return RisultatoTurno.PERSONAGGIO_SCONFITTO;

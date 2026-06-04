@@ -1,15 +1,22 @@
+import Controller.ControllerStart;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.CreatoreSalvataggi;
 
 public class MainFx extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/javafx/startingscreen.fxml"));
-        stage.setTitle("Magic Strike");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/startingscreen.fxml"));
+        Parent root = loader.load();
+
+        // Iniezione della dipendenza
+        ControllerStart startController = loader.getController();
+        startController.setGestoreSalvataggi(new CreatoreSalvataggi());
+
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
     }

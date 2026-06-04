@@ -12,10 +12,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.CreatoreSalvataggi;
 import interfaces.GestoreSalvataggi;
+import model.NavigatoreSchermate;
 import model.personaggio.Personaggio;
 
 import java.io.File;
 import java.io.IOException;
+
+import static model.NavigatoreSchermate.cambiaScena;
 
 public class ControllerStart {
 
@@ -29,6 +32,10 @@ public class ControllerStart {
     private Button bottoneCrediti;
 
     private GestoreSalvataggi gestoreSalvataggi;
+
+    public void setGestoreSalvataggi(GestoreSalvataggi gestore) {
+        this.gestoreSalvataggi = gestore;
+    }
 
     @FXML
     private void initialize(){
@@ -49,9 +56,11 @@ public class ControllerStart {
 
     @FXML
     private void apriNuovaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/nuovapartita.fxml"));
-        Parent root = loader.load();
-        stageLoader(root, actionEvent);
+        // 1. Recuperiamo la finestra (Stage) dal bottone che è stato premuto
+        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+
+        // 2. Usiamo il navigatore (Passiamo null per Personaggio perché stiamo solo aprendo il form)
+        NavigatoreSchermate.cambiaScena(stage, "/javafx/nuovapartita.fxml", null, this.gestoreSalvataggi);
     }
 
     @FXML
@@ -61,18 +70,10 @@ public class ControllerStart {
             bottoneContinuaPartita.setDisable(true);
             return;
         }
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
-        Parent root = loader.load();
-        ControllerDialogScreen controllerDialogScreen = loader.getController();
-        controllerDialogScreen.initData(personaggio);
-        stageLoader(root, actionEvent);
 
-    }
-
-    private void stageLoader(Parent root, ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+        // Qui passiamo il personaggio caricato
+        NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", personaggio, this.gestoreSalvataggi);
     }
 
     @FXML

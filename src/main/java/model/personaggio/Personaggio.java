@@ -116,6 +116,13 @@ public class Personaggio extends Persona {
         this.mana    = manaMax;
     }
 
+    public void eseguiFineTurno() {
+        this.resettaBonus(); // Azzera bonus temporanei attacco/difesa
+        for (Abilita a : this.abilitas) {
+            a.tickCooldown(); // Scala i cooldown delle abilità
+        }
+    }
+
     // ── Accessori ─────────────────────────────────────────
     public Inventario getInventario() { return inventario; }
     public TipoClasse getClasse()     { return classe; }
