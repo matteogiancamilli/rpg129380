@@ -1,6 +1,5 @@
 package it.unicam.cs.mpgc.rpg129380.model;
 
-import it.unicam.cs.mpgc.rpg129380.controller.ControllerDialogScreen;
 import it.unicam.cs.mpgc.rpg129380.model.gioco.Livello;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
 import javafx.fxml.FXMLLoader;
@@ -22,45 +21,21 @@ public class NavigatoreSchermate {
     }
 
     public void navigaASchermataSuccessiva(Stage stage, Personaggio p) {
-        int prossimoLivello = p.getLivello();
-
-        if (prossimoLivello <= Livello.values().length) {
-            try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
-                javafx.scene.Parent root = loader.load();
-
-                ControllerDialogScreen controller = loader.getController();
-                controller.initData(p);
-                controller.setGestoreSalvataggi(this.gestoreSalvataggi);
-
-                stage.setScene(new javafx.scene.Scene(root));
-                stage.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata successiva.");
-            }
+        if (p.getLivello() <= Livello.values().length) {
+            caricaEMostra(stage, "/javafx/dialogscreen.fxml", p);
         } else {
-            mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il it.unicam.cs.mpgc.rpg129380.model.gioco! Sei il campione!");
+            mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il gioco! Sei il campione!");
         }
     }
 
     public void caricaSalvataggioENaviga(Stage stage) {
         try {
             Personaggio pCaricato = this.gestoreSalvataggi.carica();
-
             if (pCaricato == null) {
                 mostraPopup(Alert.AlertType.WARNING, "Attenzione", "Nessun salvataggio trovato.");
                 return;
             }
-
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/javafx/dialogscreen.fxml"));
-            javafx.scene.Parent root = loader.load();
-
-            ControllerDialogScreen controller = loader.getController();
-            controller.initData(pCaricato);
-            controller.setGestoreSalvataggi(this.gestoreSalvataggi);
-            stage.setScene(new javafx.scene.Scene(root));
-            stage.show();
+            caricaEMostra(stage, "/javafx/dialogscreen.fxml", pCaricato);
         } catch (IOException ex) {
             ex.printStackTrace();
             mostraPopup(Alert.AlertType.ERROR, "Errore", "Errore nel caricare il salvataggio.");
@@ -86,5 +61,21 @@ public class NavigatoreSchermate {
 
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    private void caricaEMostra(Stage stage, String fxmlPath, Personaggio p) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Object controller = loader.getController();
+            if (controller instanceof Inizializzabile) {
+                ((Inizializzabile) controller).initDati(p, this.gestoreSalvataggi);
+            }
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata.");
+        }
     }
 }

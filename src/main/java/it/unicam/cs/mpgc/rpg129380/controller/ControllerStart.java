@@ -33,7 +33,6 @@ public class ControllerStart {
 
     @FXML
     private void initialize(){
-        this.gestoreSalvataggi = new CreatoreSalvataggi();
         boolean partitaEsistente = controllaSalvataggio();
         bottoneContinuaPartita.setDisable(!partitaEsistente);
     }

@@ -3,7 +3,6 @@ package it.unicam.cs.mpgc.rpg129380.controller;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
 import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -14,7 +13,6 @@ import it.unicam.cs.mpgc.rpg129380.model.*;
 import it.unicam.cs.mpgc.rpg129380.model.classi.TipoClasse;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Inventario;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
-import it.unicam.cs.mpgc.rpg129380.model.salvataggi.CreatoreSalvataggi;
 
 import java.io.IOException;
 
@@ -67,7 +65,6 @@ public class ControllerNuovaPartita implements Inizializzabile {
         Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
         this.gestoreSalvataggi.nuovo(p);
 
-        // 2. Cambiamo scena andando al dialogo del Livello 1
         Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
         NavigatoreSchermate.cambiaScena(stage, "/javafx/dialogscreen.fxml", p, this.gestoreSalvataggi);
     }
