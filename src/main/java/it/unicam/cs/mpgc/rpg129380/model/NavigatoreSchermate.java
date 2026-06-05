@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg129380.model;
 
 import it.unicam.cs.mpgc.rpg129380.model.gioco.Livello;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +25,10 @@ public class NavigatoreSchermate {
         if (p.getLivello() <= Livello.values().length) {
             caricaEMostra(stage, "/javafx/dialogscreen.fxml", p);
         } else {
-            mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il gioco! Sei il campione!");
+            Platform.runLater(() -> {
+                mostraPopup(Alert.AlertType.INFORMATION, "Vittoria!", "Hai completato il gioco! Sei il campione!");
+                stage.close();
+            });
         }
     }
 
@@ -64,18 +68,20 @@ public class NavigatoreSchermate {
     }
 
     private void caricaEMostra(Stage stage, String fxmlPath, Personaggio p) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            Object controller = loader.getController();
-            if (controller instanceof Inizializzabile) {
-                ((Inizializzabile) controller).initDati(p, this.gestoreSalvataggi);
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+                Parent root = loader.load();
+                Object controller = loader.getController();
+                if (controller instanceof Inizializzabile) {
+                    ((Inizializzabile) controller).initDati(p, this.gestoreSalvataggi);
+                }
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata.");
             }
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata.");
-        }
+        });
     }
 }

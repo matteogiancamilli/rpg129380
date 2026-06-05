@@ -20,8 +20,8 @@
       <TextField fx:id="nomePersonaggio" prefHeight="26.0" prefWidth="263.0" GridPane.columnIndex="1" />
       <Label text="Inserisci Nome Personaggio" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
       <Label text="Specifiche di classe" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <TextArea fx:id="descrizioneClasse" prefHeight="61.0" prefWidth="169.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextArea fx:id="descrizioneClasse" prefHeight="61.0" prefWidth="169.0" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Button fx:id="iniziaPartita" alignment="CENTER" mnemonicParsing="false" onAction="#iniziaPartita" text="Inizia Partita" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <TextArea fx:id="errorDisplay" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+      <TextArea fx:id="errorDisplay" prefHeight="200.0" prefWidth="200.0" editable="false" GridPane.rowIndex="3" />
    </children>
 </GridPane>
