@@ -57,7 +57,8 @@ public class ControllerBattaglia {
 
         for (Abilita a : p.getAbilitas()) {
             Button btn = new Button(testoBottone(a));
-            btn.setPrefWidth(220);
+            btn.setWrapText(true);
+            btn.setPrefWidth(280);
             btn.setOnAction(e -> gestisciAzione(a));
             btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
             btn.setOnMouseExited(e -> descrizioneAbilita.setText(" "));
