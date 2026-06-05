@@ -33,9 +33,10 @@ public class ControllerNuovaPartita implements Inizializzabile {
 
     private GestoreSalvataggi gestoreSalvataggi;
 
-
     @FXML
     public void initialize() {
+        descrizioneClasse.setEditable(false);
+        errorDisplay.setEditable(false);
         selezionaClasse.getItems().addAll(TipoClasse.values());
         selezionaClasse.setConverter(new StringConverter<TipoClasse>() {
             public String toString(TipoClasse t) {

@@ -32,6 +32,7 @@ public class ControllerDialogScreen implements Inizializzabile {
 
     @FXML
     public void initialize() {
+        textArea.setEditable(false);
     }
 
     public void setStoria(String text) {
