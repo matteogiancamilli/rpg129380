@@ -10,7 +10,7 @@ I progressi del giocatore sono persistenti grazie a un sistema di salvataggio e 
 
 ### Prerequisiti
 
-* Java 21 (LTS) o superiore
+* Java 25 (LTS) o superiore
 * Gradle (o utilizzo del Gradle Wrapper incluso nel progetto)
 
 ### Istruzioni
