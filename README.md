@@ -10,7 +10,7 @@ I progressi del giocatore sono persistenti grazie a un sistema di salvataggio e 
 
 ### Prerequisiti
 
-* Java 21 (LTS) o superiore
+* Java 25 (LTS) o superiore
 * Gradle (o utilizzo del Gradle Wrapper incluso nel progetto)
 
 ### Istruzioni
@@ -41,7 +41,7 @@ cd rpg129380
 
 Durante lo sviluppo di questo progetto sono stati utilizzati strumenti di Intelligenza Artificiale (LLM) come supporto all'apprendimento, al debugging e al miglioramento della qualità del codice, senza sostituire il lavoro di progettazione e comprensione logica.
 
-L'AI è stata utilizzata in particolare per:
+L'AI (Gemini e Claude) è stata utilizzata in particolare per:
 * Troubleshooting iniziale
 * Miglioramento dell'Interfaccia
 * Supporto al Refactoring
