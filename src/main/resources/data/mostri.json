@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "chiave": "GOBLIN",
+    "nome": "Goblin",
+    "vitaMassima": 120,
+    "attacco": 20,
+    "moltiplicatoreMassimo": 1.5,
+    "introduzione": "Appare un piccolo omuncolo dalle fratte... È un goblin!"
+  },
+  {
+    "id": 2,
+    "chiave": "SCAGNOZZO",
+    "nome": "Scagnozzo",
+    "vitaMassima": 200,
+    "attacco": 28,
+    "moltiplicatoreMassimo": 2.0,
+    "introduzione": "Da dietro un palazzo, in modo diffidente, ti appare davanti uno scagnozzo di media statura. Non sembra avere buone intenzioni..."
+  },
+  {
+    "id": 3,
+    "chiave": "APPRENDISTAMAGO",
+    "nome": "Apprendista Mago",
+    "vitaMassima": 260,
+    "attacco": 35,
+    "moltiplicatoreMassimo": 2.5,
+    "introduzione": "Dalla cima della torre, esce un mago pronto a difendere il suo castello!"
+  },
+  {
+    "id": 4,
+    "chiave": "DRAGODELLAFORESTA",
+    "nome": "Drago della Foresta",
+    "vitaMassima": 350,
+    "attacco": 42,
+    "moltiplicatoreMassimo": 2.5,
+    "introduzione": "Dalla cima della montagna, appare imponente il drago protettore della foresta."
+  },
+  {
+    "id": 5,
+    "chiave": "SIGNOREOSCURO",
+    "nome": "Signore Oscuro",
+    "vitaMassima": 500,
+    "attacco": 50,
+    "moltiplicatoreMassimo": 3.0,
+    "introduzione": "Ed ecco apparire dalle tenebre colui che hanno tutti temuto... Il Signore Oscuro!"
+  }
+]

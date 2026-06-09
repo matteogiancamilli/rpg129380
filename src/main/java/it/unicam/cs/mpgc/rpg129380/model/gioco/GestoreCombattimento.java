@@ -2,7 +2,7 @@ package it.unicam.cs.mpgc.rpg129380.model.gioco;
 
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.Oggetto;
+import it.unicam.cs.mpgc.rpg129380.model.personaggio.OggettoDati;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
 public class GestoreCombattimento {
@@ -55,7 +55,6 @@ public class GestoreCombattimento {
         int dannoMostro = mostro.getTipo().getAttaccoEffettivo();
         ultimoDannoSubito = dannoMostro;
         personaggio.subisciDanno(dannoMostro);
-
         personaggio.eseguiFineTurno();
 
         if (personaggio.isSconfitto())
@@ -74,25 +73,24 @@ public class GestoreCombattimento {
         return RisultatoTurno.OK;
     }
 
-
-    public boolean eseguiUsoOggetto(Oggetto oggetto) {
+    public boolean eseguiUsoOggetto(OggettoDati oggetto) {
         oggetto.applicaEffetto(personaggio, mostro);
         return personaggio.getInventario().rimuovi(oggetto);
     }
 
-    public int getUltimoDannoInflitto() {
+    public int getUltimoDannoInflitto(){
         return ultimoDannoInflitto;
     }
 
-    public int getUltimoDannoSubito()   {
+    public int getUltimoDannoSubito(){
         return ultimoDannoSubito;
     }
 
-    public Personaggio getPersonaggio(){
+    public Personaggio getPersonaggio()          {
         return personaggio;
     }
 
-    public Nemico getMostro(){
+    public Nemico getMostro()               {
         return mostro;
     }
 }

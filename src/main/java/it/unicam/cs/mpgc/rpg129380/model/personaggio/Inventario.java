@@ -1,48 +1,48 @@
 package it.unicam.cs.mpgc.rpg129380.model.personaggio;
 
+import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroOggetti;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Inventario {
 
-    private List<Oggetto> oggetti;
+    private List<String> chiavi;
 
-    public Inventario(Oggetto[] inventario) {
-        this.oggetti = new ArrayList<>();
-        if (inventario != null) {
-            for (Oggetto o : inventario) {
-                if (o != null) this.oggetti.add(o);
+    public Inventario(){
+        this.chiavi = new ArrayList<>();
+    }
+
+    public Inventario(OggettoDati[] iniziali){
+        this.chiavi = new ArrayList<>();
+        if (iniziali != null) {
+            for (OggettoDati o : iniziali) {
+                if (o != null) chiavi.add(o.getChiave());
             }
         }
     }
 
-    public void setInventario(Oggetto[] arr) {
-        this.oggetti = new ArrayList<>();
-        if (arr != null) {
-            for (Oggetto o : arr) {
-                if (o != null) this.oggetti.add(o);
-            }
+    public void aggiungi(OggettoDati o){
+        chiavi.add(o.getChiave());
+    }
+
+    public boolean rimuovi(OggettoDati o){
+        return chiavi.remove(o.getChiave());
+    }
+
+    public List<OggettoDati> getOggetti(){
+        List<OggettoDati> lista = new ArrayList<>();
+        for (String chiave : chiavi) {
+            lista.add(RegistroOggetti.get().daChiave(chiave));
         }
+        return lista;
     }
 
-    public Inventario() {
-        this.oggetti = new ArrayList<>();
+    public List<String> getChiavi(){
+        return chiavi;
     }
 
-    public List<Oggetto> getOggetti() {
-        return oggetti;
+    public void setChiavi(List<String> chiavi){
+        this.chiavi = chiavi != null ? new ArrayList<>(chiavi) : new ArrayList<>();
     }
-
-    public Oggetto[] getInventario() {
-        return oggetti.toArray(new Oggetto[0]);
-    }
-
-    public void aggiungi(Oggetto o) {
-        oggetti.add(o);
-    }
-
-    public boolean rimuovi(Oggetto o) {
-        return oggetti.remove(o);
-    }
-
 }

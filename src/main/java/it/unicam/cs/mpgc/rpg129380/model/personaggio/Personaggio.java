@@ -1,7 +1,7 @@
 package it.unicam.cs.mpgc.rpg129380.model.personaggio;
 
+import it.unicam.cs.mpgc.rpg129380.model.classi.ClasseDati;
 import it.unicam.cs.mpgc.rpg129380.model.classi.Persona;
-import it.unicam.cs.mpgc.rpg129380.model.classi.TipoClasse;
 
 public class Personaggio extends Persona {
 
@@ -11,16 +11,17 @@ public class Personaggio extends Persona {
     private int manaMax;
     private int livello;
     private Inventario inventario;
-    private TipoClasse classe;
+    private ClasseDati classe;
     private Abilita[] abilitas;
 
-    private int bonusAttaccoPerc  = 0;
-    private int bonusDifesaPerc   = 0;
+    private int bonusAttaccoPerc = 0;
+    private int bonusDifesaPerc  = 0;
+
     private static final double MOLTIPLICATORE_VITA_LEVEL_UP = 1.1;
     private static final int    INCREMENTO_MANA_LEVEL_UP     = 5;
 
     public Personaggio(String nome, int vitaMax, int manaMax, int livello,
-                       Inventario inventario, TipoClasse classe, Abilita[] abilitas) {
+                       Inventario inventario, ClasseDati classe, Abilita[] abilitas) {
         super(nome);
         this.vitaMax    = vitaMax;
         this.vita       = vitaMax;
@@ -35,7 +36,7 @@ public class Personaggio extends Persona {
     public void subisciDanno(int danno) {
         int dannoEffettivo = danno;
         if (bonusDifesaPerc > 0) {
-            dannoEffettivo = (int)(danno * (1.0 - bonusDifesaPerc / 100.0));
+            dannoEffettivo = (int) (danno * (1.0 - bonusDifesaPerc / 100.0));
             dannoEffettivo = Math.max(0, dannoEffettivo);
         }
         this.vita = Math.max(0, this.vita - dannoEffettivo);
@@ -69,7 +70,7 @@ public class Personaggio extends Persona {
 
     public int calcolaDannoEffettivo(int dannoBase) {
         if (bonusAttaccoPerc > 0) {
-            return (int)(dannoBase * (1.0 + bonusAttaccoPerc / 100.0));
+            return (int) (dannoBase * (1.0 + bonusAttaccoPerc / 100.0));
         }
         return dannoBase;
     }
@@ -77,6 +78,7 @@ public class Personaggio extends Persona {
     public void aggiungiBonusAttacco(int percento){
         this.bonusAttaccoPerc += percento;
     }
+
     public void aggiungiBonusDifesa(int percento){
         this.bonusDifesaPerc  += percento;
     }
@@ -88,13 +90,13 @@ public class Personaggio extends Persona {
 
     public void aumentaLivello(){
         this.livello++;
-        this.vitaMax = (int)(vitaMax * MOLTIPLICATORE_VITA_LEVEL_UP);
+        this.vitaMax = (int) (vitaMax * MOLTIPLICATORE_VITA_LEVEL_UP);
         this.manaMax += INCREMENTO_MANA_LEVEL_UP;
         this.vita    = vitaMax;
         this.mana    = manaMax;
     }
 
-    public void eseguiFineTurno() {
+    public void eseguiFineTurno(){
         this.resettaBonus();
         for (Abilita a : this.abilitas) {
             a.tickCooldown();
@@ -105,19 +107,19 @@ public class Personaggio extends Persona {
         return inventario;
     }
 
-    public TipoClasse getClasse(){
+    public ClasseDati getClasse(){
         return classe;
     }
 
-    public Abilita[]  getAbilitas(){
+    public Abilita[] getAbilitas(){
         return abilitas;
     }
 
-    public void setClasse(TipoClasse classe){
+    public void setClasse(ClasseDati classe){
         this.classe = classe;
     }
 
-    public int  getLivello(){
+    public int getLivello(){
         return livello;
     }
 
@@ -125,30 +127,31 @@ public class Personaggio extends Persona {
         this.livello = livello;
     }
 
-    public int  getBonusAttaccoPerc(){
+    public int getBonusAttaccoPerc(){
         return bonusAttaccoPerc;
     }
 
-    public int  getBonusDifesaPerc(){
+    public int getBonusDifesaPerc(){
         return bonusDifesaPerc;
     }
 
-    public int  getMana(){
+    public int getMana(){
         return mana;
     }
-    public int  getManaMax(){
+
+    public int getManaMax(){
         return manaMax;
     }
 
-    public int  getVita(){
+    public int getVita(){
         return vita;
     }
 
-    public int  getVitaMax(){
+    public int getVitaMax(){
         return vitaMax;
     }
 
-    public void setVita(int vita) {
+    public void setVita(int vita){
         this.vita = vita;
     }
 }

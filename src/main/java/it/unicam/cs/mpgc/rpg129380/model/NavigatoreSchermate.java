@@ -1,14 +1,14 @@
 package it.unicam.cs.mpgc.rpg129380.model;
 
-import it.unicam.cs.mpgc.rpg129380.model.gioco.Livello;
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
+import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
+import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroLivelli;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
 import java.io.IOException;
@@ -17,12 +17,12 @@ public class NavigatoreSchermate {
 
     private final GestoreSalvataggi gestoreSalvataggi;
 
-    public NavigatoreSchermate(GestoreSalvataggi gestoreSalvataggi){
+    public NavigatoreSchermate(GestoreSalvataggi gestoreSalvataggi) {
         this.gestoreSalvataggi = gestoreSalvataggi;
     }
 
     public void navigaASchermataSuccessiva(Stage stage, Personaggio p) {
-        if (p.getLivello() <= Livello.values().length) {
+        if (p.getLivello() <= RegistroLivelli.get().dimensione()) {
             caricaEMostra(stage, "/javafx/dialogscreen.fxml", p);
         } else {
             Platform.runLater(() -> {
@@ -46,15 +46,8 @@ public class NavigatoreSchermate {
         }
     }
 
-    private void mostraPopup(Alert.AlertType tipo, String titolo, String messaggio) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titolo);
-        alert.setHeaderText(null);
-        alert.setContentText(messaggio);
-        alert.showAndWait();
-    }
-
-    public static void cambiaScena(Stage stage, String fxmlPath, Personaggio p, GestoreSalvataggi salvataggi) throws IOException {
+    public static void cambiaScena(Stage stage, String fxmlPath,
+                                   Personaggio p, GestoreSalvataggi salvataggi) throws IOException {
         FXMLLoader loader = new FXMLLoader(NavigatoreSchermate.class.getResource(fxmlPath));
         Parent root = loader.load();
 
@@ -83,5 +76,13 @@ public class NavigatoreSchermate {
                 mostraPopup(Alert.AlertType.ERROR, "Errore", "Impossibile caricare la schermata.");
             }
         });
+    }
+
+    private void mostraPopup(Alert.AlertType tipo, String titolo, String messaggio) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(messaggio);
+        alert.showAndWait();
     }
 }

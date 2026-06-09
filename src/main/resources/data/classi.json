@@ -1,0 +1,140 @@
+[
+  {
+    "chiave": "GUERRIERO",
+    "nome": "Guerriero",
+    "descrizione": "Combatti per il Re e diventa una leggenda!\n - Alta Vita \n - Basso Attacco \n - Bassa Velocità",
+    "vita": 400,
+    "mana": 80,
+    "velocita": 1,
+    "abilita": [
+      {
+        "nome": "Fendente",
+        "descrizione": "Il guerriero sferra un fendente con la spada.",
+        "danno": 30,
+        "costoMana": 10,
+        "cooldownMax": 0,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Liberazione",
+        "descrizione": "Il guerriero si alleggerisce, recuperando mana e velocità.",
+        "danno": 0,
+        "costoMana": 15,
+        "cooldownMax": 1,
+        "ripristinoMana": 20,
+        "aumentaVelocita": 25
+      },
+      {
+        "nome": "Rinforzo",
+        "descrizione": "Il guerriero si concentra e ripristina parte della vita.",
+        "danno": -40,
+        "costoMana": 15,
+        "cooldownMax": 2,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Superspada",
+        "descrizione": "Un fendente devastante che infligge danni enormi.",
+        "danno": 80,
+        "costoMana": 40,
+        "cooldownMax": 3,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      }
+    ]
+  },
+  {
+    "chiave": "ARCIERE",
+    "nome": "Arciere",
+    "descrizione": "Mostra quanto la tua mira sia precisa!\n - Bassa Vita \n - Alto Attacco \n - Alta Velocità",
+    "vita": 200,
+    "mana": 80,
+    "velocita": 3,
+    "abilita": [
+      {
+        "nome": "Scoccata",
+        "descrizione": "L'arciere scocca una freccia precisa e rapida.",
+        "danno": 35,
+        "costoMana": 10,
+        "cooldownMax": 0,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Silenzio",
+        "descrizione": "L'arciere si mimetizza nell'ombra, recuperando mana.",
+        "danno": 0,
+        "costoMana": 15,
+        "cooldownMax": 1,
+        "ripristinoMana": 20,
+        "aumentaVelocita": 30
+      },
+      {
+        "nome": "Cura Veloce",
+        "descrizione": "L'arciere beve una pozione al volo, recuperando vita.",
+        "danno": -25,
+        "costoMana": 10,
+        "cooldownMax": 1,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Megafreccia",
+        "descrizione": "L'arciere carica e scaglia una freccia colossale.",
+        "danno": 90,
+        "costoMana": 55,
+        "cooldownMax": 3,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      }
+    ]
+  },
+  {
+    "chiave": "MAGO",
+    "nome": "Mago",
+    "descrizione": "Usa le doti più arcane della magia!\n - Media Vita \n - Medio Attacco \n - Media Velocità",
+    "vita": 300,
+    "mana": 80,
+    "velocita": 2,
+    "abilita": [
+      {
+        "nome": "Palla di Fuoco",
+        "descrizione": "Il mago lancia una sfera di fuoco contro il nemico.",
+        "danno": 30,
+        "costoMana": 10,
+        "cooldownMax": 0,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Meditazione",
+        "descrizione": "Il mago medita, recuperando vita e mana senza costi.",
+        "danno": -35,
+        "costoMana": 0,
+        "cooldownMax": 1,
+        "ripristinoMana": 30,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Cura",
+        "descrizione": "Il mago canalizza energia guaritrice su se stesso.",
+        "danno": -60,
+        "costoMana": 25,
+        "cooldownMax": 2,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      },
+      {
+        "nome": "Stella Cadente",
+        "descrizione": "Il mago invoca una stella cadente che schiaccia il nemico.",
+        "danno": 85,
+        "costoMana": 45,
+        "cooldownMax": 3,
+        "ripristinoMana": 0,
+        "aumentaVelocita": 0
+      }
+    ]
+  }
+]

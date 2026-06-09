@@ -12,31 +12,32 @@ import javafx.util.Duration;
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Drop;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.Oggetto;
+import it.unicam.cs.mpgc.rpg129380.model.personaggio.OggettoDati;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
+import it.unicam.cs.mpgc.rpg129380.model.personaggio.TipoOggetto;
 
 public class ControllerBattaglia {
 
     private GestoreCombattimento gestore;
     private NavigatoreSchermate navigatoreSchermate;
-    private static final Duration PAUSA  = Duration.seconds(3);
+    private static final Duration PAUSA = Duration.seconds(3);
 
-    @FXML private Label battleLog;
+    @FXML private Label       battleLog;
     @FXML private ProgressBar hpBarGiocatore;
-    @FXML private Label hpLabelGiocatore;
+    @FXML private Label       hpLabelGiocatore;
     @FXML private ProgressBar hpBarMostro;
-    @FXML private Label hpLabelMostro;
-    @FXML private VBox abilitaBox;
-    @FXML private Label manaLabel;
-    @FXML private Label descrizioneAbilita;
-    @FXML private Label nomeGiocatore;
-    @FXML private Label nomeMostro;
-    @FXML private ImageView immagineGiocatore;
-    @FXML private ImageView immagineMostro;
-    @FXML private FlowPane oggettiPane;
-    @FXML private Label labelOggetto;
+    @FXML private Label       hpLabelMostro;
+    @FXML private VBox        abilitaBox;
+    @FXML private Label       manaLabel;
+    @FXML private Label       descrizioneAbilita;
+    @FXML private Label       nomeGiocatore;
+    @FXML private Label       nomeMostro;
+    @FXML private ImageView   immagineGiocatore;
+    @FXML private ImageView   immagineMostro;
+    @FXML private FlowPane    oggettiPane;
+    @FXML private Label       labelOggetto;
 
-    public ControllerBattaglia(){}
+    public ControllerBattaglia() {}
 
     public void setNavigatore(NavigatoreSchermate navigatore) {
         this.navigatoreSchermate = navigatore;
@@ -50,8 +51,10 @@ public class ControllerBattaglia {
         nomeGiocatore.setText(p.getNome());
         nomeMostro.setText(m.getTipo().getNome());
 
-        impostaImmagine(immagineGiocatore, "/images/images/classi/" + p.getClasse().getNome().toLowerCase() + ".png");
-        impostaImmagine(immagineMostro, "/images/images/mostri/" + m.getTipo().name().toLowerCase() + ".png");
+        impostaImmagine(immagineGiocatore,
+                "/images/images/classi/" + p.getClasse().getNome().toLowerCase() + ".png");
+        impostaImmagine(immagineMostro,
+                "/images/images/mostri/" + m.getTipo().getChiave().toLowerCase() + ".png");
 
         battleLog.setText(m.getTipo().getIntroduzione());
 
@@ -61,7 +64,7 @@ public class ControllerBattaglia {
             btn.setPrefWidth(280);
             btn.setOnAction(e -> gestisciAzione(a));
             btn.setOnMouseEntered(e -> descrizioneAbilita.setText(a.getDescrizione()));
-            btn.setOnMouseExited(e -> descrizioneAbilita.setText(" "));
+            btn.setOnMouseExited(e  -> descrizioneAbilita.setText(" "));
             abilitaBox.getChildren().add(btn);
         }
 
@@ -72,9 +75,7 @@ public class ControllerBattaglia {
     private void impostaImmagine(ImageView view, String path) {
         try {
             var stream = getClass().getResourceAsStream(path);
-            if (stream != null) {
-                view.setImage(new Image(stream));
-            }
+            if (stream != null) view.setImage(new Image(stream));
         } catch (Exception e) {
             System.out.println("Immagine non trovata: " + path);
         }
@@ -82,8 +83,7 @@ public class ControllerBattaglia {
 
     private void aggiornaOggettiPane() {
         oggettiPane.getChildren().clear();
-        Personaggio p = gestore.getPersonaggio();
-        java.util.List<Oggetto> lista = p.getInventario().getOggetti();
+        java.util.List<OggettoDati> lista = gestore.getPersonaggio().getInventario().getOggetti();
 
         if (lista.isEmpty()) {
             Label vuoto = new Label("Inventario vuoto");
@@ -92,11 +92,11 @@ public class ControllerBattaglia {
             return;
         }
 
-        for (Oggetto o : lista) {
+        for (OggettoDati o : lista) {
             Button btn = new Button(o.getNomeVisuale());
             btn.setPrefWidth(170);
             btn.setWrapText(true);
-            btn.getStyleClass().add(o.getTipoOggetto().getClasseCSS());
+            btn.getStyleClass().add(TipoOggetto.valueOf(o.getTipoOggetto()).getClasseCSS());
             btn.setOnMouseEntered(e -> labelOggetto.setText(o.getNomeVisuale() + ": " + o.getDescrizione()));
             btn.setOnMouseExited(e  -> labelOggetto.setText(" "));
             btn.setOnAction(e -> mostraPopupConferma(o));
@@ -104,13 +104,14 @@ public class ControllerBattaglia {
         }
     }
 
-    private void mostraPopupConferma(Oggetto oggetto) {
+    private void mostraPopupConferma(OggettoDati oggetto) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usa oggetto");
         alert.setHeaderText("Vuoi usare " + oggetto.getNomeVisuale() + "?");
-        alert.setContentText("Effetto: " + oggetto.getDescrizione() + "\n\nL'oggetto verrà rimosso dall'inventario.\nIl turno rimarrà al tuo personaggio.");
+        alert.setContentText("Effetto: " + oggetto.getDescrizione()
+                + "\n\nL'oggetto verrà rimosso dall'inventario.\nIl turno rimarrà al tuo personaggio.");
 
-        ButtonType btnUsa = new ButtonType("Usa");
+        ButtonType btnUsa    = new ButtonType("Usa");
         ButtonType btnAnnulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(btnUsa, btnAnnulla);
 
@@ -132,14 +133,17 @@ public class ControllerBattaglia {
         switch (risultato) {
             case OK -> battleLog.setText("Hai usato " + abilita.getNome() + "! Il mostro ti attacca...");
             case MANA_INSUFFICIENTE -> battleLog.setText("Mana insufficiente per " + abilita.getNome() + "!");
-            case ABILITA_IN_COOLDOWN -> battleLog.setText(abilita.getNome() + " è ancora in ricarica (" + abilita.getCooldownCorrente() + " turni).");
+            case ABILITA_IN_COOLDOWN -> battleLog.setText(
+                    abilita.getNome() + " è ancora in ricarica (" + abilita.getCooldownCorrente() + " turni).");
             case MOSTRO_SCONFITTO -> {
-                Oggetto drop = Drop.dropCasuale();
+                OggettoDati drop = Drop.dropCasuale();
                 gestore.getPersonaggio().getInventario().aggiungi(drop);
-                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome() + "!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
+                battleLog.setText("Hai sconfitto " + gestore.getMostro().getTipo().getNome()
+                        + "!\nHai ottenuto: " + drop.getNomeVisuale() + "!");
                 disabilitaAzioni();
                 javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA);
-                pausa.setOnFinished(e -> {Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
+                pausa.setOnFinished(e -> {
+                    Stage stageAttuale = (Stage) battleLog.getScene().getWindow();
                     navigatoreSchermate.navigaASchermataSuccessiva(stageAttuale, gestore.getPersonaggio());
                 });
                 pausa.play();
@@ -155,7 +159,7 @@ public class ControllerBattaglia {
         }
     }
 
-    private void transizioneSconfitta(){
+    private void transizioneSconfitta() {
         disabilitaAzioni();
         javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(PAUSA);
         pausa.setOnFinished(e -> {
@@ -167,7 +171,7 @@ public class ControllerBattaglia {
 
     private void aggiornaUI() {
         Personaggio p = gestore.getPersonaggio();
-        Nemico m = gestore.getMostro();
+        Nemico m      = gestore.getMostro();
 
         double percP = (double) p.getVita() / p.getVitaMax();
         hpBarGiocatore.setProgress(percP);
@@ -195,17 +199,17 @@ public class ControllerBattaglia {
         }
     }
 
-    private String testoHP(int attuale, int massimo) {
+    private String testoHP(int attuale, int massimo){
         return attuale + " / " + massimo + " HP";
     }
 
-    private String testoBottone(Abilita a) {
+    private String testoBottone(Abilita a){
         return a.getNome() + "  (M:" + a.getCostoMana() + ")" + a.stato();
     }
 
     private void aggiornaClasseHP(ProgressBar bar, double perc) {
         bar.getStyleClass().removeAll("hp-green", "hp-orange", "hp-red");
-        if (perc > 0.5)       bar.getStyleClass().add("hp-green");
+        if      (perc > 0.5)  bar.getStyleClass().add("hp-green");
         else if (perc > 0.25) bar.getStyleClass().add("hp-orange");
         else                  bar.getStyleClass().add("hp-red");
     }
