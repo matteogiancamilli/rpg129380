@@ -1,0 +1,56 @@
+[
+  {
+    "chiave": "POZIONESALVAVITA",
+    "nomeVisuale": "Pozione Salva Vita",
+    "descrizione": "Ripristina 50 di vita",
+    "tipoOggetto": "CURA",
+    "tipoEffetto": "CURA_VITA",
+    "parametro": 50,
+    "raro": false
+  },
+  {
+    "chiave": "POZIONEDELDRAGO",
+    "nomeVisuale": "Pozione del Drago",
+    "descrizione": "Infligge 30 di danno",
+    "tipoOggetto": "DANNO",
+    "tipoEffetto": "DANNO_NEMICO",
+    "parametro": 30,
+    "raro": false
+  },
+  {
+    "chiave": "SCUDODELPALADINO",
+    "nomeVisuale": "Scudo del Paladino",
+    "descrizione": "Aumenta del 30% la difesa massima",
+    "tipoOggetto": "DIFESA",
+    "tipoEffetto": "BONUS_DIFESA",
+    "parametro": 30,
+    "raro": false
+  },
+  {
+    "chiave": "SPADADELLAROCCIA",
+    "nomeVisuale": "Spada della Roccia",
+    "descrizione": "Aumenta del 30% l'attacco massimo",
+    "tipoOggetto": "ATTACCO",
+    "tipoEffetto": "BONUS_ATTACCO",
+    "parametro": 30,
+    "raro": false
+  },
+  {
+    "chiave": "GIGAPOZIONE",
+    "nomeVisuale": "Giga Pozione",
+    "descrizione": "Aumenta del 30% tutti i campi e li ripristina al massimo",
+    "tipoOggetto": "RARO",
+    "tipoEffetto": "GIGA_POZIONE",
+    "parametro": 30,
+    "raro": true
+  },
+  {
+    "chiave": "SFERARIVELATRICE",
+    "nomeVisuale": "Sfera Rivelatrice",
+    "descrizione": "Aumenta del 50% l'attacco massimo ma diminuisce di 20 la vita",
+    "tipoOggetto": "ATTACCO",
+    "tipoEffetto": "SFERA_RIVELATRICE",
+    "parametro": 50,
+    "raro": false
+  }
+]

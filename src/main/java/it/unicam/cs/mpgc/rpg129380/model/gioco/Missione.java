@@ -1,23 +1,21 @@
 package it.unicam.cs.mpgc.rpg129380.model.gioco;
 
-import it.unicam.cs.mpgc.rpg129380.model.nemici.Mostro;
+import it.unicam.cs.mpgc.rpg129380.model.nemici.MostroDati;
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
+import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroLivelli;
+import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroMostri;
 
 public class Missione {
 
     private final Nemico mostro;
     private final int id;
 
-    public Missione(int livello, Personaggio personaggio){
-        this.id = livello;
-        Mostro mostro;
-        if (livello >= 0 && livello < Mostro.values().length){
-            mostro = Mostro.values()[livello];
-        } else {
-            mostro = Mostro.GOBLIN;
-        }
-        this.mostro = new Nemico(mostro);
+    public Missione(int indice, Personaggio personaggio) {
+        this.id = indice;
+        LivelloDati livelloDati = RegistroLivelli.get().daIndice(indice);
+        MostroDati mostroDati = RegistroMostri.get().daChiave(livelloDati.getChiaveMostro());
+        this.mostro = new Nemico(mostroDati);
     }
 
     public Nemico getMostro(){

@@ -2,6 +2,8 @@ package it.unicam.cs.mpgc.rpg129380.controller;
 
 import it.unicam.cs.mpgc.rpg129380.interfaces.GestoreSalvataggi;
 import it.unicam.cs.mpgc.rpg129380.interfaces.Inizializzabile;
+import it.unicam.cs.mpgc.rpg129380.model.classi.ClasseDati;
+import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroClassi;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -9,8 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import it.unicam.cs.mpgc.rpg129380.model.*;
-import it.unicam.cs.mpgc.rpg129380.model.classi.TipoClasse;
+import it.unicam.cs.mpgc.rpg129380.model.NavigatoreSchermate;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Inventario;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
@@ -18,16 +19,11 @@ import java.io.IOException;
 
 public class ControllerNuovaPartita implements Inizializzabile {
 
-    @FXML
-    private ChoiceBox<TipoClasse> selezionaClasse;
-    @FXML
-    private TextArea descrizioneClasse;
-    @FXML
-    private Button iniziaPartita;
-    @FXML
-    private TextField nomePersonaggio;
-    @FXML
-    private TextArea errorDisplay;
+    @FXML private ChoiceBox<ClasseDati> selezionaClasse;
+    @FXML private TextArea              descrizioneClasse;
+    @FXML private Button                iniziaPartita;
+    @FXML private TextField             nomePersonaggio;
+    @FXML private TextArea              errorDisplay;
 
     private GestoreSalvataggi gestoreSalvataggi;
 
@@ -35,17 +31,20 @@ public class ControllerNuovaPartita implements Inizializzabile {
     public void initialize() {
         descrizioneClasse.setEditable(false);
         errorDisplay.setEditable(false);
-        selezionaClasse.getItems().addAll(TipoClasse.values());
-        selezionaClasse.setConverter(new StringConverter<TipoClasse>() {
-            public String toString(TipoClasse t) {
-                return t.getNome(); }
-            public TipoClasse fromString(String s) {
-                return null; }
+
+        selezionaClasse.getItems().addAll(RegistroClassi.get().tutte());
+
+        selezionaClasse.setConverter(new StringConverter<ClasseDati>() {
+            @Override public String toString(ClasseDati c)       { return c != null ? c.getNome() : ""; }
+            @Override public ClasseDati fromString(String s)     { return null; }
         });
+
         selezionaClasse.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldV, newV) -> {
                     if (newV != null) descrizioneClasse.setText(newV.getDescrizione());
-                });
+                }
+        );
+
         if (!selezionaClasse.getItems().isEmpty()) {
             selezionaClasse.getSelectionModel().selectFirst();
         }
@@ -53,7 +52,7 @@ public class ControllerNuovaPartita implements Inizializzabile {
 
     @FXML
     public void iniziaPartita(javafx.event.ActionEvent actionEvent) throws IOException {
-        if (nomePersonaggio.getText().isEmpty()) {
+        if (nomePersonaggio.getText().isBlank()) {
             mostraErrore("Inserisci un nome per il personaggio");
             return;
         }
@@ -61,8 +60,17 @@ public class ControllerNuovaPartita implements Inizializzabile {
             mostraErrore("Seleziona una classe");
             return;
         }
-        TipoClasse classe = selezionaClasse.getValue();
-        Personaggio p = new Personaggio(nomePersonaggio.getText(), classe.getVita(), classe.getMana(), 1,new Inventario(null), classe, classe.abilitaIniziali());
+
+        ClasseDati classe = selezionaClasse.getValue();
+        Personaggio p = new Personaggio(
+                nomePersonaggio.getText(),
+                classe.getVita(),
+                classe.getMana(),
+                1,
+                new Inventario(),
+                classe,
+                classe.abilitaIniziali()
+        );
         this.gestoreSalvataggi.nuovo(p);
 
         Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
@@ -75,7 +83,7 @@ public class ControllerNuovaPartita implements Inizializzabile {
     }
 
     @FXML
-    private void mostraErrore(String messaggio){
+    private void mostraErrore(String messaggio) {
         errorDisplay.setText(messaggio);
     }
 }
