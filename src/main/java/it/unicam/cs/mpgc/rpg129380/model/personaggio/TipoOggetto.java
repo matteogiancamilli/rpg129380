@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg129380.model.personaggio;
 
+//Tipi di Oggetti possibili
 public enum TipoOggetto {
     CURA    ("btn-oggetto-cura"),
     DANNO   ("btn-oggetto-danno"),

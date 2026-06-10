@@ -86,11 +86,11 @@ public class GestoreCombattimento {
         return ultimoDannoSubito;
     }
 
-    public Personaggio getPersonaggio()          {
+    public Personaggio getPersonaggio(){
         return personaggio;
     }
 
-    public Nemico getMostro()               {
+    public Nemico getMostro(){
         return mostro;
     }
 }
