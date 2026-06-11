@@ -1,6 +1,6 @@
 [
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.PozioneSalvaVita",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.PozioneSalvaVita",
     "chiave": "POZIONESALVAVITA",
     "nomeVisuale": "Pozione Salva Vita",
     "descrizione": "Ripristina 50 di vita",
@@ -9,7 +9,7 @@
     "raro": false
   },
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.PozioneDelDrago",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.PozioneDelDrago",
     "chiave": "POZIONEDELDRAGO",
     "nomeVisuale": "Pozione del Drago",
     "descrizione": "Infligge 30 di danno",
@@ -18,7 +18,7 @@
     "raro": false
   },
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.ScudoDelPaladino",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.ScudoDelPaladino",
     "chiave": "SCUDODELPALADINO",
     "nomeVisuale": "Scudo del Paladino",
     "descrizione": "Aumenta del 30% la difesa massima",
@@ -27,7 +27,7 @@
     "raro": false
   },
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.SpadaDellaRoccia",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.SpadaDellaRoccia",
     "chiave": "SPADADELLAROCCIA",
     "nomeVisuale": "Spada della Roccia",
     "descrizione": "Aumenta del 30% l'attacco massimo",
@@ -36,7 +36,7 @@
     "raro": false
   },
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.GigaPozione",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.GigaPozione",
     "chiave": "GIGAPOZIONE",
     "nomeVisuale": "Giga Pozione",
     "descrizione": "Aumenta del 30% tutti i campi e li ripristina al massimo",
@@ -45,7 +45,7 @@
     "raro": true
   },
   {
-    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.personaggio.SferaRivelatrice",
+    "classeJava": "it.unicam.cs.mpgc.rpg129380.model.oggetti.SferaRivelatrice",
     "chiave": "SFERARIVELATRICE",
     "nomeVisuale": "Sfera Rivelatrice",
     "descrizione": "Aumenta del 50% l'attacco massimo ma diminuisce di 20 la vita",
