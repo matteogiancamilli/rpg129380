@@ -1,6 +1,7 @@
 package it.unicam.cs.mpgc.rpg129380.model.oggetti;
 
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
+import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
 public class ScudoDelPaladino extends OggettoDati {
     private int parametro;
