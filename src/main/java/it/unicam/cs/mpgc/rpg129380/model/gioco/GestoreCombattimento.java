@@ -2,7 +2,7 @@ package it.unicam.cs.mpgc.rpg129380.model.gioco;
 
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.OggettoDati;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.OggettoDati;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
 public class GestoreCombattimento {

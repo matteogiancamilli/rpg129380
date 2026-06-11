@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg129380.model.personaggio;
+package it.unicam.cs.mpgc.rpg129380.model.oggetti;
 
 import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroOggetti;
 

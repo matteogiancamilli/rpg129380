@@ -1,28 +1,19 @@
-package it.unicam.cs.mpgc.rpg129380.model.personaggio;
+package it.unicam.cs.mpgc.rpg129380.model.oggetti;
 
-import it.unicam.cs.mpgc.rpg129380.interfaces.EffettoOggetto;
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
+import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
 
-public class OggettoDati {
+public abstract class OggettoDati {
 
     private String chiave;
     private String nomeVisuale;
     private String descrizione;
     private String tipoOggetto;
-    private String tipoEffetto;
-    private int parametro;
     private boolean raro;
-
-    private transient EffettoOggetto effetto;
 
     public OggettoDati() {}
 
-    public void applicaEffetto(Personaggio p, Nemico n) {
-        if (effetto == null) {
-            effetto = FabbricaEffetti.crea(tipoEffetto, parametro);
-        }
-        effetto.applica(p, n);
-    }
+    public abstract void applicaEffetto(Personaggio p, Nemico n);
 
     public TipoOggetto getTipoOggettoEnum() {
         return TipoOggetto.valueOf(tipoOggetto);
@@ -42,14 +33,6 @@ public class OggettoDati {
 
     public String getTipoOggetto(){
         return tipoOggetto;
-    }
-
-    public String getTipoEffetto(){
-        return tipoEffetto;
-    }
-
-    public int getParametro(){
-        return parametro;
     }
 
     public boolean isRaro(){

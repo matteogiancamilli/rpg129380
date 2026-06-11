@@ -1,7 +1,9 @@
 package it.unicam.cs.mpgc.rpg129380.model.registry;
 
 import com.google.gson.Gson;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.OggettoDati;
+import com.google.gson.GsonBuilder;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.OggettoDati;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.OggettoAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +34,13 @@ public final class RegistroOggetti {
                 throw new RuntimeException("File non trovato: " + PERCORSO);
             }
             String json = new String(is.readAllBytes());
-            OggettoDati[] array = new Gson().fromJson(json, OggettoDati[].class);
+
+            // Configurazione avanzata di GSON tramite costruttore Builder per registrare il custom adapter
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(OggettoDati.class, new OggettoAdapter())
+                    .create();
+
+            OggettoDati[] array = gson.fromJson(json, OggettoDati[].class);
             for (OggettoDati o : array) {
                 perChiave.put(o.getChiave(), o);
                 inOrdine.add(o);

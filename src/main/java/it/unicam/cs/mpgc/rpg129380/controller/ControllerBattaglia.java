@@ -11,10 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import it.unicam.cs.mpgc.rpg129380.model.nemici.Nemico;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Abilita;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.Drop;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.OggettoDati;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.Drop;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.OggettoDati;
 import it.unicam.cs.mpgc.rpg129380.model.personaggio.Personaggio;
-import it.unicam.cs.mpgc.rpg129380.model.personaggio.TipoOggetto;
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.TipoOggetto;
 
 public class ControllerBattaglia {
 

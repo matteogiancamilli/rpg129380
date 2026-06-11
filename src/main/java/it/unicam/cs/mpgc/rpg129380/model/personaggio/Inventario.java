@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg129380.model.personaggio;
 
+import it.unicam.cs.mpgc.rpg129380.model.oggetti.OggettoDati;
 import it.unicam.cs.mpgc.rpg129380.model.registry.RegistroOggetti;
 
 import java.util.ArrayList;

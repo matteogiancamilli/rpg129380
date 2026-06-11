@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg129380.model.personaggio;
+package it.unicam.cs.mpgc.rpg129380.model.oggetti;
 
 //Tipi di Oggetti possibili
 public enum TipoOggetto {
